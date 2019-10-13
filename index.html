@@ -1,0 +1,745 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EM6T3ZFM83"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EM6T3ZFM83');
+</script>
+	<!-- Meta -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>wallyv2</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+	<meta charset="utf-8"/>
+	<link rel="icon" href="/favicon.png" type="image/png">
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/web3.min.js"></script>
+<script src="js/satoshiconvert.js"></script>
+<script src="js/basefunctions.js"></script>
+<script src="js/balancefunctions.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/jquery.auto-complete.min.js"></script>
+<script>$.ajaxPrefilter(function( options, originalOptions, jqXHR ) { options.async = true; });</script>
+<link rel="stylesheet" type="text/css" href="css/animate.css">
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css" href="css/themes.css">
+<link rel="stylesheet" type="text/css" href="css/mobile.css">
+<script>
+const web3 = new Web3()
+Storage.prototype.setObj = function(key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
+}
+Storage.prototype.getObj = function(key) {
+    return JSON.parse(this.getItem(key))
+}
+</script>
+
+</head>
+
+<body class="loading">
+<div id="notificationbox"></div>
+<div id="pindicator">&#8645;</div>
+<div id="modalwrapper"><div id="modal"></div></div>
+<div id="blacky"></div>
+
+<div id="framewrapper">
+<div id="navigator" class="">
+<div id="navbuttons">
+<div id="wlogo"><span>hodl it your way!</span></div>
+<input type="checkbox" id="mobilemenu">
+<label id="mobilemenulabel" for="mobilemenu"></label>
+<div class="navbutton" data-dest="frontpagewrapper">Richness</div>
+<div class="navbutton" data-dest="cardswrapper">Coin Cards</div>
+<div class="navbutton" data-dest="settings">Settings</div>
+<div class="navbutton" data-dest="addressmanager">Coin Manager</div>
+<div class="navbutton" data-dest="logwrapper">Log</div>
+<div class="navbutton" data-dest="about">About</div>
+</div>
+</div>
+
+
+
+<div id="contentwrapper">
+<div id="logwrapper" class="uilvl1">
+<div class="container">
+<div class="heading2" id="logheader">Log</div>
+<div id="logrecorder"></div>
+</div>
+</div>
+
+<div id="about" class="uilvl1">
+<div class="container">
+<div class="heading2" id="aboutheader">About</div>
+<div class="textblock">
+<span class="apptitle"></span> is distributed under the MIT software license.
+</div>
+<div class="textblock">
+<span class="apptitle"></span> is using data from these sources:
+coingecko.com for price data and blockchain.info, btc.com, cryptoid.info, bitcoingold.org, ethplorer.io, multiexplorer.com, blockchair.com for coin data.
+</div>
+<div class="textblock">
+<div class="heading3">Donations</div>
+BTC: 1811FWuhDXnvre62BVwr8UVZaAkB2znTN9<br>
+BCH: 1PcxdHvZxcN2A56wZvUth5nKkaMiCXkEN7<br>
+Ethereum: 0x65f9D820d51d6A95c7a515Cc4B2dFd3f56fBd423<br>
+</div>
+
+
+<div class="textblock">
+<div class="heading3">Disclaimer</div>
+No Investment Advice!<br>
+Do Your Own Research!
+</div>
+
+<div class="textblock">
+Copyright (c) 2019 tj@skoll.io<br>
+code @ <a href="https://github.com/tjwally/wally.pw" target="_blank">https://github.com/tjwally/wally.pw</a>
+</div>
+
+</div>
+</div>
+
+
+<div id="cardswrapper" class="uilvl1">
+<div id="cards"></div>
+</div>
+
+<div id="frontpagewrapper" class="uilvl1">
+<div id="wealthtracker">Richness: <span id="totalbalance">0</span></div>
+<div id="cointablewrapper"  class="container">
+<div class="cointableheading">Coin Balances</div>
+<table id="cointable">
+<thead><tr>
+<th>Coin</th>
+<th>Price</th>
+<th>Addresses</th>
+<th>Balance</th>
+<th>Value</th>
+</tr></thead>
+<tbody id="cointablebody">
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="addressmanager" class="uilvl1">
+<div class="heading1">Add Tracked Addresses</div>
+<div id="addressimportwrapper" class="container">
+<div class="textblock">Paste your addresses in the textarea, select a coin and hit the import button.<br>
+<span class="apptitle"></span> will periodically update the balance for these addresses.
+</div>
+<textarea id="addressimport" class="uibutton" placeholder="paste addresses here (1 per line)"></textarea>
+  <label>Coin:
+    <select name="addressmanagercoinselect" id="addressmanagercoinselect" class="uibutton">
+    </select>
+  </label>
+<button id="addressimportbtn" class="uibutton">Import</button>
+</div>
+
+<div class="heading1">Add Static Balances</div>
+<div id="addressimportwrapper" class="container">
+<div class="textblock">Select a coin, a description and a balance.<br>
+These coins will be added to your portfolio and <span class="apptitle"></span> will keep track of the their current value but you will need to keep their balances updated manually.
+</div>
+<input id="staticbalancecoinsel" class="uibutton" placeholder="search a coin" type="text" />
+<div id="selectedstaticcoinwrapper">
+<div id="selectedstaticcoin"></div>
+</div>
+</div>
+
+
+<div class="heading1">Coin Addresses</div>
+<div id="trackedaddresseswrapper"  class="">
+<div id="addresstablewrapper"></div>
+</div>
+</div>
+
+<div id="settings" class="uilvl1">
+<!-- <div class="heading1">Settings</div> -->
+
+<div id="themewrapper" class="container">
+<div class='heading2'>Currency</div>
+<div id="currencyselectwrapper">
+<select name="currencyselect" id="currencyselect" class="uibutton">
+<option value="USD" data-currencyicon="$">USD</option>
+<option value="EUR" data-currencyicon="€">EUR</option>
+</select>
+</div>
+</div>
+
+
+<div id="themewrapper" class="container">
+<div class='heading2'>Theme</div>
+<div id="themeselectwrapper">
+<select name="themeselect" id="themeselect" class="uibutton">
+<option value="bitcoin" data-fontfamily="Ubuntu" data-fontsize="16">bitcoin</option>
+<option value="skoll" data-fontfamily="Inconsolata" data-fontsize="16">skoll</option>
+<option value="day" data-fontfamily="Droid+Sans" data-fontsize="14">Day</option>
+<option value="night" data-fontfamily="Roboto" data-fontsize="14">Night</option>
+<option value="eightbit" data-fontfamily="Press+Start+2P" data-fontsize="16">8bit</option>
+<option value="terminal" data-fontfamily="VT323" data-fontsize="16">Terminal</option>
+</select>
+</div>
+</div>
+
+<div id="coinselectwrapper" class="container">
+<div class='heading2'>Enable Disable Coins / Tokens</div>
+<div id="coinsettings"></div>
+</div>
+
+
+<div id="cloudsavewrapper" class="container">
+<div class='heading2'>Online Backup (BETA)</div>
+<div id="cloudsaveurl"></div>
+<input class="accountinput uibutton" id="onlineaccountregistration" placeholder="Account ID"><button class="uibutton" id="onlineaccountregistrationBTN">Login</button>
+<button class="uibutton" id="onlineaccountgeneration">Generate Account</button>
+</div>
+
+
+<div class="container">
+<div class='heading2'>Reset</div>
+<div id="reset" class="button uidangerbutton">Reset Data</div>
+</div>
+
+</div>
+
+
+</div>
+</div>
+<script>
+v2title = "skoll.io";
+v2slogan = "hodl it your way";
+serverurl = "https://skoll.io/";
+cloudserver = "https://skoll.io/api/";
+cloudserveraccountAPI = "cloudsaveV2";
+addresslist = [];
+coinset = [];
+settings = [];
+selectedcurrency = "USD";
+selectedcurrencyicon = "$";
+settings[0] = "USD";
+settings[1] = "$";
+settings[2] = "bitcoin";
+settings[3] = "Ubuntu";
+settings[4] = "16";
+localStorage.setItem("settings", settings.toString());
+
+
+
+$(document).on('click', '#onlineaccountgeneration', function() {
+generateonlineaccount(function(callback){
+$('#onlineaccountregistration').val(callback);
+$('#onlineaccountregistrationBTN').click();
+//console.log(callback);
+});
+});
+
+
+
+$(document).on('change', '#currencyselect', function() {
+selectedcurrency = $('#currencyselect').val();
+selectedcurrencyicon = $('option[value='+selectedcurrency+']').data("currencyicon");
+settings[0] = selectedcurrency;
+settings[1] = selectedcurrencyicon;
+localStorage.setItem("settings", settings.toString());
+		getcoinrates(function(){
+		buildaddresstable(function(){});
+		updategrandbalance();
+		buildcointable();
+		coinsettingsgen();
+		});
+
+});
+
+
+$(document).on('click', '#onlineaccountregistrationBTN', function() {
+var account = $('#onlineaccountregistration').val()
+successmessage("Account Registration: <b>"+account+"</b>");
+registeraccount(account, 0, function(callback){
+console.log(callback);
+if (callback == "register"){
+$('#onlineaccountgeneration').hide();
+$('#onlineaccountregistrationBTN').hide();
+$('#onlineaccountregistration').hide();
+$('#cloudsavewrapper').append("<div id='cloudaccountclaim' class='textblock'>Account "+account+" can be claimed!<br> Please create a password for this account:</div>");
+$('#cloudaccountclaim').append('<input class="accountinput uibutton" type="password" id="onlineaccountregistrationpassword" placeholder="password"><button class="uibutton" id="onlineaccountregistrationpasswordBTN">Register</button>');
+$(document).on('click', '#onlineaccountregistrationpasswordBTN', function() {
+var password = $('#onlineaccountregistrationpassword').val()
+registeraccount(account, password, function(callback){
+console.log("callback: "+callback);
+if (callback == 1){
+successmessage("Account claimed: <b>"+account+"</b>");
+$('#cloudsaveurl').html("URL: <a href='"+serverurl+"?id="+account+"'>"+serverurl+"?id="+account+"</a>");
+$('#cloudsavewrapper').append("<div id='accountupdatedmsg'>Account claimed!</div>");
+setTimeout(function(){$('#accountupdatedmsg').remove();}, 3000);
+setTimeout(function(){$('#cloudaccountclaim').remove();}, 0);
+
+$('#cloudsavewrapper').append('<input class="accountinput uibutton" type="password" id="updatecloudaccount" placeholder="password"><button class="uibutton" id="updatecloudaccountBTN">Update</button>');
+
+}
+if (callback == "tooshort"){$('#cloudsavewrapper').append("<div id='registererror'>password is too short!</div>");setTimeout(function(){$('#registererror').remove();}, 1000);}
+});
+});
+}else if(callback == "accountnotfound"){$('#cloudsavewrapper').append("<div id='registererror'>Account not found!</div>");setTimeout(function(){$('#registererror').remove();}, 1000);
+}else if(callback == "accountalreadyregistered"){
+$('#cloudsavewrapper').append("<div id='accountalreadyregistered'>Account already registered!</div>");
+$('#cloudsaveurl').append("Visit <a href='"+serverurl+"?id="+account+"'>"+serverurl+"?id="+account+"</a> to update");
+//$('#cloudsavewrapper').append("<div id='accountalreadyregistered'>Enter password to update:</div>");
+//$('#cloudsavewrapper').append('<input class="accountinput" type="password" id="updatecloudaccount" placeholder="password"><button id="updatecloudaccountBTN">Update</button>');
+}
+});
+});
+
+$(document).on('click', '#updatecloudaccountBTN', function() {
+var account = $('#onlineaccountregistration').val()
+var password = $('#updatecloudaccount').val()
+updateaccount(account, password, function(callback){
+if (callback == 1){successmessage("Authenticated with account: <b>"+account+"</b>");}
+if (callback == 1){$('#cloudsavewrapper').append("<div id='accountupdatedmsg'>Account Updated!</div>");setTimeout(function(){$('#accountupdatedmsg').remove();}, 3000);}else{
+$('#cloudsavewrapper').append("<div id='accountupdatedmsg'>Wrong Password!</div>");;setTimeout(function(){$('#accountupdatedmsg').remove();}, 1000);
+}
+});
+});
+
+
+
+/*
+if (theme = localStorage.getItem("theme")){
+if (settings.theme){thememanager(settings.theme)}
+thememanager(theme);
+}else{
+theme = "bitcoin";
+thememanager("bitcoin");
+}
+    $("#themeselect option").each(function(){
+        if($(this).val()==theme){
+            $(this).attr("selected","selected");    
+        }
+    });
+
+if (fontfamily = localStorage.getItem("fontfamily")){
+if (fontsize = localStorage.getItem("fontsize")){}else{fontsize = 16;}
+fontmanager(fontfamily, fontsize);
+}else{
+fontmanager("Ubuntu", 16);
+}
+*/
+
+
+$(document).on('change', '#themeselect', function() {
+var theme = $('#themeselect').val();
+var fontfamily = $('option[value='+theme+']').data("fontfamily")
+var fontsize = $('option[value='+theme+']').data("fontsize")
+settings[2] = theme;
+settings[3] = fontfamily;
+settings[4] = fontsize;
+localStorage.setItem("settings", settings.toString());
+fontmanager(fontfamily, fontsize);
+thememanager(theme);
+});
+
+
+$(document).on('click', '.navbutton', function() {
+var target = $(this).data("dest")
+navigationmanager(target);
+});
+
+
+$(document).on('click', '#reset', function() {
+$('#modalwrapper').html('<div id="modal"></div>');
+$("#blacky").fadeIn(200);
+$('#modal').html("<div id='modalinfobox' >This will reset everything, are you sure?</div>");
+$('#modalwrapper').append("<div id='modalbuttonwrapper' ></div>");
+$('#modalbuttonwrapper').append("<div class='modalokbutton' >do it!</div>");
+$('#modalbuttonwrapper').append("<div class='modalcancelbutton' >cancel</div>");
+$('#modalwrapper').fadeIn(200);
+$('#modalwrapper').css('display', 'flex');
+$(document).on('click', '.modalokbutton', function() {
+$('#modalwrapper').fadeOut(200);
+$("#blacky").fadeOut(200);
+localStorage.clear();
+location.reload(); 
+});
+$(document).on('click', '.modalcancelbutton', function() {
+$('#modalwrapper').fadeOut(200);
+$("#blacky").fadeOut(200);
+});
+});
+
+
+
+
+
+
+
+
+function updategrandbalance () {
+//console.log("update grand balance");
+var totalbalance = 0;
+$('.valuecount').each(function(i, obj) {
+//	totalbalance = + $(obj).data("value");
+//console.log("value "+$(obj).data("value"));
+	totalbalance += parseFloat($(obj).data("value"));
+	//console.log("total: "+totalbalance);
+	$('#totalbalance').html(totalbalance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon);
+	
+});
+}
+
+function updateaddressbalances () {
+loading(1);
+var x = 0;
+var addressiterator = function(arr) {
+    getaddressbalancewrapper(arr[x],function(){
+        x++;
+		  if (x % 1 === 0) {updategrandbalance();}
+        if(x < arr.length) {
+            addressiterator(arr);   
+        }else{
+		localStorage.setItem("addresslist", JSON.stringify(addresslist));
+		getcoinrates(function(){
+		buildaddresstable(function(){});
+		updategrandbalance();
+		buildcointable();
+		coinsettingsgen();
+		});
+
+		loading(0);
+		}
+    }); 
+}
+
+function getaddressbalancewrapper(addresselement,callback) {
+var now = Date.now();
+var onedayago = new Date().getTime() - (1 * 24 * 60 * 60 * 1000)
+var onehourago = new Date().getTime() - (1 * 60 * 60 * 1000)
+
+if (addresselement.lastupdate < onedayago && addresselement.tracked == 1){
+if (addresselement.coin == "btc"){
+getaddressbalanceBTC(addresselement.coin, addresselement.address, function(){	
+callback();
+});
+}else if (addresselement.coin == "bch"){
+getaddressbalanceBCH(addresselement.coin, addresselement.address, function(){
+callback();
+});
+}else if (addresselement.coin == "bsv"){
+getaddressbalanceBSV(addresselement.coin, addresselement.address, function(){
+callback();
+});
+}else if (addresselement.coin == "btg"){
+getaddressbalanceBTG(addresselement.coin, addresselement.address, function(){
+callback();
+});
+}else if (addresselement.coin == "ltc"){
+getaddressbalanceLTC(addresselement.coin, addresselement.address, function(){
+callback();
+});
+}else if (addresselement.coin == "eth"){
+getaddressbalanceETH(addresselement.coin, addresselement.address, function(){
+callback();
+});
+}else if (addresselement.coin == "nxt"){
+getaddressbalanceNXT(addresselement.coin, addresselement.address, function(){
+callback();
+});
+}else if (addresselement.coin == "doge"){
+getaddressbalanceDOGE(addresselement.coin, addresselement.address, function(){
+callback();
+});
+} /* else if (addresselement.coin == "nxs"){
+getaddressbalanceNXS(addresselement.coin, addresselement.address, function(){
+callback();
+});
+} */ else{
+callback();
+}
+
+}else{
+callback();
+};
+}
+
+
+
+
+
+/*
+addresslist.forEach(function(element, index) {
+if (element.coin == "btc"){
+
+}
+});
+*/
+if (addresslist.length > 0){
+addressiterator(addresslist);
+}
+
+}
+
+$(document).on('click', '.removebtn', function() {
+removeaddress($(this).data("coin"), $(this).data("address"));
+});
+
+
+$(document).on('click', '#addressimportbtn', function() {
+var selectedcoin = $('#addressmanagercoinselect').val();
+//console.log("selected coin: "+selectedcoin);
+var addresses = $('#addressimport').val();
+var modifiedtext=addresses.replace(/\n0\n/g, "\n");
+var modifiedtext=modifiedtext.replace(/\n0\n/g, "\n");
+var modifiedtext=modifiedtext.replace(/\n0\n/g, "\n");
+var modifiedtext = modifiedtext.replace(/^\s*[\r\n]/gm, "");
+$('#addressimport').val(modifiedtext);
+var addresses2import = $('#addressimport').val().split('\n');
+addresses2import = addresses2import.filter(function(el) { return el; });
+//console.log(addresses2import);
+addresses2import.forEach(function(element, index) {
+if (!dupecheckaddress(addresslist, element, selectedcoin)){
+//console.log (coinsetdefault[i].coin);
+addresslist.push({"address":element, "coin":selectedcoin, "enabled" : 1, "balance": 0, "lastupdate": 0, "token": 0, "tracked": 1})
+localStorage.setItem("addresslist", JSON.stringify(addresslist));
+}
+$('#addressimport').val("");
+})
+//console.log(addresslist);
+//buildcointable();
+buildaddresstable(function(){
+updateaddressbalances();
+});
+});
+
+
+function buildcoinsupport (callback) {
+coinsetdefault = [];	
+coinsetdefault.push({'coin':'btc', 'enabled' : 1, 'token' : 0, 'name':'Bitcoin', 'value':0, 'tracked':0});
+coinsetdefault.push({'coin':'bch', 'enabled' : 1, 'token' : 0, 'name':'Bitcoin Cash', 'value':0, 'tracked':0});
+coinsetdefault.push({'coin':'bsv', 'enabled' : 1, 'token' : 0, 'name':'Bitcoin SV', 'value':0, 'tracked':0});
+coinsetdefault.push({'coin':'eth', 'enabled' : 1, 'token' : 0, 'name':'Ethereum', 'value':0, 'tracked':0});
+coinsetdefault.push({'coin':'btg', 'enabled' : 1, 'token' : 0, 'name':'Bitcoin Gold', 'value':0, 'tracked':0});
+coinsetdefault.push({'coin':'ltc', 'enabled' : 1, 'token' : 0, 'name':'Litecoin', 'value':0, 'tracked':0});
+coinsetdefault.push({'coin':'nxt', 'enabled' : 1, 'token' : 0, 'name':'NXT', 'value':0, 'tracked':0});
+coinsetdefault.push({'coin':'doge', 'enabled' : 1, 'token' : 0, 'name':'Dogecoin', 'value':0, 'tracked':0});
+coinsetdefault.push({'coin':'nxs', 'enabled' : 1, 'token' : 0, 'name':'Nexus', 'value':0, 'tracked':0});
+if (coinset = JSON.parse(localStorage.getItem("coinset") || "[]")){
+//console.log(coinset);
+//var result = coinset.filter(item=>coinsetdefault.indexOf(item)==-1);
+coinsetdefault.forEach(function(element, i) {
+if (!dupecheck(coinset, element.coin)){
+//console.log (coinsetdefault[i].coin);
+coinset.push(element)
+localStorage.setItem("coinset", JSON.stringify(coinsetdefault));
+}
+});
+//console.log("arrayfound");
+}else{
+//console.log("writedefaults");
+localStorage.setItem("coinset", JSON.stringify(coinsetdefault));
+coinset = JSON.parse(localStorage.getItem("coinset") || "[]")
+}
+callback();
+//getallcoinrates(coinset);
+}
+
+function buildaddresstable(callback) {
+successmessage("building address table");
+$('#addresstablewrapper').html("");
+coinset.forEach(function(element, index) {
+//var trackedaddresses =  gettrackedaddresses(element.coin);
+if (gettrackedaddresses(element.coin) > 0 && element.token == 0 && element.enabled == 1){
+$('#addresstablewrapper').append("<div class='container'><div class='addresstableheader'><img src='icons32/"+element.coin+".png' onError='this.onerror = \'\';this.style.visibility=\'hidden\';'><span>"+element.name+"</span></div><div class='addresstablecontainer'><table><thead><tr><th>Address</th><th class='centeritem'>Coin</th><th>Balance</th><th class='centeritem'>Tracked</th><th>Value</th><th class='centeritem'>Remove</th></tr></thead><tbody id='tablebody"+element.coin+"'></tbody></table></div></div>");
+}
+});
+
+
+if(addresslist.length > 0){
+$('#addresstablebody').html("");
+addresslist.forEach(function(element, index) {
+if (element.enabled == 1){
+if (element.token == 0){
+var append2 = element.coin;
+}else{
+var append2 = element.token;
+}
+var thisaddressvalue = 0;
+thisaddressvalue = element.balance * coinset.find(x => x.coin === element.coin).value;
+$('#tablebody'+append2).append("<tr><td>"+element.address+"</td><td class='centeritem'>"+element.coin+"</td><td id='balance_"+element.coin+element.address+"'>"+element.balance+"</td><td class='centeritem'>"+element.tracked.toString().replace(0, '&#9744;').replace(1, '&#9745;')+"</td><td class='valuecount' data-value='"+thisaddressvalue+"'>"+thisaddressvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+""+selectedcurrencyicon+"</td>"
++"<td class='removebtn centeritem' data-address='"+element.address+"' data-coin='"+element.coin+"'>&#x2718;</td></tr>"); 
+}
+});
+}
+callback();
+}
+
+
+
+function buildcointable() {
+successmessage("building coin table");
+localStorage.setItem("coinset", JSON.stringify(coinset));
+$('#cointablebody').html("");
+$('#cards').html("");
+$('#addressmanagercoinselect').html("");
+//console.log("building table");
+coinset.forEach(function(element, index) {
+if (element.enabled == 1 && gettrackedaddresses(element.coin) > 0){
+var thicoinvalue = 0;
+var thicoinbalance = 0;
+thicoinbalance = gettotalcoinbalance(element.coin);
+thicoinvalue = thicoinbalance * element.value;
+$('#cointablebody').append("<tr data-sort='"+thicoinvalue+"'><td>"+element.name+"</td><td>"+element.value+selectedcurrencyicon+"</td><td>"+gettrackedaddresses(element.coin)+"</td><td>"+thicoinbalance.toFixed(3)+"</td><td>"+thicoinvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon+"</td></tr>"); 
+$('#cards').append('<div class="card" data-sort="'+thicoinvalue+'"><div class="card-header">'+element.name+'</div><div class="card-main"><img src="icons128/'+element.coin+'.png" onError="this.onerror = \'\';this.style.visibility=\'hidden\';"><div class="card-description">'+thicoinvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon+'</div></div></div>'); 
+}
+if (element.token == 0){
+$('#addressmanagercoinselect').append("<option value='"+element.coin+"'>"+element.name+"</option>"); 
+}
+});
+$("#cards").sortDivs();
+$("#cointablebody").sortTable();
+}
+
+
+function getcoinrates(callback) {
+var symbols = coinset.map(e => e.coin).join(",");
+//console.log (symbols);
+//console.log ("https://api.coingecko.com/api/v3/coins/markets?symbols="+symbols+"&vs_currency="+selectedcurrency);
+//var elementtarget = element.priceapielement;
+				$.ajax({
+				type: "GET",
+				url: "https://api.coingecko.com/api/v3/coins/markets?symbols="+symbols+"&vs_currency="+selectedcurrency,
+				tryCount : 0,
+				timeout: 60000,
+				retryLimit : 3,
+				success: function(update){
+				update.forEach(function(element, index) {
+				//console.log(element.symbol+" "+element.current_price);
+				updateprice(element.symbol, element.current_price)
+				});
+				//console.log(element.coin +","+ update[element.coin+selectedcurrency][elementtarget].toFixed(1));
+				successmessage("retrieved coin rates ("+selectedcurrency+")");
+				callback();
+				//console.log("getting "+element.name+" price");
+					},
+    error : function(xhr, textStatus, errorThrown ) {
+        if (textStatus == 'timeout') {
+            this.tryCount++;
+            if (this.tryCount <= this.retryLimit) {
+                //try again
+                $.ajax(this);
+                return;
+            }else{
+				errormessage("<b>getcoinrates</b> -- timeout while fetching data");
+				callback();
+			}             
+            return;
+        }
+		if (xhr.status == 500) {
+				errormessage("<b>getcoinrates</b> -- html error 500 while fetching data");
+				updatebalance(coin, address, 0)			
+				callback();
+        } else {
+				errormessage("<b>getcoinrates</b> -- html error "+xhr.status+" while fetching data");
+				callback();				
+		}
+	}		
+					 
+			}); 
+}
+
+function firstrun() {
+buildcoinsupport(function(){buildcointable();});
+$("#blacky").fadeIn(200);
+$('#modal').html("<div id='modalinfobox textblock' ><div class='heading3 '>Welcome to "+v2title+"!</div>You have no tracked addresses yet, lets open the coin manager..</div>");
+$('#modalwrapper').append("<div id='modalbuttonwrapper' ></div>");
+$('#modalbuttonwrapper').append("<div class='modalokbutton' >ok</div>");
+$('#modalwrapper').fadeIn(200);
+$('#modalwrapper').css('display', 'flex');
+$(document).on('click', '.modalokbutton', function() {
+$('#modalwrapper').fadeOut(200);
+$("#blacky").fadeOut(200);
+$('#navigator').css('display', 'flex');
+navigationmanager("addressmanager");
+});
+}
+
+$(document).ready(function() {
+builduntrackedcoinsettings();
+document.title = v2title+" - "+v2slogan;
+$("#wlogo").html(v2title+"<span></span>");
+$("#wlogo span").text(v2slogan);
+$("#logheader").prepend(v2title+" ");
+$("#aboutheader").append(" "+ v2title);
+$('.apptitle').text(v2title);
+checkonlineaccount(function(){
+if (localStorage.getItem("settings")){
+settings = localStorage.getItem("settings").split(',');
+selectedcurrency = settings[0];
+selectedcurrencyicon = settings[1];
+thememanager(settings[2]);
+fontmanager(settings[3], settings[4]);
+$("#themeselect option").each(function(){
+        if($(this).val()==settings[2]){
+            $(this).attr("selected","selected");    
+        }
+});
+$("#currencyselect option").each(function(){
+        if($(this).val()==settings[0]){
+            $(this).attr("selected","selected");    
+        }
+});
+
+}
+if (localStorage.getItem("addresslist")){
+successmessage("local config found!");
+addresslist = JSON.parse(localStorage.getItem("addresslist") || "[]");
+}
+
+$('#addressimport').val("");
+$('#blacky').css('opacity', '0.95');
+$( "#blacky" ).fadeOut(300);
+if (addresslist.length > 0){
+$('#navigator').css('display', 'flex');
+navigationmanager("frontpagewrapper");
+buildcoinsupport(function(){
+buildcointable();
+buildaddresstable(function(){
+updateaddressbalances();
+}); 
+
+//getcoinrates(function(){}); 
+});
+}else{
+buildcoinsupport(function(){
+firstrun();
+});
+}
+
+}); 
+
+/*
+if(getUrlVars()["account"]){
+var account = getUrlVars()["account"]
+getcloudaccount(account, "addresslist", function(callback){
+addresslist = JSON.parse(callback || "[]");
+localStorage.setItem("addresslist", JSON.stringify(addresslist));
+});
+getcloudaccount(account, "coinset", function(callback){
+coinset = JSON.parse(callback || "[]");
+localStorage.setItem("coinset", JSON.stringify(coinset));
+});
+}
+*/
+
+
+
+
+
+
+
+
+}); 
+</script>

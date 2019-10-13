@@ -1,0 +1,36 @@
+
+@media (max-width: 1000px){
+#framewrapper, .bitcoin #framewrapper {display:flex; flex-direction:column; height:100%; justify-content:center;  align-content:center; }
+#navigator {flex-direction:column; justify-content:center; }
+#contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start; padding-top:2vh; min-height:0vh;}
+#navigator {padding:10px 0px 10px 0px;}
+#navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none;}
+.bitcoin #navigator #navbuttons {height:auto;}
+.bitcoin #navigator [data-dest="addressmanager"] {height:0; overflow:hidden; padding:0; margin:0;}
+.bitcoin #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;}
+
+table th, table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
+/* #cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} */
+	#cointable,#cointable thead,#cointable tbody,#cointable th,#cointable td,#cointable tr { 		display: block; 	}
+	#cointable thead tr { 		position: absolute;		top: -9999px;		left: -9999px;	}
+	#cointable thead tr { border: 0px solid #ccc; }	
+	#cointable td {		border: none;		border-bottom: 1px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+	#cointable td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; }
+	#cointable tbody td:nth-of-type(1):before { content: "Coin"; }
+	#cointable tbody td:nth-of-type(2):before { content: "Price"; }
+	#cointable tbody td:nth-of-type(3):before { content: "Addresses"; }
+	#cointable tbody td:nth-of-type(4):before { content: "Balance"; }
+	#cointable tbody td:nth-of-type(5):before { content: "Value"; }
+	#donationtable tr {background-color:#fff; text-align:center;}
+	#donationtable td {display:inline-block; background-color:#fff; text-align:center;}
+	#donationtable td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative; font-size:60%; text-align:center;}
+	
+	
+#mobilemenu{display:block; color:#fff;}
+#mobilemenulabel {font-size:120%; text-align:right; margin-right:2vw;}
+#mobilemenu:checked ~ .navbutton  {display:block;}
+#mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717'; font-weight:bold; font-size:150%;}
+#mobilemenu:checked ~ #mobilemenulabel{position:absoulte; height:0px;}
+#mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261'; font-weight:bold; font-size:200%; vertical-align:sub;}
+.bitcoin .container {margin:0px 10px 10px 10px;}
+}

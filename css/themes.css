@@ -1,0 +1,126 @@
+
+.night {background-color:#2d2d2d; color:#ababab;}
+.terminal {background-color:#000; color:#00ff41;}
+
+
+/*SKOLL THEME*/
+/*
+main = 9FAEAE
+green = 8D9894
+light = F7F6F6
+sepia = 87878C
+contrast = 2F4869
+Success = 65af6c
+Warning = e29f34
+Danger = f44336
+*/
+.skoll{background-color:#9FAEAE; color:#2F4869}
+.skoll #blacky {background-color:#87878C;}
+.skoll #modal{background-color:#F7F6F6; border-radius:2px;}
+.skoll .modalokbutton {background-color:#65af6c; border-radius:2px;}
+.skoll #navigator {background-color: #87878C;}
+.skoll .navbutton {background-color: #2F4869; color:#F7F6F6; border-radius:2px;}
+.skoll .activenav {background-color: #65af6c;}
+.skoll .heading1 {background-color: #87878C; color:#F7F6F6; border-radius:2px; font-size:20px;}
+.skoll .heading2 {background-color: #2F4869; color:#F7F6F6; border-radius:2px; margin-bottom:5;}
+.skoll .container {background-color: #F7F6F6; border-radius:2px; margin-bottom:20px;}
+.skoll .uibutton {color:#e29f34; border-radius:2px; margin:5px 0 5px 0; padding:5px;}
+.skoll .uibutton:hover {color:#65af6c;}
+.skoll .uidangerbutton {color:#e29f34; border-radius:2px; margin:5px 0 5px 0;}
+.skoll .uidangerbutton:hover {color:#f44336; }
+.skoll label.radio span {border-color: #87878C; color: #87878C;}
+.skoll label.radioon input:checked + span {border-color: #65af6c; color: #65af6c;}
+.skoll label.radiooff input:checked + span {border-color: #f44336; color: #f44336;}
+.skoll table {margin:10px auto; padding-bottom:10px;}
+.skoll table tr:nth-child(even) {background-color:#dedddd;}
+.skoll table tr:hover td {background-color:#65af6c; color:#F7F6F6;}
+.skoll table thead {background-color:#8D9894; color:#fff;}
+.skoll .card-main {background-color: #F7F6F6;}
+.skoll .card-header {background-color: #F7F6F6;}
+
+.skoll #wlogo {position:relative; border:0; padding:0; margin:0 auto; padding-bottom:10px; margin-bottom:10px; border-bottom:1px solid #F7F6F6; width:100%;}
+/*SKOLL THEME*/
+
+/*Bitcoin THEME*/
+/*
+main = FCDFBC
+navbar = FAA643
+navbar buttons = F5931B
+dark = F59722
+*/
+
+.bitcoin {background-color:#FCDFBC; color:#F59722}
+.bitcoin #framewrapper {flex-direction:row; max-width:1400px; margin:0 auto;background-color:#FCDFBC;}
+.bitcoin #pindicator {position:fixed; top:0px; right:10px; color:#fff;}
+.bitcoin #blacky {background-color:#87878C;}
+.bitcoin #modal{background-color:#ffffff; border-radius:4px; padding:10px;}
+.bitcoin .modalokbutton {background-color:#65af6c; border-radius:2px; color:#fff;}
+.bitcoin .modalokbutton:hover {background-color:#F59722;}
+.bitcoin .modalcancelbutton {background-color:#65af6c; border-radius:2px; color:#fff;}
+.bitcoin .modalcancelbutton:hover {background-color:#F59722;}
+.bitcoin #navigator {background-color: #FAA643; color:#EAECEE;  justify-content:flex-start; flex-shrink: 0; }
+.bitcoin #navigator #navbuttons {height:100vh; display:flex; justify-content:center; flex-direction:column;}
+.bitcoin #navigator #wlogo {text-align:center; border-bottom:1vh solid #F59722; margin-bottom:1vh; padding-bottom:1vh;}
+.bitcoin #navigator .navbutton {background-color: #F5931B; color:#eee; border-radius:2px; justify-self: center; font-size:140%; padding:4px 15px 4px 15px;}
+.bitcoin #navigator .navbutton:hover {background-color: #A6B759;}
+.bitcoin #navigator .activenav:hover {background-color: green;}
+.bitcoin #navigator .activenav {background-color: green;color:#EAECEE;}
+.bitcoin .uibutton:hover {color:#65af6c;}
+.bitcoin .uibutton:focus {color:#65af6c;}
+.bitcoin .uidangerbutton {color:#f44336;}
+.bitcoin .container {background-color: #ffffff; border-radius:4px; margin:0 2vw; margin-bottom:1vh; padding-bottom:5px;}
+.bitcoin .heading1 {background-color: #A6B759; border-bottom:0px solid #fff; color:#fff; border-radius:4px; font-size:20px; margin:20px 2vw;}
+.bitcoin .heading2 {background-color:#F59722; color:#fff; font-size:120%; border-top-left-radius:4px;  border-top-right-radius:4px; padding:0 1vw 0 1vw; margin-bottom:5px; font-weight:bold;}
+.bitcoin .textblock a {color:#f44336; text-decoration:none;} 
+.bitcoin .textblock a:hover {color:#65af6c;}
+.bitcoin label.radio span {border-color: #87878C; color: #87878C;}
+.bitcoin label.radioon input:checked + span {border-color: #65af6c; color: #65af6c;}
+.bitcoin label.radiooff input:checked + span {border-color: #f44336; color: #f44336;}
+.bitcoin .card-main {background-color: #ffffff;}
+.bitcoin .card-header {background-color: #ffffff;}
+.bitcoin .card {border: 0px solid;}
+.bitcoin table {width:100%;margin:0px auto;}
+.bitcoin table tr:nth-child(even) {background-color:#ededed;}
+.bitcoin table tr:hover td {background-color:#65af6c; color:#ffffff;}
+.bitcoin table thead {background-color:#F59722; color:#fff;border-top:0vh solid #F59722;}
+.bitcoin #addresstablewrapper {align-items:flext-start; justify-content:flex-start; border-top-left-radius:4px; border-top-right-radius:4px;}
+.bitcoin .addresstableheader {background-color:#F59722; color:#fff; font-size:120%; border-top-left-radius:4px;  border-top-right-radius:4px;  margin-bottom:0px; font-weight:bold; text-align:right; display:inline-block; padding:2px 20px 0px 20px; align-self:flex-start;}
+.bitcoin #addresstablewrapper .container {background-color:transparent; text-align:left;}
+.bitcoin #addresstablewrapper .addresstablecontainer {background-color:#fff; padding-bottom:4px; border-radius:4px; display:block;}
+.bitcoin #addresstablewrapper table {background-color:#fff;}
+.bitcoin #addresstablewrapper thead{font-size:120%; padding:5px 0px 5px 0px; }
+.bitcoin .cointableheading {background-color:#FAA643; color:#fff; font-size:200%; border-top-left-radius:4px;  border-top-right-radius:4px; border-bottom:1px dashed #fff; font-weight:normal;}
+.bitcoin #cloudsaveurl a {color:#f44336; text-decoration:none;}
+.bitcoin #cloudsaveurl a:hover {color:#65af6c;}
+.bitcoin #wealthtracker {background-color: #ffffff; border-radius:8px; padding:1vh 1vw; margin-bottom:20px; width:100%; display:inline-block;}
+.bitcoin #cointablewrapper {display:block; width:100%; padding:0; margin:0;}
+.autocomplete-suggestion { border-bottom:1px dashed #FCDFBC; color: #FAA643;}
+.autocomplete-suggestion img {margin-right:5px;}
+.autocomplete-suggestion b { font-weight:bold; color: #FAA643;}
+.autocomplete-suggestion.selected { background: #f0f0f0; }
+.bitcoin #settings .container{margin-bottom:2vh;}
+/*Bitcoin THEME*/
+
+
+
+
+.day{border-radius:5px;background-color:#fefefe; color:#111}
+.day #blacky {background-color:#fff;}
+.day #navigator {background-color: #9fb1bc; color:#efefef;}
+.day #navigator div:hover {background-color: #6b9080;}
+.day label.radio input:checked + span {border-color: green; color: green;}
+.day label.radio span {border-color: #888; color: #888;}
+.day .heading1 {background-color: #6b9080; color:#fff;}
+.day .heading2 {background-color: #9fb1bc; color:#fff;}
+.day table tr:hover td {color:#fff;}
+.day #modalinfobox, .day #modalbuttonwrapper div{border-radius:5px;}
+.day div {border-radius:5px;}
+
+.eightbit {background-color:#003b00; color:#00ff41;}
+.eightbit #blacky {background-color:#000;}
+.eightbit .heading1 {background-color: darkgreen;}
+.eightbit .heading2 {background-color: #002209;}
+.eightbit label.radio input:checked + span {border-color: #00ff41; color: #00ff41;}
+.eightbit label.radio span {border-color: #888; color: #888;}
+.eightbit #navigator {background-color: darkgreen;}
+
