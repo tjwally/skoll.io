@@ -384,12 +384,15 @@ $('#staticbalancecoinsel').autoComplete({
 $(document).on('click', '#addstaticbalancebtn', function() {
 var coinsymbol = $(this).data("coin");
 var coinname = $(this).data("coinname");
-var balance = $("#staticbalance").val();
-var address = $("#staticdescritpion").val();
+var balance = $("#staticbalance").val();	
+if (parseFloat(balance, 10)){
+
+var address = $("#staticdescritpion").val().replace(/</g, "&lt;").replace(/>/g, "&gt;");
 addstaticaddress(coinsymbol, coinname, balance, address, function(){
 $("#addstaticbalancerapper").remove();
 //
 });
+}
 //console.log(coinsymbol);
 });
 
