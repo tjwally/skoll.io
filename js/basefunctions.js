@@ -32,6 +32,7 @@ function getUrlVars()
 }
 
 function checkonlineaccount(callbackaccount){
+	
 if(getUrlVars()["id"]){
 var account = getUrlVars()["id"]
 getcloudaccount(account, function(callback){
@@ -332,7 +333,7 @@ coinenabler(selectedcoin, setting);
 function navigationmanager(target){
 $('.navbutton').removeClass("activenav");
 $('*[data-dest="'+target+'"]').addClass("activenav");
-var animationspeed = 200;	
+var animationspeed = 100;	
 $( ".uilvl1" ).fadeOut(animationspeed);
 setTimeout(function(){
 $("#"+target).fadeIn(animationspeed);	
@@ -385,9 +386,9 @@ var coinsymbol = $(this).data("coin");
 var coinname = $(this).data("coinname");
 var balance = $("#staticbalance").val();
 var address = $("#staticdescritpion").val();
-
 addstaticaddress(coinsymbol, coinname, balance, address, function(){
-callback();
+$("#addstaticbalancerapper").remove();
+//
 });
 //console.log(coinsymbol);
 });
@@ -396,6 +397,9 @@ callback();
 function thememanager(theme){
 $("body").removeClass();	
 $( "body" ).addClass( theme );
+$("html").removeClass();	
+$( "html" ).addClass( theme );
+if (theme == "eightbit"){iconfolder = "icons32/";}
 //console.log("adding: "+theme);
 }
 

@@ -174,7 +174,7 @@ if (!dupecheck(coinset, coinsymbol.toLowerCase())){
 coinset.push({'coin':coinsymbol.toLowerCase(), 'enabled' : 1, 'token' : 0, 'name':coinname.toLowerCase(), 'value':0, 'tracked':0});
 }
 addresslist.push({"address":address, "coin":coinsymbol.toLowerCase(), "enabled" : 1, "balance": parseFloat(balance, 10), "lastupdate": Date.now(), "token": 0, "tracked": 0})
-}
+
 		localStorage.setItem("addresslist", JSON.stringify(addresslist));
 		localStorage.setItem("coinset", JSON.stringify(coinsetdefault));
 		getcoinrates(function(){
@@ -183,6 +183,9 @@ addresslist.push({"address":address, "coin":coinsymbol.toLowerCase(), "enabled" 
 		buildcointable();
 		coinsettingsgen();
 		});
+
+callback();
+}
 }
 
 
@@ -357,7 +360,9 @@ function getaddressbalanceBSV(coin, address, callback) {
 function getaddressbalanceDOGE(coin, address, callback) {
 				$.ajax({
 				type: "GET",
-				url: "https://multiexplorer.com/api/address_balance/18?address="+address+"&currency=doge",
+				//https://dogechain.info/chain/Dogecoin/q/addressbalance
+				url: "https://dogechain.info/chain/Dogecoin/q/addressbalance/"+address,
+				//url: "https://multiexplorer.com/api/address_balance/18?address="+address+"&currency=doge",
 				tryCount : 0,
 				timeout: 60000,
 				retryLimit : 3,
@@ -365,7 +370,7 @@ function getaddressbalanceDOGE(coin, address, callback) {
 					//console.log(balance.tokens);
 				if(balance){
 				//console.log(address+" : "+balance.balance);
-				var thisbalance = parseFloat(balance.balance, 10)
+				var thisbalance = parseFloat(balance, 10)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);		
 				callback();

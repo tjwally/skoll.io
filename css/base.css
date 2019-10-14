@@ -1,10 +1,10 @@
  * , *:before, *:after{      box-sizing:border-box;      -moz-box-sizing:border-box;      -webkit-box-sizing:border-box;      -ms-box-sizing:border-box;   }
-html, body {padding:0; margin:0;}
+html, body {padding:0; margin:0;background-color:#000;}
 #framewrapper {display:flex; flex-direction:row-reverse; align-items: stretch; justify-content: center; align-content:center; height:100%;text-align:center;}
 #contentwrapper{margin:0 auto; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:1vh 0 1vh 0;}
 .uilvl1{display:none; text-align:center;}
 .errormsg{color:red; display:block;}
-.successmsg{color:black; display:block;}
+.successmsg{display:block;}
 button {cursor:pointer; padding:3px 4px 2px 4px; border:2px solid;}
 .button {cursor:pointer; padding:3px 4px 2px 4px; border:2px solid; display:inline-block; user-select: none;}
 .loading{overlflow:hidden;}
@@ -36,7 +36,8 @@ select option {background-color:#666; color:#ddd;}
 #addressmanager {margin:0 auto; text-align:center;}
 #addressimportwrapper textarea {display:block; margin:0 auto; margin-bottom:10px; height:10em; width:50em; border:3px solid; border-radius:4px; padding:4px;}
 #addresstablewrapper {text-align:center; display:flex; flex-direction:column;}
-#wlogo {text-align:center; font-size:120%;}
+#coindaddressheader {display:none;}
+#wlogo {text-align:center; font-size:120%; user-select: none; }
 #wlogo span {display:block; font-size:80%;}
 #navigator div {}
 
@@ -57,6 +58,7 @@ select option {background-color:#666; color:#ddd;}
 
 #cards{display:flex; flex-wrap: wrap; align-items:center; justify-content:center;}
 .card {  min-width: 150px;  border: 1px solid;     border-radius: 4px;  overflow: hidden;  flex-direction: column;	margin:10px;  }
+.card img {height:128px;}
 .card-header {  text-align: center;    font-weight: 600;  border-bottom: 1px solid;  padding: 5px 10px;}
 .card-main {  display: flex;flex-direction: column;justify-content: center;align-items: center;padding:10px 5px 0px 5px;}
 .card-description {padding:10px 0 10px 0;}
@@ -72,6 +74,7 @@ input#mobilemenu {display: none;}
 #selectedstaticcoin:blank {display:none; max-height:0px; overlflow:hidden;}
 #selectedstaticcoin:empty {display:none; max-height:0px; overlflow:hidden;}
 #selectedstaticcoin:-moz-only-whitespace{display:none; max-height:0px; overlflow:hidden;}
+
 #staticbalancecoinsel {min-width:20rem; text-align:center;}
 .autocomplete-suggestions {
     text-align: left; cursor: default; border: 1px solid #ccc; border-top: 0; background: #fff; box-shadow: -1px 1px 3px rgba(0,0,0,.1);
@@ -81,7 +84,7 @@ input#mobilemenu {display: none;}
 .autocomplete-suggestion span {margin:0; padding:0; font-weight: normal; display:flex;align-items:center; }
 .autocomplete-suggestion img {}
 .autocomplete-suggestion b { font-weight: normal; color: #1f8dd6;}
-.autocomplete-suggestion.selected { background: #f0f0f0; }
+.autocomplete-suggestion.selected { background: #f0f0f0; cursor:pointer;}
 
 
 input[type='number'] {    -moz-appearance:textfield;}
@@ -109,3 +112,4 @@ select:hover, button:hover, .button:hover {}
 #cloudsaveurl:blank {display:none; max-height:0px; overlflow:hidden;}
 #cloudsaveurl:empty {display:none; max-height:0px; overlflow:hidden;}
 #cloudsaveurl:-moz-only-whitespace{display:none; max-height:0px; overlflow:hidden;}
+.uibutton {margin:0 auto;}

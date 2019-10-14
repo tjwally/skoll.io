@@ -1,6 +1,7 @@
 
-.night {background-color:#2d2d2d; color:#ababab;}
-.terminal {background-color:#000; color:#00ff41;}
+
+
+
 
 
 /*SKOLL THEME*/
@@ -18,13 +19,13 @@ Danger = f44336
 .skoll #blacky {background-color:#87878C;}
 .skoll #modal{background-color:#F7F6F6; border-radius:2px;}
 .skoll .modalokbutton {background-color:#65af6c; border-radius:2px;}
-.skoll #navigator {background-color: #87878C;}
+.skoll #navigator {background-color: #87878C; justify-content:flex-start; flex-shrink: 0; }
 .skoll .navbutton {background-color: #2F4869; color:#F7F6F6; border-radius:2px;}
 .skoll .activenav {background-color: #65af6c;}
 .skoll .heading1 {background-color: #87878C; color:#F7F6F6; border-radius:2px; font-size:20px;}
 .skoll .heading2 {background-color: #2F4869; color:#F7F6F6; border-radius:2px; margin-bottom:5;}
 .skoll .container {background-color: #F7F6F6; border-radius:2px; margin-bottom:20px;}
-.skoll .uibutton {color:#e29f34; border-radius:2px; margin:5px 0 5px 0; padding:5px;}
+.skoll .uibutton {color:#e29f34; border-radius:2px; margin:5px auto; padding:5px;}
 .skoll .uibutton:hover {color:#65af6c;}
 .skoll .uidangerbutton {color:#e29f34; border-radius:2px; margin:5px 0 5px 0;}
 .skoll .uidangerbutton:hover {color:#f44336; }
@@ -37,8 +38,8 @@ Danger = f44336
 .skoll table thead {background-color:#8D9894; color:#fff;}
 .skoll .card-main {background-color: #F7F6F6;}
 .skoll .card-header {background-color: #F7F6F6;}
-
 .skoll #wlogo {position:relative; border:0; padding:0; margin:0 auto; padding-bottom:10px; margin-bottom:10px; border-bottom:1px solid #F7F6F6; width:100%;}
+.skoll #addresstablewrapper table {background-color:#fff; width:100%;}
 /*SKOLL THEME*/
 
 /*Bitcoin THEME*/
@@ -89,10 +90,10 @@ dark = F59722
 .bitcoin #addresstablewrapper .addresstablecontainer {background-color:#fff; padding-bottom:4px; border-radius:4px; display:block;}
 .bitcoin #addresstablewrapper table {background-color:#fff;}
 .bitcoin #addresstablewrapper thead{font-size:120%; padding:5px 0px 5px 0px; }
-.bitcoin .cointableheading {background-color:#FAA643; color:#fff; font-size:200%; border-top-left-radius:4px;  border-top-right-radius:4px; border-bottom:1px dashed #fff; font-weight:normal;}
 .bitcoin #cloudsaveurl a {color:#f44336; text-decoration:none;}
 .bitcoin #cloudsaveurl a:hover {color:#65af6c;}
 .bitcoin #wealthtracker {background-color: #ffffff; border-radius:8px; padding:1vh 1vw; margin-bottom:20px; width:100%; display:inline-block;}
+.bitcoin .cointableheading {background-color:#FAA643; color:#fff; font-size:200%; border-top-left-radius:4px;  border-top-right-radius:4px; border-bottom:1px dashed #fff; font-weight:normal;}
 .bitcoin #cointablewrapper {display:block; width:100%; padding:0; margin:0;}
 .autocomplete-suggestion { border-bottom:1px dashed #FCDFBC; color: #FAA643;}
 .autocomplete-suggestion img {margin-right:5px;}
@@ -101,26 +102,117 @@ dark = F59722
 .bitcoin #settings .container{margin-bottom:2vh;}
 /*Bitcoin THEME*/
 
+/*NIGHT THEME*/
+/*
+main = 2d2d2d
+light = ababab
+sepia = 87878C
+contrast = 2F4869
+Success = 65af6c
+Warning = e29f34
+Danger = f44336
+*/
+.night {background-color:#2d2d2d; color:#ababab;}
+.night .textblock a {color:#fff; text-decoration:none; font-weight:bold;} 
+.night .textblock a:hover {color:#65af6c;}
+.night .container a {color:#fff; text-decoration:none; font-weight:bold;} 
+.night .container a:hover {color:#65af6c;}
+.night #framewrapper {flex-direction:row; max-width:auto; margin:0 auto;}
+.night #navigator {background-color: #ababab; color:#2d2d2d;  justify-content:flex-start; flex-shrink: 0; padding:0; margin:0;}
+.night #navigator #navbuttons {height:100vh; display:flex; justify-content:center; flex-direction:column; padding:0; margin:0;}
+.night #pindicator {position:fixed; top:0px; right:10px; color:#fff;}
+.night #blacky {background-color:#000;}
+.night #navigator #wlogo {text-align:center; border-bottom:1vh solid #2d2d2d; margin-bottom:1vh; padding-bottom:1vh;}
+.night #navigator .navbutton {background-color: #444; color:#eee; border-radius:0px; justify-self: center; font-size:140%; padding:10px; width:100%; margin:10px 0;}
+.night #navigator .navbutton:hover {background-color: #A6B759;}
+.night #navigator .activenav:hover {background-color: darkgreen;}
+.night #navigator .activenav {background-color: darkgreen;color:#EAECEE;}
+.night .heading1 {border-bottom:0px dashed #eee; color:#fff; border-radius:4px; font-size:20px; margin:20px 2vw;}
+.night #wealthtracker {border-radius:8px; border-bottom:4px dashed #eee; padding:1vh 1vw; margin-bottom:5vh; width:100%; display:inline-block; color:#eee;}
+.night #settings .container{background-color:#333; padding:5px 15px 10px 15px;  border-radius:4px; margin:20px auto; border-bottom:4px solid #555;border-top:4px solid #555;}
+.night #logwrapper .container {color:#ababab;}
+.night .addresstableheader {background-color:#333; color:#fff; font-size:120%; border-radius:4px;  margin-bottom:10px; margin-top:20px; font-weight:bold; text-align:center;  padding:2px 20px 0px 20px;}
+.night #addresstablewrapper table {width:100%;}
+.night #addressmanager .container {background-color:#333; padding-bottom: 10px;padding-top: 5px; border-radius:4px; margin-top:20px; border-bottom:4px solid #555;border-top:4px solid #555;}
+.night #addresstablewrapper .container {margin-top:0px;}
+.night .uibutton {border:2px solid; margin:5px auto;}
+.night .uibutton:hover {color:#65af6c;}
+.night .uibutton:focus {color:#65af6c;}
+.night .uidangerbutton {color:#f44336;}
+.night .autocomplete-suggestions {border: 1px solid #ccc; background: inherit; box-shadow: -1px 1px 3px rgba(0,0,0,.1); color:#ccc;}
+.night .autocomplete-suggestion { position: relative; padding: .2em .6em; margin-bottom:.1em; border-bottom:1px dashed #999; line-height: 23px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1.02em; color: #333; vertical-align:middle; display:flex;  align-items:center; justify-content: space-between;}
+.night .autocomplete-suggestion span {color:#ccc;}
+.night .autocomplete-suggestion img {}
+.night .autocomplete-suggestion b { font-weight: normal; color: #1f8dd6;}
+.night .autocomplete-suggestion.selected { background: #000; cursor:pointer; }
+.night label.radio span {border-color: #87878C; color: #87878C;}
+.night label.radioon input:checked + span {border-color: #65af6c; color: #65af6c;}
+.night label.radiooff input:checked + span {border-color: #f44336; color: #f44336;}
+.night #modal{background-color:#ffffff; border-radius:4px; padding:20px;}
+.night .modalokbutton {background-color:#65af6c; border-radius:2px; color:#fff; padding:5px 10px;}
+.night .modalokbutton:hover {background-color:#F59722;}
+.night .modalcancelbutton {background-color:#65af6c; border-radius:2px; color:#fff;}
+.night .modalcancelbutton:hover {background-color:#F59722;}
+.night #modal .heading3 {margin-bottom:5px;}
+.night .card {border: 0px solid;}
+/*NIGHT THEME*/
 
 
-
-.day{border-radius:5px;background-color:#fefefe; color:#111}
-.day #blacky {background-color:#fff;}
-.day #navigator {background-color: #9fb1bc; color:#efefef;}
-.day #navigator div:hover {background-color: #6b9080;}
-.day label.radio input:checked + span {border-color: green; color: green;}
-.day label.radio span {border-color: #888; color: #888;}
-.day .heading1 {background-color: #6b9080; color:#fff;}
-.day .heading2 {background-color: #9fb1bc; color:#fff;}
-.day table tr:hover td {color:#fff;}
-.day #modalinfobox, .day #modalbuttonwrapper div{border-radius:5px;}
-.day div {border-radius:5px;}
-
+/*eightbit THEME*/
 .eightbit {background-color:#003b00; color:#00ff41;}
-.eightbit #blacky {background-color:#000;}
+.eightbit .container {margin:0 2vw;}
+.eightbit #blacky {background-color:#003b00;}
 .eightbit .heading1 {background-color: darkgreen;}
 .eightbit .heading2 {background-color: #002209;}
 .eightbit label.radio input:checked + span {border-color: #00ff41; color: #00ff41;}
 .eightbit label.radio span {border-color: #888; color: #888;}
 .eightbit #navigator {background-color: darkgreen;}
+.eightbit #navigator { justify-content:flex-start; flex-shrink: 0; padding:0; margin:0;}
+.eightbit #navigator #navbuttons {height:100vh; display:flex; justify-content:center; flex-direction:column; padding:0; margin:0;}
+.eightbit #navigator .navbutton {padding:1vh 2vw; font-size:24px; text-align:left; margin:0;}
+.eightbit #navigator .navbutton:hover {background-color: #999900;}
+.eightbit #navigator .activenav:hover {background-color: green;}
+.eightbit #navigator .activenav {background-color: green ;color:#EAECEE;}
+.eightbit #navigator #wlogo {text-align:center; border-bottom:1vh dashed green; margin-bottom:3vh; padding-bottom:3vh; margin-top:-12.5vh; }
+.eightbit #navigator #wlogo span {margin-top:1vh;}
+.eightbit #wealthtracker {border-bottom:0.5vh solid; padding:1.5vh 1vw; margin-bottom:0vh; width:100%; display:block;}
+.eightbit .cointableheading {background-color:darkgreen; color:inherit; font-size:200%; padding:1vh 1vw; border-bottom:0px solid #fff; font-weight:normal;}
+.eightbit #cointablewrapper {display:block; width:100%; padding:0; margin:0;}
+.eightbit #cointablewrapper table td, .eightbit #cointablewrapper table th {padding-right:2vw;}
+.eightbit .card img {height:128px; image-rendering: pixelated;  image-rendering: -moz-crisp-edges;  image-rendering: crisp-edges;}
+.eightbit .container a {color:darkred; text-decoration:none; font-weight:bold;} 
+.eightbit .container a:hover {color:red;}
+.eightbit .uibutton {border:2px solid; margin:5px auto;}
+.eightbit .uidangerbutton {color:red; margin:5px auto;}
+.eightbit .uibutton:hover {color:red;}
+.eightbit .uibutton:focus {color:red;}
+.eightbit .card {border: 4px solid;}
+.eightbit .card-header {border-bottom: 4px solid;}
+.eightbit #settings .container{padding:0px 15px 10px 15px; margin-bottom:10px;}
+.eightbit #settings .container .heading2 {margin-bottom:10px;}
+.eightbit label.radio span {border-color: #ccc; color: #ccc;}
+.eightbit label.radioon input:checked + span {border-color: #00ff41; color: #00ff41;}
+.eightbit label.radiooff input:checked + span {border-color: #f44336; color: #f44336;}
+.eightbit #pindicator {position:fixed; top:0px; left:1vw;}
+.eightbit .autocomplete-suggestions {border: 1px solid green; background: inherit; box-shadow: -1px 1px 3px rgba(0,0,0,.1); color:#ccc;}
+.eightbit .autocomplete-suggestion { position: relative; padding: .2em .6em; margin-bottom:.1em; border-bottom:1px dashed #999; line-height: 23px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1.02em; color: #333; vertical-align:middle; display:flex;  align-items:center; justify-content: space-between;}
+.eightbit .autocomplete-suggestion span {color:#ccc;}
+.eightbit .autocomplete-suggestion img {}
+.eightbit .autocomplete-suggestion b { font-weight: normal; color: #1f8dd6;}
+.eightbit .autocomplete-suggestion.selected { background: #000; cursor:pointer; }
+.eightbit #staticbalancecoinsel {width:40rem;}
+.eightbit #addressmanager .heading1 {margin-top:2vh;}
+.eightbit #addressmanager .addresstableheader {margin-top:2vh;}
+.eightbit #modal{padding:0px; background-color:darkgreen; margin:2vw;}
+.eightbit .modalinfobox {padding:20px;}
+.eightbit #modalbuttonwrapper {background-color:#eee; align-items:center;  justify-content: flex-end; padding:5px 20px 5px 20px;}
+.eightbit .modalokbutton {background-color:green; border-radius:0px; color:#fff; padding:5px 10px;}
+.eightbit .modalokbutton:hover {background-color:orange;}
+.eightbit .modalcancelbutton {background-color:#65af6c; border-radius:2px; color:#fff;}
+.eightbit .modalcancelbutton:hover {background-color:#F59722;}
+.eightbit #modal .heading3 {margin-bottom:5px;}
+.eightbit #addresstablewrapper table {width:100%;}
+.eightbit #cointable tr td:nth-child(5n), .eightbit #cointable tr th:nth-child(5n){ text-align:right; } 
+/*eightbit THEME*/
+
 

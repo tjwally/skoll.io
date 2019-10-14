@@ -1,36 +1,216 @@
 
 @media (max-width: 1000px){
-#framewrapper, .bitcoin #framewrapper {display:flex; flex-direction:column; height:100%; justify-content:center;  align-content:center; }
-#navigator {flex-direction:column; justify-content:center; }
-#contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start; padding-top:2vh; min-height:0vh;}
-#navigator {padding:10px 0px 10px 0px;}
-#navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none;}
+.bitcoin {height:100%;}
+.bitcoin #framewrapper {display:flex; flex-direction:column; justify-content:flex-start;  align-content:center;  height:100%; min-height:0;}
+.bitcoin #navigator {flex-direction:column; justify-content:center; }
+.bitcoin #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start; padding-top:2vh;  height:100%; min-height:0;}
+.bitcoin #navigator {padding:10px 0px 10px 0px;}
+.bitcoin #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none; }
 .bitcoin #navigator #navbuttons {height:auto;}
-.bitcoin #navigator [data-dest="addressmanager"] {height:0; overflow:hidden; padding:0; margin:0;}
+/*.bitcoin #navigator [data-dest="addressmanager"] {height:0; overflow:hidden; padding:0; margin:0;} */
 .bitcoin #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;}
-
-table th, table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
-/* #cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} */
-	#cointable,#cointable thead,#cointable tbody,#cointable th,#cointable td,#cointable tr { 		display: block; 	}
-	#cointable thead tr { 		position: absolute;		top: -9999px;		left: -9999px;	}
-	#cointable thead tr { border: 0px solid #ccc; }	
-	#cointable td {		border: none;		border-bottom: 1px solid #ccc; 		position: relative;		padding-left: 50%; 	}
-	#cointable td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; }
-	#cointable tbody td:nth-of-type(1):before { content: "Coin"; }
-	#cointable tbody td:nth-of-type(2):before { content: "Price"; }
-	#cointable tbody td:nth-of-type(3):before { content: "Addresses"; }
-	#cointable tbody td:nth-of-type(4):before { content: "Balance"; }
-	#cointable tbody td:nth-of-type(5):before { content: "Value"; }
-	#donationtable tr {background-color:#fff; text-align:center;}
-	#donationtable td {display:inline-block; background-color:#fff; text-align:center;}
-	#donationtable td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative; font-size:60%; text-align:center;}
-	
-	
-#mobilemenu{display:block; color:#fff;}
-#mobilemenulabel {font-size:120%; text-align:right; margin-right:2vw;}
-#mobilemenu:checked ~ .navbutton  {display:block;}
-#mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717'; font-weight:bold; font-size:150%;}
-#mobilemenu:checked ~ #mobilemenulabel{position:absoulte; height:0px;}
-#mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261'; font-weight:bold; font-size:200%; vertical-align:sub;}
+.bitcoin table th, .bitcoin table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
+.bitcoin cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} 
+.bitcoin #cointable,#cointable thead,#cointable tbody,#cointable th,#cointable td,#cointable tr { 		display: block; 	}
+.bitcoin #cointable {min-width:80vw;}
+.bitcoin #cointable thead tr { 		position: absolute;		top: -9999px;		left: -9999px;	}
+.bitcoin #cointable thead tr { border: 0px solid #ccc; }	
+.bitcoin #cointable td {		border: none;		border-bottom: 1px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.bitcoin #cointable td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.bitcoin #cointable tbody td:nth-of-type(1):before { content: "Coin"; }
+.bitcoin #cointable tbody td:nth-of-type(2):before { content: "Price"; }
+.bitcoin #cointable tbody td:nth-of-type(3):before { content: "Addresses"; }
+.bitcoin #cointable tbody td:nth-of-type(4):before { content: "Balance"; }
+.bitcoin #cointable tbody td:nth-of-type(5):before { content: "Value"; }
+.bitcoin #donationtable tr {background-color:#fff; text-align:center;}
+.bitcoin #donationtable td {display:inline-block; background-color:#fff; text-align:center;}
+.bitcoin #donationtable td {border: none;border-bottom: 0px solid #ccc;position: relative; font-size:60%; text-align:center;}
+.bitcoin #mobilemenulabel {font-size:120%; text-align:right; margin-right:2vw; position:absolute; top:0px; right:0px; cursor:pointer;}
+.bitcoin #mobilemenu:checked ~ .navbutton  {display:block;}
+.bitcoin #mobilemenu:checked ~ #mobilemenulabel{height:0px;}
+.bitcoin #mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717'; font-weight:bold; font-size:150%;}
+.bitcoin #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261'; font-weight:bold; font-size:200%; vertical-align:sub; }
 .bitcoin .container {margin:0px 10px 10px 10px;}
+.bitcoin #cards {justify-content:space-between; align-items:center;}
+.bitcoin #donationbox {display:none;}
+.bitcoin #staticbalancecoinsel {width:80%; min-width:80%;}
+.bitcoin #addressimportwrapper textarea {display:block; margin:0 auto; margin-bottom:10px; height:10em; width:80%; border:3px solid; border-radius:4px; padding:4px;}
+.bitcoin .addresstablecontainer thead, .bitcoin .addresstablecontainer tbody,.bitcoin .addresstablecontainer th,.bitcoin .addresstablecontainer  td,.bitcoin .addresstablecontainer  tr { 		display: block; border:0;	}
+.bitcoin .addresstablecontainer thead tr { 		position: absolute;		top: -9999px;		left: -9999px; border-bottom: 4px solid;}
+.bitcoin .addresstablecontainer td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.bitcoin .addresstablecontainer td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.bitcoin .addresstablecontainer tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-top:2vh; }
+.bitcoin .addresstablecontainer tr td:nth-child(2), .bitcoin .addresstablecontainer tr td:nth-child(4), .bitcoin .addresstablecontainer tr td:nth-child(6){display:none;}
+.bitcoin .addresstablecontainer tbody td:nth-of-type(3):before { content: "Balance"; }
+.bitcoin .addresstablecontainer tbody td:nth-of-type(5):before { content: "Value"; }
+.bitcoin table tr:nth-child(even) {background-color:#fff;}
+.bitcoin table tr:hover td {background-color:#65af6c; color:#ffffff;}
+}
+
+@media (max-width: 1000px){
+.night #framewrapper {display:flex; flex-direction:column; height:100%; justify-content:center;  align-content:center; }
+.night #navigator {flex-direction:column; justify-content:center;}
+.night #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start; padding-top:2vh; min-height:0vh;}
+.night #navigator {padding:10px 0px 0px 0px; background-color:transparent;}
+.night #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none;}
+.night #navigator #navbuttons {height:auto;}
+.night #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;}
+.night table th, .night table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
+.night cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} 
+.night #cointable,#cointable thead,#cointable tbody,#cointable th,#cointable td,#cointable tr { 		display: block; 	}
+.night #cointable {min-width:80vw;}
+.night #cointable thead tr { 		position: absolute;		top: -9999px;		left: -9999px;	border: 0px solid #ccc; }
+.night #cointable td {		border: none;		border-bottom: 1px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.night #cointable td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.night #cointable tbody td:nth-of-type(1):before { content: "Coin"; }
+.night #cointable tbody td:nth-of-type(2):before { content: "Price"; }
+.night #cointable tbody td:nth-of-type(3):before { content: "Addresses"; }
+.night #cointable tbody td:nth-of-type(4):before { content: "Balance"; }
+.night #cointable tbody td:nth-of-type(5):before { content: "Value"; }
+.night #donationtable tr {background-color:#fff; text-align:center;}
+.night #donationtable td {display:inline-block; background-color:#fff; text-align:center;}
+.night #donationtable td {border: none;border-bottom: 0px solid #ccc;position: relative; font-size:60%; text-align:center;}
+.night #mobilemenulabel {font-size:120%; text-align:right; margin-right:2vw;}
+.night #cointable td {		border: none;		border-bottom: 1px dashed #888; 		position: relative;		padding-left: 50%; 	}
+.night #cointable tr {margin-bottom:20px;}
+.night #mobilemenulabel {font-size:120%; text-align:right; margin-right:2vw; position:absolute; top:0px; right:0px; cursor:pointer;}
+.night #mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717 Menu'; font-weight:bold; font-size:150%;}
+.night #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261 Menu'; font-weight:bold; font-size:150%; vertical-align:sub;}
+.night #navigator #wlogo {text-align:center; border-bottom:4px solid #ccc; margin-bottom:10px; padding-bottom:10px;  color:#ccc;}
+.night #navigator #wlogo span:before { content: " - "; }
+.night #navigator #wlogo span {display:inline;}
+.night #mobilemenu {padding:0; margin:0; color:#ccc;}
+.night #mobilemenu:checked ~ #mobilemenulabel{position:absoulte; height:0px;}
+.night #mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717'; font-weight:bold; font-size:150%;}
+.night #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261'; font-weight:bold; font-size:200%; vertical-align:sub;}
+.night .container {margin:0px 10px 10px 10px;}
+.night #mobilemenu:checked ~ .navbutton  {display:block;}
+.night #mobilemenulabel {cursor:pointer;  color:#ccc;}
+.night #cards {justify-content:space-between; align-items:center;}
+.night #donationbox {display:none;}
+.night #staticbalancecoinsel {width:80%; min-width:80%;}
+.night #addressimportwrapper textarea {display:block; margin:0 auto; margin-bottom:10px; height:10em; width:80%; border:3px solid; border-radius:4px; padding:4px;}
+.night .addresstablecontainer thead, .night .addresstablecontainer tbody,.night .addresstablecontainer th,.night .addresstablecontainer  td,.night .addresstablecontainer  tr { 		display: block; border:0;	}
+.night .addresstablecontainer thead tr { 		position: absolute;		top: -9999px;		left: -9999px; border-bottom: 4px solid;}
+.night .addresstablecontainer td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.night .addresstablecontainer td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.night .addresstablecontainer tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-top:2vh; }
+.night .addresstablecontainer tr td:nth-child(2), .night .addresstablecontainer tr td:nth-child(4), .night .addresstablecontainer tr td:nth-child(6){display:none;}
+.night .addresstablecontainer tbody td:nth-of-type(3):before { content: "Balance"; }
+.night .addresstablecontainer tbody td:nth-of-type(5):before { content: "Value"; }
+}
+
+
+@media (max-width: 1000px){
+.skoll #framewrapper {display:flex; flex-direction:column; height:100%; justify-content:center;  align-content:center; }
+.skoll #navigator {flex-direction:column; justify-content:center;}
+.skoll #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start; padding-top:2vh; min-height:0vh;}
+.skoll #navigator {padding:10px 0px 0px 0px; background-color:transparent;}
+.skoll #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none;}
+.skoll #navigator #navbuttons {height:auto;}
+.skoll #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;}
+.skoll table th, .skoll table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
+.skoll cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} 
+.skoll #cointable,#cointable thead,#cointable tbody,#cointable th,#cointable td,#cointable tr { 		display: block; 	}
+.skoll #cointable {min-width:80vw;}
+.skoll #cointable thead tr { 		position: absolute;		top: -9999px;		left: -9999px;	border: 0px solid #ccc; }
+.skoll #cointable td {		border: none;		border-bottom: 1px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.skoll #cointable td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.skoll #cointable tbody td:nth-of-type(1):before { content: "Coin"; }
+.skoll #cointable tbody td:nth-of-type(2):before { content: "Price"; }
+.skoll #cointable tbody td:nth-of-type(3):before { content: "Addresses"; }
+.skoll #cointable tbody td:nth-of-type(4):before { content: "Balance"; }
+.skoll #cointable tbody td:nth-of-type(5):before { content: "Value"; }
+.skoll #donationtable tr {background-color:#fff; text-align:center;}
+.skoll #donationtable td {display:inline-block; background-color:#fff; text-align:center;}
+.skoll #donationtable td {border: none;border-bottom: 0px solid #ccc;position: relative; font-size:60%; text-align:center;}
+.skoll #mobilemenulabel {font-size:120%; text-align:right; margin-right:2vw;}
+.skoll #cointable td {		border: none;		border-bottom: 1px dashed #888; 		position: relative;		padding-left: 50%; 	}
+.skoll #cointable tr {margin-bottom:20px;}
+.skoll #mobilemenulabel {font-size:120%; text-align:right; margin-right:2vw; position:absolute; top:0px; right:0px; cursor:pointer;}
+.skoll #mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717 Menu'; font-weight:bold; font-size:150%;}
+.skoll #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261 Menu'; font-weight:bold; font-size:150%; vertical-align:sub;}
+.skoll #navigator #wlogo {text-align:center; border-bottom:4px solid #ccc; margin-bottom:10px; padding-bottom:10px;  color:#ccc;}
+.skoll #navigator #wlogo span:before { content: " - "; }
+.skoll #navigator #wlogo span {display:inline;}
+.skoll #mobilemenu {padding:0; margin:0; color:#ccc;}
+.skoll #mobilemenu:checked ~ #mobilemenulabel{position:absoulte; height:0px;}
+.skoll #mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717'; font-weight:bold; font-size:150%;}
+.skoll #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261'; font-weight:bold; font-size:200%; vertical-align:sub;}
+.skoll .container {margin:0px 10px 10px 10px;}
+.skoll #mobilemenu:checked ~ .navbutton  {display:block;}
+.skoll #mobilemenulabel {cursor:pointer;  color:#ccc;}
+.skoll #cards {justify-content:space-between; align-items:center;}
+.skoll #donationbox {display:none;}
+.skoll #staticbalancecoinsel {width:80%; min-width:80%;}
+.skoll #addressimportwrapper textarea {display:block; margin:0 auto; margin-bottom:10px; height:10em; width:80%; border:3px solid; border-radius:4px; padding:4px;}
+.skoll .addresstablecontainer thead, .skoll .addresstablecontainer tbody,.skoll .addresstablecontainer th,.skoll .addresstablecontainer  td,.skoll .addresstablecontainer  tr { 		display: block; border:0;	}
+.skoll .addresstablecontainer thead tr { 		position: absolute;		top: -9999px;		left: -9999px; border-bottom: 4px solid;}
+.skoll .addresstablecontainer td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.skoll .addresstablecontainer td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.skoll .addresstablecontainer tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-top:2vh; }
+.skoll .addresstablecontainer tr td:nth-child(2), .skoll .addresstablecontainer tr td:nth-child(4), .skoll .addresstablecontainer tr td:nth-child(6){display:none;}
+.skoll .addresstablecontainer tbody td:nth-of-type(3):before { content: "Balance"; }
+.skoll .addresstablecontainer tbody td:nth-of-type(5):before { content: "Value"; }
+.skoll table tr:nth-child(even) {background-color:transparent;}
+}
+
+@media (max-width: 1800px){
+.eightbit .addresstablecontainer {font-size:70%;}
+}
+
+
+@media (max-width: 1400px){
+.eightbit .addresstablecontainer {font-size:100%;}
+.eightbit #framewrapper {display:flex; flex-direction:column; height:100%; justify-content:center;  align-content:center; }
+.eightbit #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start;flex:0 0; min-height:0vh;}
+.eightbit #navigator {display:block;margin-top:0vh; position:relative; flex:0 0;}
+.eightbit #navigator #wlogo {display:block; margin-top:0;}
+.eightbit #navigator #navbuttons {height:auto;}
+.eightbit #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none;}
+.eightbit #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;}
+.eightbit #navigator .navbutton {margin:0 auto; text-align:center;}
+.eightbit #navigator #wlogo {text-align:center; border-bottom:4px solid; margin-top:1vh; padding-bottom:0vh; margin-bottom:1vh;}
+.eightbit #navigator #wlogo span:before { content: " - "; }
+.eightbit #navigator #wlogo span {display:inline;}
+.eightbit #mobilemenulabel {font-size:120%; text-align:center;cursor:pointer; }
+.eightbit #mobilemenu {padding:0; margin:0; color:#ccc;}
+.eightbit #mobilemenu:checked ~ #mobilemenulabel:before{content:'Menu'; font-weight:bold; font-size:36px; text-decoration: line-through; color:#aaa;}
+.eightbit #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'Menu'; font-weight:bold; font-size:36px; vertical-align:sub;}
+.eightbit #mobilemenu:checked ~ .navbutton  {display:block;}
+.eightbit #settings .container {padding:0px; 0px 10px 0px;}
+.eightbit .uibutton {border:2px solid;}
+
+.eightbit table th, .eightbit table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
+.eightbit cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} 
+.eightbit #cointable thead, .eightbit #cointable tbody, .eightbit #cointable th, .eightbit #cointable td, .eightbit #cointable tr { 		display: block; 	}
+.eightbit #cointable thead tr { 		position: absolute;		top: -9999px;		left: -9999px; border-bottom: 0px solid;}
+.eightbit #cointable thead {border-bottom: 0px solid; margin-bottom:4vh;}
+.eightbit #cointable td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.eightbit #cointable td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.eightbit #cointable tbody td:nth-of-type(2):before { content: "Price"; }
+.eightbit #cointable tbody td:nth-of-type(3):before { content: "Addresses"; }
+.eightbit #cointable tbody td:nth-of-type(4):before { content: "Balance"; }
+.eightbit #cointable tbody td:nth-of-type(5):before { content: "Value"; }
+.eightbit #cointable td {		border: none;		border-bottom: 0px dashed #888; 		position: relative;		padding-left: 50%; 	text-align:left;}
+.eightbit #cointable tr {margin-bottom:20px;}
+.eightbit #cointable tbody td:nth-of-type(1){ font-size:140%; margin-top:10px;}
+.eightbit #cointable tbody td:nth-of-type(3){ display:none;}
+.eightbit #cointable tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-bottom:1vh; }
+.eightbit #cointable tr td:nth-child(5n), .eightbit #cointable tr th:nth-child(5n){ text-align:left; margin-bottom:5vh; } 
+.eightbit .container {margin:0px 0px 10px 0px;}
+
+.eightbit #cards {justify-content:space-between; align-items:center;}
+.eightbit #donationbox {display:none;}
+.eightbit #staticbalancecoinsel {width:80%; min-width:80%;}
+.eightbit #addressimportwrapper textarea {display:block; margin:0 auto; margin-bottom:10px; height:10em; width:80%; border:3px solid; border-radius:4px; padding:4px;}
+.eightbit .addresstablecontainer thead, .eightbit .addresstablecontainer tbody,.eightbit .addresstablecontainer th,.eightbit .addresstablecontainer  td,.eightbit .addresstablecontainer  tr { 		display: block; border:0;	}
+.eightbit .addresstablecontainer thead tr { 		position: absolute;		top: -9999px;		left: -9999px; border-bottom: 4px solid;}
+.eightbit .addresstablecontainer td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.eightbit .addresstablecontainer td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.eightbit .addresstablecontainer tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-top:2vh; }
+.eightbit .addresstablecontainer tr td:nth-child(2), .eightbit .addresstablecontainer tr td:nth-child(4), .eightbit .addresstablecontainer tr td:nth-child(6){display:none;}
+.eightbit .addresstablecontainer tbody td:nth-of-type(3):before { content: "Balance"; }
+.eightbit .addresstablecontainer tbody td:nth-of-type(5):before { content: "Value"; }
+
 }
