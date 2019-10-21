@@ -64,7 +64,7 @@ $.ajax({
 				tryCount : 0,
 				timeout: 60000,
 				retryLimit : 3,
-				data:{action : "generateaccount"},
+				data:{action : "generateaccount", addresslist: JSON.stringify(addresslist), coinset: JSON.stringify(coinset), settings: settings.toString()},
 				success: function(account){
 				callback(account);
 					},
@@ -395,6 +395,16 @@ $("#addstaticbalancerapper").remove();
 }
 //console.log(coinsymbol);
 });
+
+function genpriceupdater (){
+		successmessage("price update");
+		getcoinrates(function(){
+		buildaddresstable(function(){});
+		updategrandbalance();
+		buildcointable();
+		coinsettingsgen();
+		});	
+}
 
 
 function thememanager(theme){

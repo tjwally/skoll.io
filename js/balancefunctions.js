@@ -166,11 +166,11 @@ function getaddressbalanceBTG(coin, address, callback) {
 }
 
 function addstaticaddress(coinsymbol, coinname, balance, address, callback){
-	console.log(coinsymbol+" "+balance);
+	//console.log(coinsymbol+" "+balance);
 if (!dupecheckaddress(addresslist, address, coinsymbol.toLowerCase())){
-	console.log("no dupe address");
+	//console.log("no dupe address");
 if (!dupecheck(coinset, coinsymbol.toLowerCase())){
-		console.log("no dupe coinset");
+		//console.log("no dupe coinset");
 coinset.push({'coin':coinsymbol.toLowerCase(), 'enabled' : 1, 'token' : 0, 'name':coinname.toLowerCase(), 'value':0, 'tracked':0});
 }
 addresslist.push({"address":address, "coin":coinsymbol.toLowerCase(), "enabled" : 1, "balance": parseFloat(balance, 10), "lastupdate": Date.now(), "token": 0, "tracked": 0})
