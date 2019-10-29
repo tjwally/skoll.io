@@ -174,9 +174,9 @@ if (!dupecheck(coinset, coinsymbol.toLowerCase())){
 coinset.push({'coin':coinsymbol.toLowerCase(), 'enabled' : 1, 'token' : 0, 'name':coinname.toLowerCase(), 'value':0, 'tracked':0});
 }
 addresslist.push({"address":address, "coin":coinsymbol.toLowerCase(), "enabled" : 1, "balance": parseFloat(balance, 10), "lastupdate": Date.now(), "token": 0, "tracked": 0})
-
 		localStorage.setItem("addresslist", JSON.stringify(addresslist));
 		localStorage.setItem("coinset", JSON.stringify(coinsetdefault));
+		token_updateaccount();
 		getcoinrates(function(){
 		buildaddresstable(function(){});
 		updategrandbalance();

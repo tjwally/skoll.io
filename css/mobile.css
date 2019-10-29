@@ -170,7 +170,7 @@
 .eightbit #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none;}
 .eightbit #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;}
 .eightbit #navigator .navbutton {margin:0 auto; text-align:center;}
-.eightbit #navigator #wlogo {text-align:center; border-bottom:4px solid; margin-top:1vh; padding-bottom:0vh; margin-bottom:1vh;}
+.eightbit #navigator #wlogo {text-align:center; border-bottom:4px solid; margin-top:1vh; padding-bottom:1vh; margin-bottom:1vh;}
 .eightbit #navigator #wlogo span:before { content: " - "; }
 .eightbit #navigator #wlogo span {display:inline;}
 .eightbit #mobilemenulabel {font-size:120%; text-align:center;cursor:pointer; }
@@ -198,9 +198,10 @@
 .eightbit #cointable tbody td:nth-of-type(3){ display:none;}
 .eightbit #cointable tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-bottom:1vh; }
 .eightbit #cointable tr td:nth-child(5n), .eightbit #cointable tr th:nth-child(5n){ text-align:left; margin-bottom:5vh; } 
-.eightbit .container {margin:0px 0px 10px 0px;}
-
-.eightbit #cards {justify-content:space-between; align-items:center;}
+.eightbit .container {margin:0px 0px 10px 0px; word-wrap: break-word;}
+.eightbit #cards {justify-content:center; align-items:center;}
+.eightbit #cards .card {font-size:50%}
+.eightbit #cards .card img {height:64px;}
 .eightbit #donationbox {display:none;}
 .eightbit #staticbalancecoinsel {width:80%; min-width:80%;}
 .eightbit #addressimportwrapper textarea {display:block; margin:0 auto; margin-bottom:10px; height:10em; width:80%; border:3px solid; border-radius:4px; padding:4px;}
@@ -212,5 +213,7 @@
 .eightbit .addresstablecontainer tr td:nth-child(2), .eightbit .addresstablecontainer tr td:nth-child(4), .eightbit .addresstablecontainer tr td:nth-child(6){display:none;}
 .eightbit .addresstablecontainer tbody td:nth-of-type(3):before { content: "Balance"; }
 .eightbit .addresstablecontainer tbody td:nth-of-type(5):before { content: "Value"; }
-
+.eightbit #totalbalance { font-size:30px; }
+.eightbit #totalbalance span {vertical-align:top; display:block;}
+.eightbit #cloudsaveurl {font-size:100%;}
 }

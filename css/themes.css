@@ -95,11 +95,13 @@ dark = F59722
 .bitcoin #wealthtracker {background-color: #ffffff; border-radius:8px; padding:1vh 1vw; margin-bottom:20px; width:100%; display:inline-block;}
 .bitcoin .cointableheading {background-color:#FAA643; color:#fff; font-size:200%; border-top-left-radius:4px;  border-top-right-radius:4px; border-bottom:1px dashed #fff; font-weight:normal;}
 .bitcoin #cointablewrapper {display:block; width:100%; padding:0; margin:0;}
-.autocomplete-suggestion { border-bottom:1px dashed #FCDFBC; color: #FAA643;}
-.autocomplete-suggestion img {margin-right:5px;}
-.autocomplete-suggestion b { font-weight:bold; color: #FAA643;}
-.autocomplete-suggestion.selected { background: #f0f0f0; }
+.bitcoin .autocomplete-suggestion { border-bottom:1px dashed #FCDFBC; color: #FAA643;}
+.bitcoin .autocomplete-suggestion img {margin-right:5px;}
+.bitcoin .autocomplete-suggestion b { font-weight:bold; color: #FAA643;}
+.bitcoin .autocomplete-suggestion.selected { background: #f0f0f0; }
 .bitcoin #settings .container{margin-bottom:2vh;}
+.bitcoin .wealthpositive {color:darkgreen; font-size:50%;}
+.bitcoin .wealthnegative {color:red; font-size:50%;}
 /*Bitcoin THEME*/
 
 /*NIGHT THEME*/
@@ -180,8 +182,8 @@ Danger = f44336
 .eightbit #cointablewrapper {display:block; width:100%; padding:0; margin:0;}
 .eightbit #cointablewrapper table td, .eightbit #cointablewrapper table th {padding-right:2vw;}
 .eightbit .card img {height:128px; image-rendering: pixelated;  image-rendering: -moz-crisp-edges;  image-rendering: crisp-edges;}
-.eightbit .container a {color:darkred; text-decoration:none; font-weight:bold;} 
-.eightbit .container a:hover {color:red;}
+.eightbit .container a {color:red; text-decoration:none; font-weight:bold;} 
+.eightbit .container a:hover {color:darkred;}
 .eightbit .uibutton {border:2px solid; margin:5px auto;}
 .eightbit .uidangerbutton {color:red; margin:5px auto;}
 .eightbit .uibutton:hover {color:red;}
@@ -213,6 +215,8 @@ Danger = f44336
 .eightbit #modal .heading3 {margin-bottom:5px;}
 .eightbit #addresstablewrapper table {width:100%;}
 .eightbit #cointable tr td:nth-child(5n), .eightbit #cointable tr th:nth-child(5n){ text-align:right; } 
+.eightbit .wealthpositive {color:darkgreen; font-size:50%;}
+.eightbit .wealthnegative {color:red; font-size:50%;}
 /*eightbit THEME*/
 
 

@@ -13,18 +13,21 @@ $(document).on('change', '#autopriceupdate', function() {
 clearInterval(priceupdater);	
 successmessage("price updater stopped");
 priceupdateinterval = $('#autopriceupdate').val();
-settings[5] = priceupdateinterval;
+settings.priceupdateinterval = priceupdateinterval;
+//settings[5] = priceupdateinterval;
 //console.log(settings);
 priceupdater = setInterval(genpriceupdater,priceupdateinterval);
 successmessage("price updater started, interval: "+priceupdateinterval);
-localStorage.setItem("settings", settings.toString());
+localStorage.setItem("settings", JSON.stringify(settings));
+if (authtoken !== 0){token_updateaccount();}
 });
 
 $(document).on('change', '#balanceupdateinterval', function() {
 balanceupdateinterval = $('#balanceupdateinterval').val();
-settings[6] = balanceupdateinterval;
+settings.balanceupdateinterval = balanceupdateinterval;
 //console.log(settings);
-localStorage.setItem("settings", settings.toString());
+localStorage.setItem("settings", JSON.stringify(settings));
+if (authtoken !== 0){token_updateaccount();}
 });
 
 
@@ -32,16 +35,18 @@ localStorage.setItem("settings", settings.toString());
 $(document).on('change', '#currencyselect', function() {
 selectedcurrency = $('#currencyselect').val();
 selectedcurrencyicon = $('option[value='+selectedcurrency+']').data("currencyicon");
-settings[0] = selectedcurrency;
-settings[1] = selectedcurrencyicon;
-localStorage.setItem("settings", settings.toString());
+//settings[0] = selectedcurrency;
+//settings[1] = selectedcurrencyicon;
+settings.selectedcurrency = selectedcurrency;
+settings.selectedcurrencyicon = selectedcurrencyicon;
+localStorage.setItem("settings", JSON.stringify(settings));
 		getcoinrates(function(){
 		buildaddresstable(function(){});
 		updategrandbalance();
 		buildcointable();
 		coinsettingsgen();
 		});
-
+if (authtoken !== 0){token_updateaccount();}
 });
 
 
@@ -96,19 +101,30 @@ $('#cloudsavewrapper').append("<div id='accountupdatedmsg'>Wrong Password!</div>
 });
 });
 
+$(document).on('click', '#unbindcloudaccountBTN', function() {
+$.removeCookie('authtoken', { path: '/' }); 
+location.reload(); 
+});
+
+
 
 
 $(document).on('change', '#themeselect', function() {
 var theme = $('#themeselect').val();
 var fontfamily = $('option[value='+theme+']').data("fontfamily")
 var fontsize = $('option[value='+theme+']').data("fontsize")
-settings[2] = theme;
-settings[3] = fontfamily;
-settings[4] = fontsize;
+settings.theme = theme;
+settings.fontfamily = fontfamily;
+settings.fontsize = fontsize;
+
+//settings[2] = theme;
+//settings[3] = fontfamily;
+//settings[4] = fontsize;
 console.log(settings);
-localStorage.setItem("settings", settings.toString());
+localStorage.setItem("settings", JSON.stringify(settings));
 fontmanager(fontfamily, fontsize);
 thememanager(theme);
+if (authtoken !== 0){token_updateaccount();}
 });
 
 
@@ -131,7 +147,7 @@ $(document).on('click', '.modalokbutton', function() {
 $('#modalwrapper').fadeOut(200);
 $("#blacky").fadeOut(200);
 localStorage.clear();
-location.reload(); 
+window.location.replace(serverurl);
 });
 $(document).on('click', '.modalcancelbutton', function() {
 $('#modalwrapper').fadeOut(200);
@@ -143,6 +159,7 @@ $("#blacky").fadeOut(200);
 
 $(document).on('click', '.removebtn', function() {
 removeaddress($(this).data("coin"), $(this).data("address"));
+token_updateaccount();
 });
 
 

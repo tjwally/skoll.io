@@ -30,7 +30,10 @@
 <script src="js/ui.js"></script>
 <script src="js/moment.min.js"></script>
 <script src="js/jquery.auto-complete.min.js"></script>
+<script src="js/jquery.cookie-1.4.1.min.js"></script>
+<script src="js/apexcharts.js"></script>
 <script>$.ajaxPrefilter(function( options, originalOptions, jqXHR ) { options.async = true; });</script>
+<!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css"> -->
 <link rel="stylesheet" type="text/css" href="css/animate.css">
 <link rel="stylesheet" type="text/css" href="css/base.css">
 <link rel="stylesheet" type="text/css" href="css/themes.css">
@@ -79,7 +82,7 @@ Storage.prototype.getObj = function(key) {
 </div>
 
 <div id="about" class="uilvl1">
-<div class="container">
+<div class="container dontbreakout">
 <div class="heading2" id="aboutheader">About</div>
 <div class="textblock">
 <span class="apptitle"></span> is distributed under the MIT software license.
@@ -121,6 +124,9 @@ code @ <a href="https://github.com/tjwally/skoll.io" target="_blank">https://git
 
 <div id="frontpagewrapper" class="uilvl1">
 <div id="wealthtracker">Richness: <span id="totalbalance">0</span></div>
+<div id="coinbalancechart"  class="chartcontainer"></div>
+<div id="wealthhistorychart"  class="chartcontainer"></div>
+
 <div id="cointablewrapper"  class="container">
 <div class="cointableheading">Coin Balances</div>
 <table id="cointable">
@@ -165,7 +171,7 @@ These coins will be added to your portfolio and <span class="apptitle"></span> w
 
 
 <div class="heading1" id="coindaddressheader">Coin Addresses</div>
-<div id="trackedaddresseswrapper"  class="">
+<div id="trackedaddresseswrapper"  class="dontbreakout">
 <div id="addresstablewrapper"></div>
 </div>
 </div>
@@ -237,7 +243,7 @@ These coins will be added to your portfolio and <span class="apptitle"></span> w
 
 <div id="cloudsavewrapper" class="container">
 <div class='heading2'>Online Backup (BETA)</div>
-<div id="cloudsaveurl"></div>
+<div id="cloudsaveurl" class="dontbreakout"></div>
 <input class="accountinput uibutton" id="onlineaccountregistration" placeholder="Account ID"><button class="uibutton" id="onlineaccountregistrationBTN">Login</button>
 <button class="uibutton" id="onlineaccountgeneration">Generate Account</button>
 </div>
@@ -260,13 +266,26 @@ iconfolder = "icons128/";
 serverurl = "https://skoll.io/";
 cloudserver = "https://skoll.io/api/";
 cloudserveraccountAPI = "cloudsaveV2";
+animationspeed = 100;
+authtoken = 0;
 addresslist = [];
 coinset = [];
-settings = [];
+//settings = [];
+accountdata = [];
+accountwealthhistory = [];
+accountdata.push({accountwealthhistory:accountwealthhistory});
 selectedcurrency = "USD";
 selectedcurrencyicon = "$";
 priceupdateinterval = 300000;
 balanceupdateinterval = 604800000;
+settings = {selectedcurrency: "USD"};
+settings.selectedcurrencyicon = "$";
+settings.theme = "eightbit";
+settings.fontfamily = "Press+Start+2P";
+settings.fontsize = "16";
+settings.priceupdateinterval = 300000;
+settings.balanceupdateinterval = 604800000;
+/*
 settings[0] = "USD";
 settings[1] = "$";
 settings[2] = "eightbit";
@@ -277,7 +296,19 @@ settings[6] = 604800000;
 if(!localStorage.getItem("settings")){
 localStorage.setItem("settings", settings.toString());
 }
+*/
 
+if(!localStorage.getItem("settings")){
+localStorage.setItem("settings", JSON.stringify(settings));
+}else{
+    try {
+        JSON.parse(localStorage.getItem("settings"));
+    } catch (e) {
+	localStorage.setItem("settings", JSON.stringify(settings));
+    }
+}
+
+console.log(settings);
 
 
 
@@ -295,8 +326,9 @@ $('.valuecount').each(function(i, obj) {
 	totalbalance += parseFloat($(obj).data("value"));
 	//console.log("total: "+totalbalance);
 	$('#totalbalance').html(totalbalance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon);
-	
 });
+	accountwealthhistorylog(totalbalance)
+	wealthchangereport(totalbalance);
 }
 
 function updateaddressbalances () {
@@ -305,18 +337,21 @@ var x = 0;
 var addressiterator = function(arr) {
     getaddressbalancewrapper(arr[x],function(){
         x++;
-		  if (x % 1 === 0) {updategrandbalance();}
+		  //if (x % 1 === 0) {updategrandbalance();}
         if(x < arr.length) {
             addressiterator(arr);   
         }else{
 		localStorage.setItem("addresslist", JSON.stringify(addresslist));
 		getcoinrates(function(){
 		buildaddresstable(function(){});
-		updategrandbalance();
 		buildcointable();
 		coinsettingsgen();
+		updategrandbalance();
+		if (authtoken !== 0){
+		token_updateaccount();
+		}
+		setTimeout(function(){coinbalancechart();},animationspeed);
 		});
-
 		loading(0);
 		}
     }); 
@@ -565,45 +600,58 @@ $("#aboutheader").append(" "+ v2title);
 $('.apptitle').text(v2title);
 checkonlineaccount(function(){
 if (localStorage.getItem("settings")){
-settings = localStorage.getItem("settings").split(',');
+//settings = localStorage.getItem("settings").split(',');
+settings = JSON.parse(localStorage.getItem("settings"));
 //console.log(settings);
-selectedcurrency = settings[0];
-selectedcurrencyicon = settings[1];
-thememanager(settings[2]);
-fontmanager(settings[3], settings[4]);
+
+if (localStorage.getItem("accountdata")){
+accountdata = JSON.parse(localStorage.getItem("accountdata") || "[]");
+    for (i = 0; i < accountdata.length; i++ )
+    {
+        if (accountdata[i].accountwealthhistory)
+        {
+			accountwealthhistory = accountdata[i].accountwealthhistory;
+        }
+    }
+console.log(accountdata)
+}
+
+selectedcurrency = settings.selectedcurrency;
+selectedcurrencyicon = settings.selectedcurrencyicon;
+thememanager(settings.theme);
+fontmanager(settings.fontfamily, settings.fontsize);
 $("#themeselect option").each(function(){
-        if($(this).val()==settings[2]){
+        if($(this).val()==settings.theme){
             $(this).attr("selected","selected");    
         }
 });
 
 $("#currencyselect option").each(function(){
-        if($(this).val()==settings[0]){
+        if($(this).val()==settings.selectedcurrency){
             $(this).attr("selected","selected");    
         }
 });
 
-if (settings[5]){
-priceupdateinterval = settings[5];
+if (settings.priceupdateinterval){
+priceupdateinterval = settings.priceupdateinterval;
 }else{
-settings[5] = 300000;
+priceupdateinterval = 300000;
 }
 
-if (settings[6]){
+if (settings.balanceupdateinterval){
+balanceupdateinterval = settings.balanceupdateinterval;
+}else{
 balanceupdateinterval = 604800000;
-}else{
-settings[6] = 604800000;
 }
-
 
 
 $("#autopriceupdate option").each(function(){
-        if($(this).val()==settings[5]){
+        if($(this).val()==settings.priceupdateinterval){
             $(this).attr("selected","selected");    
         }
 });
 $("#balanceupdateinterval option").each(function(){
-        if($(this).val()==settings[6]){
+        if($(this).val()==settings.balanceupdateinterval){
             $(this).attr("selected","selected");    
         }
 });
