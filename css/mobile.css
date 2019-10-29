@@ -160,7 +160,7 @@
 }
 
 
-@media (max-width: 1400px){
+@media (max-width: 1200px){
 .eightbit .addresstablecontainer {font-size:100%;}
 .eightbit #framewrapper {display:flex; flex-direction:column; height:100%; justify-content:center;  align-content:center; }
 .eightbit #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start;flex:0 0; min-height:0vh;}
@@ -198,7 +198,7 @@
 .eightbit #cointable tbody td:nth-of-type(3){ display:none;}
 .eightbit #cointable tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-bottom:1vh; }
 .eightbit #cointable tr td:nth-child(5n), .eightbit #cointable tr th:nth-child(5n){ text-align:left; margin-bottom:5vh; } 
-.eightbit .container {margin:0px 0px 10px 0px; word-wrap: break-word;}
+.eightbit .container {margin:0px 0px 10px 0px;}
 .eightbit #cards {justify-content:center; align-items:center;}
 .eightbit #cards .card {font-size:50%}
 .eightbit #cards .card img {height:64px;}
@@ -216,4 +216,6 @@
 .eightbit #totalbalance { font-size:30px; }
 .eightbit #totalbalance span {vertical-align:top; display:block;}
 .eightbit #cloudsaveurl {font-size:100%;}
+.eightbit .wealthpositive {color:green; font-size:50%; display:block;}
+.eightbit .wealthnegative {color:red; font-size:50%; display:block;}
 }

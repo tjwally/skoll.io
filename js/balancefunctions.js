@@ -1,3 +1,4 @@
+/*
 function getaddressbalanceBTC(coin, address, callback) {
 				$.ajax({
 				type: "GET",
@@ -37,7 +38,143 @@ function getaddressbalanceBTC(coin, address, callback) {
 	}			 
 }); 
 }
+*/
 
+
+
+/*
+function getaddressbalanceBTC(coin, address, callback) {
+				$.ajax({
+				type: "GET",
+				url: "https://api.blockchair.com/bitcoin/dashboards/address/"+address+"?limit=0",
+				tryCount : 0,
+				timeout: 60000,
+				retryLimit : 3,
+				success: function(balance){
+				console.log(address+" : "+balance);
+				console.log(balance.data[address].address.balance);
+				console.log(sb.toBitcoin(balance.data[address].address.balance));
+				var thisbalance = sb.toBitcoin(balance.data[address].address.balance)
+				updatebalance(coin, address, thisbalance)		
+				$('#balance_'+coin+address).html(thisbalance);	
+				successmessage("<b>"+coin+"</b> -- retrieved balance for address: "+address);
+				callback();
+					},
+    error : function(xhr, textStatus, errorThrown ) {
+        if (textStatus == 'timeout') {
+            this.tryCount++;
+            if (this.tryCount <= this.retryLimit) {
+                //try again
+                $.ajax(this);
+                return;
+            }else{
+				errormessage("<b>"+coin+"</b> -- timeout while fetching data for address: "+address);
+				callback();
+			}             
+            return;
+        }
+		if (xhr.status == 500) {
+				errormessage("<b>"+coin+"</b> -- html error 500 while fetching data for address: "+address);
+				updatebalance(coin, address, 0)			
+				callback();
+        } else {
+				errormessage("<b>"+coin+"</b> -- html error "+xhr.status+" while fetching data for address: "+address);
+				callback();				
+		}
+	}			 
+}); 
+}
+*/
+function getaddressbalanceBTC(coin, address, callback) {
+				$.ajax({
+				type: "GET",
+				url: "https://chainflyer.bitflyer.com/v1/address/"+address,
+				tryCount : 0,
+				timeout: 60000,
+				retryLimit : 3,
+				success: function(balance){
+				console.log(address+" : "+balance);
+				//console.log(balance.data[address].address.balance);
+				//console.log(sb.toBitcoin(balance.data[address].address.balance));
+				var thisbalance = sb.toBitcoin(balance.confirmed_balance)
+				updatebalance(coin, address, thisbalance)		
+				$('#balance_'+coin+address).html(thisbalance);	
+				successmessage("<b>"+coin+"</b> -- retrieved balance for address: "+address);
+				callback();
+					},
+    error : function(xhr, textStatus, errorThrown ) {
+        if (textStatus == 'timeout') {
+            this.tryCount++;
+            if (this.tryCount <= this.retryLimit) {
+                //try again
+                $.ajax(this);
+                return;
+            }else{
+				errormessage("<b>"+coin+"</b> -- timeout while fetching data for address: "+address);
+				callback();
+			}             
+            return;
+        }
+		if (xhr.status == 500) {
+				errormessage("<b>"+coin+"</b> -- html error 500 while fetching data for address: "+address);
+				updatebalance(coin, address, 0)			
+				callback();
+        } else {
+				errormessage("<b>"+coin+"</b> -- html error "+xhr.status+" while fetching data for address: "+address);
+				callback();				
+		}
+	}			 
+}); 
+}
+
+
+/*
+function getaddressbalanceBTC(coin, address, callback) {
+	var addr = {"addr": address}
+	
+				$.ajax({
+				type: "POST",
+				url: "https://www.blockonomics.co/api/balance",
+				dataType: "json",
+				data: JSON.stringify(addr),
+				tryCount : 0,
+				timeout: 60000,
+				retryLimit : 3,
+				success: function(balance){
+				console.log(address+" : "+balance);
+				//console.log(balance.data[address].address.balance);
+				//console.log(sb.toBitcoin(balance.data[address].address.balance));
+				var thisbalance = sb.toBitcoin(balance.confirmed)
+				updatebalance(coin, address, thisbalance)		
+				$('#balance_'+coin+address).html(thisbalance);	
+				successmessage("<b>"+coin+"</b> -- retrieved balance for address: "+address);
+				callback();
+					},
+    error : function(xhr, textStatus, errorThrown ) {
+        if (textStatus == 'timeout') {
+            this.tryCount++;
+            if (this.tryCount <= this.retryLimit) {
+                //try again
+                $.ajax(this);
+                return;
+            }else{
+				errormessage("<b>"+coin+"</b> -- timeout while fetching data for address: "+address);
+				callback();
+			}             
+            return;
+        }
+		if (xhr.status == 500) {
+				errormessage("<b>"+coin+"</b> -- html error 500 while fetching data for address: "+address);
+				updatebalance(coin, address, 0)			
+				callback();
+        } else {
+				errormessage("<b>"+coin+"</b> -- html error "+xhr.status+" while fetching data for address: "+address);
+				callback();				
+		}
+	}			 
+}); 
+}
+*/
 
 function getaddressbalanceBCH(coin, address, callback) {
 				$.ajax({

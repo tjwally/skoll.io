@@ -54,7 +54,7 @@ $(document).on('click', '#onlineaccountregistrationBTN', function() {
 var account = $('#onlineaccountregistration').val()
 successmessage("Account Registration: <b>"+account+"</b>");
 registeraccount(account, 0, function(callback){
-console.log(callback);
+//console.log(callback);
 if (callback == "register"){
 $('#onlineaccountgeneration').hide();
 $('#onlineaccountregistrationBTN').hide();
@@ -64,7 +64,7 @@ $('#cloudaccountclaim').append('<input class="accountinput uibutton" type="passw
 $(document).on('click', '#onlineaccountregistrationpasswordBTN', function() {
 var password = $('#onlineaccountregistrationpassword').val()
 registeraccount(account, password, function(callback){
-console.log("callback: "+callback);
+//console.log("callback: "+callback);
 if (callback == 1){
 successmessage("Account claimed: <b>"+account+"</b>");
 $('#cloudsaveurl').html("URL: <a href='"+serverurl+"?id="+account+"'>"+serverurl+"?id="+account+"</a>");
@@ -116,14 +116,11 @@ var fontsize = $('option[value='+theme+']').data("fontsize")
 settings.theme = theme;
 settings.fontfamily = fontfamily;
 settings.fontsize = fontsize;
-
-//settings[2] = theme;
-//settings[3] = fontfamily;
-//settings[4] = fontsize;
-console.log(settings);
+//console.log(settings);
 localStorage.setItem("settings", JSON.stringify(settings));
 fontmanager(fontfamily, fontsize);
 thememanager(theme);
+coinbalancechart();
 if (authtoken !== 0){token_updateaccount();}
 });
 
@@ -189,4 +186,5 @@ $('#addressimport').val("");
 buildaddresstable(function(){
 updateaddressbalances();
 });
+//if (authtoken !== 0){token_updateaccount();}
 });

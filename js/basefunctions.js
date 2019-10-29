@@ -1,13 +1,32 @@
 function errormessage(msg){
-//console.log(msg);
+debugmessage(msg);
 $('#notificationbox').html("<span id='errornotifaction' class='errormsg'>"+msg+"</span>");
 setTimeout(function(){$('#errornotifaction').remove();}, 3000);
-$('#logrecorder').append("<span class='errormsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
+$('#logrecorder').prepend("<span class='errormsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
 }
 function successmessage(msg){
-//console.log(msg);
-$('#logrecorder').append("<span class='successmsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
+debugmessage(msg);
+$('#logrecorder').prepend("<span class='successmsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
 }
+
+function debugmessage(msg){
+if (localsettings.debug == 1){
+console.log(msg);
+//$('#logrecorder').prepend("<span class='successmsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
+}
+}
+
+function debugmessagetmp(msg){
+console.log(msg);
+//$('#logrecorder').prepend("<span class='successmsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
+}
+
+function SortByDay(a, b){
+  var aday = a.day.toLowerCase();
+  var bday = b.day.toLowerCase(); 
+  return ((aday < bday) ? -1 : ((aday > bday) ? 1 : 0));
+}
+
 
 function getPercentageChange(oldNumber, newNumber){
     var decreaseValue = oldNumber - newNumber;
@@ -39,14 +58,15 @@ function getUrlVars()
 function checkonlineaccount(callbackaccount){
 if(getUrlVars()["id"]){
 var account = getUrlVars()["id"]
+debugmessage(account);
 if ($.cookie('authtoken')){
 	authtoken = $.cookie('authtoken');
 }
 
 getcloudaccount(account, function(callback){
 $('#cloudsaveurl').html("URL: <a href='"+serverurl+"?id="+account+"'>"+serverurl+"?id="+account+"</a>");
-//console.log(callback[0].accountdata);
-//console.log(callback[0].addresslist);
+debugmessage(callback[0].accountdata);
+debugmessage(callback[0].addresslist);
 addresslist = JSON.parse(callback[0].addresslist || "[]");
 localStorage.setItem("addresslist", JSON.stringify(addresslist));
 coinset = JSON.parse(callback[0].coinset || "[]");
@@ -54,7 +74,7 @@ localStorage.setItem("coinset", JSON.stringify(coinset));
 //settings = callback[0].settings.split(',');
 //localStorage.setItem("settings", settings.toString());
 
-//console.log(callback[0].settings)
+debugmessage(callback[0].settings)
 
 if (JSON.parse(callback[0].settings.length > 5)){
 settings = JSON.parse(callback[0].settings);
@@ -77,14 +97,18 @@ $('#cloudsavewrapper').append('<button class="uibutton" id="unbindcloudaccountBT
 callbackaccount();
 });
 }else{
+debugmessage("accountid:"+ settings.accountid);
+if(settings.accountid !== 0){localStorage.clear();location.reload(true);}
 callbackaccount();
 }
 }
 
 
 function coinbalancechart() { 
-//if (chart){chart.destroy();}
- document.getElementById('wealthhistorychart').innerHTML = '';
+if (localsettings.chartloading == 0){
+if (localsettings.chartloaded > 0){chart_wealth.destroy();localsettings.chartloaded = 0;}
+localsettings.chartloading = 1;
+document.getElementById('wealthhistorychart').innerHTML = '';
   var options = {
       chart: {
         type: 'area',
@@ -131,6 +155,7 @@ options.colors = ['#F59722']
 }
 		
 if (accountwealthhistory.length > 1){
+	successmessage("loading chart");
     var days = [];
 	var balances = [];
 	for (i = 0; i < accountwealthhistory.length; i++ )
@@ -139,33 +164,38 @@ if (accountwealthhistory.length > 1){
 	balances.push(accountwealthhistory[i].balance.toFixed(2))
 	}
 options.series[0].data = balances;
-console.log(days);
-console.log(balances);
-
-        var chart = new ApexCharts(
-            document.querySelector("#wealthhistorychart"),
-            options
-        );
+debugmessage(days);
+debugmessage(balances);
 
 
 setTimeout(function(){
-chart.render();
-},animationspeed);
-}     
+			chart_wealth = new ApexCharts(
+            document.querySelector("#wealthhistorychart"),
+            options
+        );
+chart_wealth.render();
+localsettings.chartloading = 0;	
+localsettings.chartloaded = 1;	
+},animationspeed+animationspeed);
 
+//chart.render();
+}     
+}else{
+//successmessage("chart already loading");	
+}
 }
 
 function wealthchangereport(totalbalance) { 
 var wealthcheckpoints = accountwealthhistory.length;
-//console.log("checkpoints:" +wealthcheckpoints);
-//console.log(accountwealthhistory);
-//console.log("lastbalance:" +accountwealthhistory[accountwealthhistory.length - 2].balance);
-//console.log("newbalance:" +totalbalance);
+debugmessage("checkpoints:" +wealthcheckpoints);
+debugmessage(accountwealthhistory);
 if (accountwealthhistory.length > 1){
+debugmessage("lastbalance:" +accountwealthhistory[accountwealthhistory.length - 2].balance);
+debugmessage("newbalance:" +totalbalance);
 var thispercentage = getPercentageChange(totalbalance, accountwealthhistory[accountwealthhistory.length - 2].balance);
-//console.log("percentage change: "+thispercentage);	
+debugmessage("percentage change: "+thispercentage);	
 if (thispercentage > 0){
-$('#totalbalance').append("<span class='wealthpositive'>("+thispercentage.toFixed(2)+"%)</span>");
+$('#totalbalance').append("<span class='wealthpositive'>(+"+thispercentage.toFixed(2)+"%)</span>");
 }else if  (thispercentage < 0){
 $('#totalbalance').append("<span class='wealthnegative'>("+thispercentage.toFixed(2)+"%)</span>");	
 }
@@ -174,9 +204,19 @@ $('#totalbalance').append("<span class='wealthnegative'>("+thispercentage.toFixe
 
 function accountwealthhistorylog(totalbalance) {
 var today = moment().format("YYYY-MM-DD");
+
+/*
+console.log(settings.accountid);
+if (settings.accountid == "demo"){
+	var today = "2019-10-24";
+	var totalbalance = 16252.20781667821
+	console.log(totalbalance);
+	}
+	*/
+
 //var today = "2019-10-27";
 var todaylogged = 0;
-//console.log(today+" - "+totalbalance+" - "+selectedcurrencyicon);
+debugmessage(today+" - "+totalbalance+" - "+selectedcurrencyicon);
 var wealth = {day:today, balance:totalbalance, curreny: selectedcurrencyicon};
 /*
 var wealthcheckpoints = accountwealthhistory.length;
@@ -190,22 +230,28 @@ accountwealthhistory.push(wealth);
 }
 */
 
+
+accountwealthhistory.sort(SortByDay);
+
     for (i = 0; i < accountwealthhistory.length; i++ )
     {
         if (accountwealthhistory[i].day == today)
         {
             todaylogged = 1;
 			if (accountwealthhistory[i].balance !== totalbalance){
-			accountwealthhistory[i].balance = parseFloat(totalbalance, 10);
+			//if (parseFloat(accountwealthhistory[i].balance, 10) !== parseFloat(totalbalance,10)){
+			debugmessage("today: "+parseFloat(totalbalance, 10)+ "todayold: "+accountwealthhistory[i].balance );
+			accountwealthhistory[i].balance = totalbalance;
 			accountwealthhistory[i].curreny = selectedcurrencyicon;
+			coinbalancechart();
 			}
         }
     }
-
-if (todaylogged == 0){
-//console.log("today not found");
-accountwealthhistory.push(wealth);
 //console.log(accountwealthhistory);
+if (todaylogged == 0){
+debugmessage("today not found");
+accountwealthhistory.push(wealth);
+debugmessage(accountwealthhistory);
 }
 
 var accountwealthinit = 0;
@@ -213,7 +259,7 @@ var accountwealthinit = 0;
     {
         if (accountdata[i].accountwealthhistory)
         {
-            //console.log(accountdata[i].accountwealthhistory);
+            debugmessage(accountdata[i].accountwealthhistory);
 			accountdata[i].accountwealthhistory = accountwealthhistory;
 			accountwealthinit = 1;
         }
@@ -222,8 +268,7 @@ if (accountwealthinit == 0){
 accountdata.push({accountwealthhistory:accountwealthhistory});
 }
 localStorage.setItem("accountdata", JSON.stringify(accountdata));
-//console.log(accountdata);
-
+debugmessage(accountdata);
 }
 
 function accwealthdupecheck(accountwealthhistory, today, coin, currency, exists){
@@ -277,7 +322,7 @@ $.ajax({
 				retryLimit : 3,
 				data:{action : "getaccount", account: account},
 				success: function(account){
-					//console.log(account)
+					debugmessage(account)
 				callback(account);
 					},
     error : function(xhr, textStatus, errorThrown ) {
@@ -301,6 +346,7 @@ $.ajax({
 }
 
 function token_updateaccount(callback) {
+debugmessage("updating with token: "+authtoken);
 if(getUrlVars()["id"]){
 var account = getUrlVars()["id"]
 $.ajax({
@@ -312,7 +358,7 @@ $.ajax({
 				retryLimit : 3,
 				data:{action : "token_update", account: account, authtoken : authtoken, addresslist: JSON.stringify(addresslist), coinset: JSON.stringify(coinset), accountdata: JSON.stringify(accountdata), settings: JSON.stringify(settings) },
 				success: function(account){
-				//console.log(account);
+				debugmessage(account);
 					},
     error : function(xhr, textStatus, errorThrown ) {
         if (textStatus == 'timeout') {
@@ -336,8 +382,8 @@ $.ajax({
 }
 
 function updateaccount(account, pass, callback) {
-//console.log(settings);
-//console.log(coinset);
+debugmessage(settings);
+debugmessage(coinset);
 $.ajax({
 				type: "POST",
 				datatype : "script", 
@@ -406,6 +452,7 @@ $.ajax({
 	}			 
 }); 
 }else if (pass.length > 3){
+settings.accountid = account;
 $.ajax({
 				type: "POST",
 				url: cloudserver+cloudserveraccountAPI,
@@ -478,10 +525,11 @@ function coinenabler( coin, value ) {
 }
 
 
-function updateprice( coin, value ) {
+function updateprice( coin, value, percentage_change_24h ) {
    for (var i in coinset) {
      if (coinset[i].coin == coin) {
         coinset[i].value = value;
+		coinset[i].percentage_change_24h = percentage_change_24h;
         break;
      }
    }
@@ -489,7 +537,7 @@ function updateprice( coin, value ) {
 
 
 function removeaddress( coin, address ) {
-//console.log(coin+address);
+debugmessage(coin+address);
    for (var i in addresslist) {
      if (addresslist[i].coin == coin && addresslist[i].address == address) {
         addresslist.splice(i, 1)
@@ -546,7 +594,7 @@ function dupecheckaddress(inArr, address, coin, exists){
 $(document).on('click', '.coinonoffswitch', function() {
 var selectedcoin = $(this).attr('name')
 var setting = $(this).val();
-//console.log(selectedcoin+" "+setting);
+debugmessage(selectedcoin+" "+setting);
 coinenabler(selectedcoin, setting);
 });
 
@@ -563,7 +611,7 @@ $("#"+target).fadeIn(animationspeed);
 
 function builduntrackedcoinsettings(){
 $.getJSON("https://api.coingecko.com/api/v3/coins/list", function(choices){
-	//console.log(choices);
+	debugmessage(choices);
 $('#staticbalancecoinsel').autoComplete({
     minChars: 2,
     source: function(term, suggest){
@@ -574,13 +622,13 @@ $('#staticbalancecoinsel').autoComplete({
 //            if (~choices[i].name.toLowerCase().indexOf(term)) matches.push(choices[i]);
 				if (~choices[i].name.toLowerCase().indexOf(term)) matches.push(choices[i]);
         suggest(matches);
-		//console.log(matches);
+		debugmessage(matches);
     },
 	renderItem: function (item, search){
         search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
         var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-		//console.log(item);
-		//console.log(item.symbol);	
+		debugmessage(item);
+		debugmessage(item.symbol);	
         return '<div class="autocomplete-suggestion" data-symbol="'+item.symbol+'" data-name="'+item.name+'" data-val="'+search+'"><b>'+item.symbol+'</b><span><img src="icons32/'+item.symbol.toLowerCase()+'.png" onError="this.onerror = \'\';this.style.display=\'none\';"> '+item.name+'</span></div>';
     },
 	onSelect: function(e, term, item){
@@ -592,8 +640,8 @@ $('#staticbalancecoinsel').autoComplete({
 		$('#addstaticbalancerapper').append('<div class="field-wrap"><label for="staticbalance">Balance: </label><input id="staticbalance" type="number" placeholder="0.00" step="any"></div>');
 		$('#addstaticbalancerapper').append('<div class="field-wrap"><label for="staticdescritpion">Description/Address: </label><input id="staticdescritpion" type="text" placeholder="description/address"></div>');
 		$('#addstaticbalancerapper').append("<button class='uibutton' data-coin='"+item.data('symbol')+"' data-coinname='"+item.data('name')+"' id='addstaticbalancebtn'>Add</button>");
-        //console.log(item.data('symbol'));
-        //console.log(item.data('symbol'));
+        debugmessage(item.data('symbol'));
+        debugmessage(item.data('symbol'));
     }
 });
 });
@@ -613,7 +661,7 @@ $("#addstaticbalancerapper").remove();
 //
 });
 }
-//console.log(coinsymbol);
+debugmessage(coinsymbol);
 });
 
 function genpriceupdater (){
@@ -633,8 +681,8 @@ $( "body" ).addClass( theme );
 $("html").removeClass();	
 $( "html" ).addClass( theme );
 if (theme == "eightbit"){iconfolder = "icons32/";}
-coinbalancechart();
-//console.log("adding: "+theme);
+//coinbalancechart();
+debugmessage("adding: "+theme);
 }
 
 function fontmanager(font, size){
@@ -653,7 +701,7 @@ function fontmanager(font, size){
 		//$('body, input, textarea, button, select, option, select option').css("font-family", '"'+fontID+'"');
 		//$('body, input, textarea, button, select, option, select option').css("font-size", size)		
 	   //document.getElementById("motherwalrus").style.fontFamily = fontID.replace(/\+/g,' ');
-	   //console.log("fontmanager: "+fontID);
+	   debugmessage("fontmanager: "+fontID);
     }
 
 

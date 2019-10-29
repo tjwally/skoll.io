@@ -177,7 +177,7 @@ Danger = f44336
 .eightbit #navigator .activenav {background-color: green ;color:#EAECEE;}
 .eightbit #navigator #wlogo {text-align:center; border-bottom:1vh dashed green; margin-bottom:3vh; padding-bottom:3vh; margin-top:-12.5vh; }
 .eightbit #navigator #wlogo span {margin-top:1vh;}
-.eightbit #wealthtracker {border-bottom:0.5vh solid; padding:1.5vh 1vw; margin-bottom:0vh; width:100%; display:block;}
+.eightbit #wealthtracker {border-bottom:0vh solid; padding:1.5vh 0vw; margin-bottom:0vh; width:100%; display:block;}
 .eightbit .cointableheading {background-color:darkgreen; color:inherit; font-size:200%; padding:1vh 1vw; border-bottom:0px solid #fff; font-weight:normal;}
 .eightbit #cointablewrapper {display:block; width:100%; padding:0; margin:0;}
 .eightbit #cointablewrapper table td, .eightbit #cointablewrapper table th {padding-right:2vw;}
@@ -215,7 +215,7 @@ Danger = f44336
 .eightbit #modal .heading3 {margin-bottom:5px;}
 .eightbit #addresstablewrapper table {width:100%;}
 .eightbit #cointable tr td:nth-child(5n), .eightbit #cointable tr th:nth-child(5n){ text-align:right; } 
-.eightbit .wealthpositive {color:darkgreen; font-size:50%;}
+.eightbit .wealthpositive {color:green; font-size:50%;}
 .eightbit .wealthnegative {color:red; font-size:50%;}
 /*eightbit THEME*/
 

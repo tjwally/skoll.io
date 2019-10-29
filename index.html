@@ -124,7 +124,6 @@ code @ <a href="https://github.com/tjwally/skoll.io" target="_blank">https://git
 
 <div id="frontpagewrapper" class="uilvl1">
 <div id="wealthtracker">Richness: <span id="totalbalance">0</span></div>
-<div id="coinbalancechart"  class="chartcontainer"></div>
 <div id="wealthhistorychart"  class="chartcontainer"></div>
 
 <div id="cointablewrapper"  class="container">
@@ -132,7 +131,7 @@ code @ <a href="https://github.com/tjwally/skoll.io" target="_blank">https://git
 <table id="cointable">
 <thead><tr>
 <th>Coin</th>
-<th>Price</th>
+<th>Price<span class="wealthpositive valingtop">(24h change)</span></th>
 <th>Addresses</th>
 <th>Balance</th>
 <th>Value</th>
@@ -171,7 +170,7 @@ These coins will be added to your portfolio and <span class="apptitle"></span> w
 
 
 <div class="heading1" id="coindaddressheader">Coin Addresses</div>
-<div id="trackedaddresseswrapper"  class="dontbreakout">
+<div id="trackedaddresseswrapper"  class="">
 <div id="addresstablewrapper"></div>
 </div>
 </div>
@@ -214,7 +213,7 @@ These coins will be added to your portfolio and <span class="apptitle"></span> w
 <div class='heading2'>update prices every</div>
 <div id="autopriceupdatewrapper">
 <select name="autopriceupdate" id="autopriceupdate" class="uibutton">
-<option value="60000">Minute</option>
+<option value="120000">2 Minutes</option>
 <option value="300000">5 Minutes</option>
 <option value="900000">15 Minutes</option>
 <option value="3600000">Hour</option>
@@ -285,6 +284,9 @@ settings.fontfamily = "Press+Start+2P";
 settings.fontsize = "16";
 settings.priceupdateinterval = 300000;
 settings.balanceupdateinterval = 604800000;
+settings.accountid = 0;
+localsettings = {chartloading: 0, chartloaded: 0, debug: 0};
+
 /*
 settings[0] = "USD";
 settings[1] = "$";
@@ -299,16 +301,17 @@ localStorage.setItem("settings", settings.toString());
 */
 
 if(!localStorage.getItem("settings")){
+debugmessage("settings init");
 localStorage.setItem("settings", JSON.stringify(settings));
 }else{
     try {
-        JSON.parse(localStorage.getItem("settings"));
+    settings = JSON.parse(localStorage.getItem("settings"));
     } catch (e) {
 	localStorage.setItem("settings", JSON.stringify(settings));
     }
 }
 
-console.log(settings);
+debugmessage(settings);
 
 
 
@@ -318,17 +321,19 @@ console.log(settings);
 
 
 function updategrandbalance () {
-//console.log("update grand balance");
+successmessage("updating grand balance");	
+debugmessage("update grand balance");
 var totalbalance = 0;
 $('.valuecount').each(function(i, obj) {
 //	totalbalance = + $(obj).data("value");
-//console.log("value "+$(obj).data("value"));
+debugmessage("value "+$(obj).data("value"));
 	totalbalance += parseFloat($(obj).data("value"));
-	//console.log("total: "+totalbalance);
+	debugmessage("total: "+totalbalance);
 	$('#totalbalance').html(totalbalance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon);
 });
 	accountwealthhistorylog(totalbalance)
 	wealthchangereport(totalbalance);
+	if(localsettings.chartloaded == 0){coinbalancechart();}
 }
 
 function updateaddressbalances () {
@@ -350,7 +355,7 @@ var addressiterator = function(arr) {
 		if (authtoken !== 0){
 		token_updateaccount();
 		}
-		setTimeout(function(){coinbalancechart();},animationspeed);
+		//setTimeout(function(){coinbalancechart();},animationspeed);
 		});
 		loading(0);
 		}
@@ -367,7 +372,9 @@ var oneday = new Date().getTime() - (1 * 24 * 60 * 60 * 1000)
 var sevendays = new Date().getTime() - (7 * 24 * 60 * 60 * 1000)
 var thirtydays = new Date().getTime() - (30 * 24 * 60 * 60 * 1000)
 
-if (addresselement.lastupdate < balanceupdateinterval && addresselement.tracked == 1){
+//console.log("addresselement.lastupdate:"+addresselement.lastupdate+" balanceupdateinterval:"balanceupdateinterval);
+var updatechecktime = new Date().getTime() - balanceupdateinterval;
+if (addresselement.lastupdate < updatechecktime && addresselement.tracked == 1){
 if (addresselement.coin == "btc"){
 getaddressbalanceBTC(addresselement.coin, addresselement.address, function(){	
 callback();
@@ -444,18 +451,18 @@ coinsetdefault.push({'coin':'nxt', 'enabled' : 1, 'token' : 0, 'name':'NXT', 'va
 coinsetdefault.push({'coin':'doge', 'enabled' : 1, 'token' : 0, 'name':'Dogecoin', 'value':0, 'tracked':0});
 coinsetdefault.push({'coin':'nxs', 'enabled' : 1, 'token' : 0, 'name':'Nexus', 'value':0, 'tracked':0});
 if (coinset = JSON.parse(localStorage.getItem("coinset") || "[]")){
-//console.log(coinset);
+debugmessage(coinset);
 //var result = coinset.filter(item=>coinsetdefault.indexOf(item)==-1);
 coinsetdefault.forEach(function(element, i) {
 if (!dupecheck(coinset, element.coin)){
-//console.log (coinsetdefault[i].coin);
+debugmessage (coinsetdefault[i].coin);
 coinset.push(element)
 localStorage.setItem("coinset", JSON.stringify(coinsetdefault));
 }
 });
-//console.log("arrayfound");
+debugmessage("arrayfound");
 }else{
-//console.log("writedefaults");
+debugmessage("writedefaults");
 localStorage.setItem("coinset", JSON.stringify(coinsetdefault));
 coinset = JSON.parse(localStorage.getItem("coinset") || "[]")
 }
@@ -486,7 +493,7 @@ var append2 = element.token;
 }
 var thisaddressvalue = 0;
 thisaddressvalue = element.balance * coinset.find(x => x.coin === element.coin).value;
-$('#tablebody'+append2).append("<tr><td>"+element.address+"</td><td class='centeritem'>"+element.coin+"</td><td id='balance_"+element.coin+element.address+"'>"+element.balance+"</td><td class='centeritem'>"+element.tracked.toString().replace(0, '&#9744;').replace(1, '&#9745;')+"</td><td class='valuecount' data-value='"+thisaddressvalue+"'>"+thisaddressvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+""+selectedcurrencyicon+"</td>"
+$('#tablebody'+append2).append("<tr><td class='dontbreakout'>"+element.address+"</td><td class='centeritem'>"+element.coin+"</td><td id='balance_"+element.coin+element.address+"'>"+element.balance+"</td><td class='centeritem'>"+element.tracked.toString().replace(0, '&#9744;').replace(1, '&#9745;')+"</td><td class='valuecount' data-value='"+thisaddressvalue+"'>"+thisaddressvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+""+selectedcurrencyicon+"</td>"
 +"<td class='removebtn centeritem' data-address='"+element.address+"' data-coin='"+element.coin+"'>&#x2718;</td></tr>"); 
 }
 });
@@ -503,14 +510,22 @@ localStorage.setItem("coinset", JSON.stringify(coinset));
 $('#cointablebody').html("");
 $('#cards').html("");
 $('#addressmanagercoinselect').html("");
-//console.log("building table");
+debugmessage("building table");
 coinset.forEach(function(element, index) {
 if (element.enabled == 1 && gettrackedaddresses(element.coin) > 0){
 var thicoinvalue = 0;
 var thicoinbalance = 0;
+var thiscoinchange = "";
 thicoinbalance = gettotalcoinbalance(element.coin);
 thicoinvalue = thicoinbalance * element.value;
-$('#cointablebody').append("<tr data-sort='"+thicoinvalue+"'><td>"+element.name+"</td><td>"+element.value+selectedcurrencyicon+"</td><td>"+gettrackedaddresses(element.coin)+"</td><td>"+thicoinbalance.toFixed(3)+"</td><td>"+thicoinvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon+"</td></tr>"); 
+if (element.percentage_change_24h){
+if (element.percentage_change_24h > 0){thiscoinchange = "<span class='wealthpositive valingtop'>(+"+element.percentage_change_24h.toFixed(2)+"%)</span>";}
+if (element.percentage_change_24h < 0){thiscoinchange = "<span class='wealthnegative valingtop'>("+element.percentage_change_24h.toFixed(2)+"%)</span>";}
+//thiscoinchange = element.percentage_change_24h
+//console.log(thiscoinchange);
+}
+
+$('#cointablebody').append("<tr data-sort='"+thicoinvalue+"'><td>"+element.name+"</td><td>"+element.value.toFixed(3)+selectedcurrencyicon+""+thiscoinchange+"</td><td>"+gettrackedaddresses(element.coin)+"</td><td>"+thicoinbalance.toFixed(3)+"</td><td>"+thicoinvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon+"</td></tr>"); 
 $('#cards').append('<div class="card" data-sort="'+thicoinvalue+'"><div class="card-header">'+element.name+'</div><div class="card-main"><img class="img_card" src="'+iconfolder+element.coin+'.png"><div class="card-description">'+thicoinvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon+'</div></div></div>'); 
 }
 if (element.token == 0){
@@ -525,8 +540,8 @@ $(".img_card").on("error", function() {$(this).attr('src', iconfolder+'placehold
 
 function getcoinrates(callback) {
 var symbols = coinset.map(e => e.coin).join(",");
-//console.log (symbols);
-//console.log ("https://api.coingecko.com/api/v3/coins/markets?symbols="+symbols+"&vs_currency="+selectedcurrency);
+debugmessage (symbols);
+debugmessage ("https://api.coingecko.com/api/v3/coins/markets?symbols="+symbols+"&vs_currency="+selectedcurrency);
 //var elementtarget = element.priceapielement;
 				$.ajax({
 				type: "GET",
@@ -536,13 +551,11 @@ var symbols = coinset.map(e => e.coin).join(",");
 				retryLimit : 3,
 				success: function(update){
 				update.forEach(function(element, index) {
-				//console.log(element.symbol+" "+element.current_price);
-				updateprice(element.symbol, element.current_price)
+				debugmessage(element.symbol+" "+element.current_price);
+				updateprice(element.symbol, element.current_price, element.price_change_percentage_24h)
 				});
-				//console.log(element.coin +","+ update[element.coin+selectedcurrency][elementtarget].toFixed(1));
 				successmessage("retrieved coin rates ("+selectedcurrency+")");
 				callback();
-				//console.log("getting "+element.name+" price");
 					},
     error : function(xhr, textStatus, errorThrown ) {
         if (textStatus == 'timeout') {
@@ -602,7 +615,12 @@ checkonlineaccount(function(){
 if (localStorage.getItem("settings")){
 //settings = localStorage.getItem("settings").split(',');
 settings = JSON.parse(localStorage.getItem("settings"));
+debugmessage(settings);
+if(getUrlVars()["id"]){
+var account = getUrlVars()["id"]
+if (settings.accountid !== account){settings.accountid = account;localStorage.setItem("settings", JSON.stringify(settings));debugmessage("accountid:"+ settings.accountid);}
 //console.log(settings);
+}
 
 if (localStorage.getItem("accountdata")){
 accountdata = JSON.parse(localStorage.getItem("accountdata") || "[]");
@@ -613,7 +631,7 @@ accountdata = JSON.parse(localStorage.getItem("accountdata") || "[]");
 			accountwealthhistory = accountdata[i].accountwealthhistory;
         }
     }
-console.log(accountdata)
+debugmessage(accountdata)
 }
 
 selectedcurrency = settings.selectedcurrency;
@@ -661,6 +679,7 @@ if (localStorage.getItem("addresslist")){
 successmessage("local config found!");
 addresslist = JSON.parse(localStorage.getItem("addresslist") || "[]");
 }
+debugmessage(addresslist);
 
 $('#addressimport').val("");
 $('#blacky').css('opacity', '0.95');
@@ -673,7 +692,7 @@ buildcointable();
 buildaddresstable(function(){
 updateaddressbalances();
 }); 
-console.log(priceupdateinterval);
+debugmessage(priceupdateinterval);
 priceupdater = setInterval(genpriceupdater,priceupdateinterval);
 successmessage("price updater started, interval: "+priceupdateinterval);
 
