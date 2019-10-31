@@ -21,6 +21,10 @@
 	<meta property="og:description" content="hodl it your way!">
 	<meta property="og:type" content="website" />
 	<meta property="og:image" content="//skoll.io/favicon.png">
+	<meta name="twitter:image" content="//skoll.io/favicon.png">
+	<meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-store" />
+	<meta http-equiv="pragma" content="no-cache" />
 	<link rel="icon" href="/favicon.png" type="image/png">
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/web3.min.js"></script>
@@ -28,6 +32,9 @@
 <script src="js/basefunctions.js"></script>
 <script src="js/balancefunctions.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/achievements.js"></script>
+<script src="js/log.js"></script>
+<script src="js/coinblocks.js"></script>
 <script src="js/moment.min.js"></script>
 <script src="js/jquery.auto-complete.min.js"></script>
 <script src="js/jquery.cookie-1.4.1.min.js"></script>
@@ -62,24 +69,18 @@ Storage.prototype.getObj = function(key) {
 <div id="wlogo"><span>hodl it your way!</span></div>
 <input type="checkbox" id="mobilemenu">
 <label id="mobilemenulabel" for="mobilemenu"></label>
-<div class="navbutton" data-dest="frontpagewrapper">Richness</div>
-<div class="navbutton" data-dest="cardswrapper">Coin Blocks</div>
-<div class="navbutton" data-dest="settings">Settings</div>
-<div class="navbutton" data-dest="addressmanager">Coin Manager</div>
-<div class="navbutton" data-dest="logwrapper">Log</div>
-<div class="navbutton" data-dest="about">About</div>
+<div class="navbutton" data-sort="1" data-dest="frontpagewrapper">Richness</div>
+<!-- coinblocks -->
+<div class="navbutton" data-sort="3" data-dest="settings">Settings</div>
+<div class="navbutton" data-sort="4" data-dest="addressmanager">Coin Manager</div>
+<div class="navbutton" data-sort="5" data-dest="about">About</div>
+<!-- log -->
 </div>
 </div>
 
 
 
 <div id="contentwrapper">
-<div id="logwrapper" class="uilvl1">
-<div class="container">
-<div class="heading2" id="logheader">Log</div>
-<div id="logrecorder"></div>
-</div>
-</div>
 
 <div id="about" class="uilvl1">
 <div class="container dontbreakout">
@@ -117,11 +118,6 @@ code @ <a href="https://github.com/tjwally/skoll.io" target="_blank">https://git
 </div>
 </div>
 
-
-<div id="cardswrapper" class="uilvl1">
-<div id="cards"></div>
-</div>
-
 <div id="frontpagewrapper" class="uilvl1">
 <div id="wealthtracker">Richness: <span id="totalbalance">0</span></div>
 <div id="wealthhistorychart"  class="chartcontainer"></div>
@@ -131,7 +127,7 @@ code @ <a href="https://github.com/tjwally/skoll.io" target="_blank">https://git
 <table id="cointable">
 <thead><tr>
 <th>Coin</th>
-<th>Price<span class="wealthpositive valingtop">(24h change)</span></th>
+<th>Price<span class="wealthpositive valigntop">(24h change)</span></th>
 <th>Addresses</th>
 <th>Balance</th>
 <th>Value</th>
@@ -171,7 +167,9 @@ These coins will be added to your portfolio and <span class="apptitle"></span> w
 
 <div class="heading1" id="coindaddressheader">Coin Addresses</div>
 <div id="trackedaddresseswrapper"  class="">
-<div id="addresstablewrapper"></div>
+<div id="addresstablewrapper">
+</div>
+
 </div>
 </div>
 
@@ -233,6 +231,10 @@ These coins will be added to your portfolio and <span class="apptitle"></span> w
 </div>
 </div>
 
+<div id="settingsgenmarker"></div>
+
+
+
 
 <div id="coinselectwrapper" class="container">
 <div class='heading2'>Enable Disable Coins / Tokens</div>
@@ -285,7 +287,7 @@ settings.fontsize = "16";
 settings.priceupdateinterval = 300000;
 settings.balanceupdateinterval = 604800000;
 settings.accountid = 0;
-localsettings = {chartloading: 0, chartloaded: 0, debug: 0};
+localsettings = {chartloading: 0, chartloaded: 0, debug: 0, achievements:0};
 
 /*
 settings[0] = "USD";
@@ -352,9 +354,7 @@ var addressiterator = function(arr) {
 		buildcointable();
 		coinsettingsgen();
 		updategrandbalance();
-		if (authtoken !== 0){
-		token_updateaccount();
-		}
+		if (authtoken !== 0){token_updateaccount();}
 		//setTimeout(function(){coinbalancechart();},animationspeed);
 		});
 		loading(0);
@@ -470,37 +470,7 @@ callback();
 //getallcoinrates(coinset);
 }
 
-function buildaddresstable(callback) {
-successmessage("building address table");
-$('#coindaddressheader').fadeIn(0);
-$('#addresstablewrapper').html("");
-coinset.forEach(function(element, index) {
-//var trackedaddresses =  gettrackedaddresses(element.coin);
-if (gettrackedaddresses(element.coin) > 0 && element.token == 0 && element.enabled == 1){
-$('#addresstablewrapper').append("<div class='container'><div class='addresstableheader'><img class='img_addressheader' src='icons32/"+element.coin+".png'><span>"+element.name+"</span></div><div class='addresstablecontainer'><table><thead><tr><th>Address</th><th class='centeritem'>Coin</th><th>Balance</th><th class='centeritem'>Tracked</th><th>Value</th><th class='centeritem'>Remove</th></tr></thead><tbody id='tablebody"+element.coin+"'></tbody></table></div></div>");
-}
-});
 
-
-if(addresslist.length > 0){
-$('#addresstablebody').html("");
-addresslist.forEach(function(element, index) {
-if (element.enabled == 1){
-if (element.token == 0){
-var append2 = element.coin;
-}else{
-var append2 = element.token;
-}
-var thisaddressvalue = 0;
-thisaddressvalue = element.balance * coinset.find(x => x.coin === element.coin).value;
-$('#tablebody'+append2).append("<tr><td class='dontbreakout'>"+element.address+"</td><td class='centeritem'>"+element.coin+"</td><td id='balance_"+element.coin+element.address+"'>"+element.balance+"</td><td class='centeritem'>"+element.tracked.toString().replace(0, '&#9744;').replace(1, '&#9745;')+"</td><td class='valuecount' data-value='"+thisaddressvalue+"'>"+thisaddressvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+""+selectedcurrencyicon+"</td>"
-+"<td class='removebtn centeritem' data-address='"+element.address+"' data-coin='"+element.coin+"'>&#x2718;</td></tr>"); 
-}
-});
-}
-callback();
-$(".img_addressheader").on("error", function() {$(this).attr('src', 'icons32/placeholder.png');});
-}
 
 
 
@@ -508,7 +478,7 @@ function buildcointable() {
 successmessage("building coin table");
 localStorage.setItem("coinset", JSON.stringify(coinset));
 $('#cointablebody').html("");
-$('#cards').html("");
+//$('#cards').html("");
 $('#addressmanagercoinselect').html("");
 debugmessage("building table");
 coinset.forEach(function(element, index) {
@@ -519,20 +489,20 @@ var thiscoinchange = "";
 thicoinbalance = gettotalcoinbalance(element.coin);
 thicoinvalue = thicoinbalance * element.value;
 if (element.percentage_change_24h){
-if (element.percentage_change_24h > 0){thiscoinchange = "<span class='wealthpositive valingtop'>(+"+element.percentage_change_24h.toFixed(2)+"%)</span>";}
-if (element.percentage_change_24h < 0){thiscoinchange = "<span class='wealthnegative valingtop'>("+element.percentage_change_24h.toFixed(2)+"%)</span>";}
+if (element.percentage_change_24h > 0){thiscoinchange = "<span class='wealthpositive valigntop'>(+"+element.percentage_change_24h.toFixed(2)+"%)</span>";}
+if (element.percentage_change_24h < 0){thiscoinchange = "<span class='wealthnegative valigntop'>("+element.percentage_change_24h.toFixed(2)+"%)</span>";}
 //thiscoinchange = element.percentage_change_24h
 //console.log(thiscoinchange);
 }
 
 $('#cointablebody').append("<tr data-sort='"+thicoinvalue+"'><td>"+element.name+"</td><td>"+element.value.toFixed(3)+selectedcurrencyicon+""+thiscoinchange+"</td><td>"+gettrackedaddresses(element.coin)+"</td><td>"+thicoinbalance.toFixed(3)+"</td><td>"+thicoinvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon+"</td></tr>"); 
-$('#cards').append('<div class="card" data-sort="'+thicoinvalue+'"><div class="card-header">'+element.name+'</div><div class="card-main"><img class="img_card" src="'+iconfolder+element.coin+'.png"><div class="card-description">'+thicoinvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon+'</div></div></div>'); 
+//$('#cards').append('<div class="card" data-sort="'+thicoinvalue+'"><div class="card-header">'+element.name+'</div><div class="card-main"><img class="img_card" src="'+iconfolder+element.coin+'.png"><div class="card-description">'+thicoinvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+selectedcurrencyicon+'</div></div></div>'); 
 }
 if (element.token == 0){
 $('#addressmanagercoinselect').append("<option value='"+element.coin+"'>"+element.name+"</option>"); 
 }
 });
-$("#cards").sortDivs();
+//$("#cards").sortDivs();
 $("#cointablebody").sortTable();
 $(".img_card").on("error", function() {$(this).attr('src', iconfolder+'placeholder.png');});
 }
@@ -615,6 +585,14 @@ checkonlineaccount(function(){
 if (localStorage.getItem("settings")){
 //settings = localStorage.getItem("settings").split(',');
 settings = JSON.parse(localStorage.getItem("settings"));
+
+/* settings updates */
+settings.achievements = {enabled:1}
+if (!settings.achievements){settings.achievements = {enabled:1}};
+if (!settings.logger){settings.logger = {enabled:0}};
+if (!settings.coinblocks){settings.coinblocks = {enabled:1}};
+/* settings updates */
+
 debugmessage(settings);
 if(getUrlVars()["id"]){
 var account = getUrlVars()["id"]
@@ -691,6 +669,7 @@ buildcoinsupport(function(){
 buildcointable();
 buildaddresstable(function(){
 updateaddressbalances();
+buildextras();
 }); 
 debugmessage(priceupdateinterval);
 priceupdater = setInterval(genpriceupdater,priceupdateinterval);
@@ -701,11 +680,17 @@ successmessage("price updater started, interval: "+priceupdateinterval);
 }else{
 buildcoinsupport(function(){
 firstrun();
+buildextras();
 });
 }
 
 }); 
 
+function buildextras(){
+coinblocksgen();
+achievementsgen();
+loggergen();
+}
 
 }); 
 </script>

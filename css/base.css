@@ -17,7 +17,23 @@ h2{padding:2px 0 2px 0; width:100%; margin:10px auto;}
 .container {text-align:center; display:block; margin:0px; padding:0px;}
 .heading1 {padding:4px 4px 4px 4px; margin:0px auto; display:block; text-align:center;}
 .heading2 {padding:2px 2px 2px 2px; margin:0px auto; display:block; text-align:center;}
-.addresstableheader span, .addresstableheader img {vertical-align:middle; display:inline; padding:5px 5px 5px 5px;}
+/*  
+.addresstableheader img {padding:5px 5px 5px 5px;}
+.addresstableheader span, .addresstableheader img {display:inline-block;}
+.addresstableheader span {line-height:10px;}
+*/
+
+#addresstablewrapper {display:flex; flex-direction:column; flex-wrap:no-wrap; justify-content:center; align-items:center; }
+#cointableheaders {display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; align-items:center; margin-bottom:2vh;}
+.addresstableheader {display:flex; justify-content:center; align-items:center; flex-direction:row-reverse; cursor:pointer;border-bottom:2px solid transparent;border-top:2px solid transparent;}
+.addresstableheader img {padding:5px 5px 5px 0px;}
+.addresstableheader span {text-align:left;}
+.addresstableheader .iconindicator {display:block;}
+.addresstableheader:hover {border-bottom:2px solid;border-top:2px solid;}
+.addresstablecontainer {display:none;}
+.addresstablecontainer table {min-width:100%;}
+
+
 .heading3 {font-size:120%; font-weight:bold;}
 .textblock {padding:15px; display:block;}
 .accountinput{display:block; margin:5px auto; padding:2px 5px 5px 5px; border:2px solid; text-align:center;}
@@ -35,7 +51,6 @@ select option {background-color:#666; color:#ddd;}
 #coinsettings div .coinlabel {flex-basis: 50%; justify-content:center; align-item:center; text-align:right; margin-right:5px;}
 #addressmanager {margin:0 auto; text-align:center;}
 #addressimportwrapper textarea {display:block; margin:0 auto; margin-bottom:10px; height:10em; width:50em; border:3px solid; border-radius:4px; padding:4px;}
-#addresstablewrapper {text-align:center; display:flex; flex-direction:column;}
 #coindaddressheader {display:none;}
 #wlogo {text-align:center; font-size:120%; user-select: none; }
 #wlogo span {display:block; font-size:80%;}
@@ -115,8 +130,14 @@ select:hover, button:hover, .button:hover {}
 #wealthtracker span { font-weight:bold;}
 .apptitle {font-weight:bold;}
 #totalbalance span {vertical-align:top;}
-.valingtop {vertical-align:top;}
-.valingmiddle {vertical-align:middle;}
+
+.valigntop {vertical-align:top;}
+.valignmiddle {vertical-align:middle;}
+.valignbottom {vertical-align:bottom;}
+.pabsolute {position:absolute;}
+.fontfifty {font-size:50%;}
+
+
 .dontbreakout {
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -128,3 +149,4 @@ select:hover, button:hover, .button:hover {}
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+#achievementnotifierwrapper{display:block; position:absolute; margin:0 auto; width:50%; background-color:#fff; bottom:0px;}

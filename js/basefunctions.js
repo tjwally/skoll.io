@@ -1,26 +1,3 @@
-function errormessage(msg){
-debugmessage(msg);
-$('#notificationbox').html("<span id='errornotifaction' class='errormsg'>"+msg+"</span>");
-setTimeout(function(){$('#errornotifaction').remove();}, 3000);
-$('#logrecorder').prepend("<span class='errormsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
-}
-function successmessage(msg){
-debugmessage(msg);
-$('#logrecorder').prepend("<span class='successmsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
-}
-
-function debugmessage(msg){
-if (localsettings.debug == 1){
-console.log(msg);
-//$('#logrecorder').prepend("<span class='successmsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
-}
-}
-
-function debugmessagetmp(msg){
-console.log(msg);
-//$('#logrecorder').prepend("<span class='successmsg'>"+moment().format('YYYY-MM-D HH:mm')+": "+msg+"</span>");
-}
-
 function SortByDay(a, b){
   var aday = a.day.toLowerCase();
   var bday = b.day.toLowerCase(); 
@@ -36,6 +13,10 @@ function getPercentageChange(oldNumber, newNumber){
 jQuery.fn.sortDivs = function sortDivs() {
     $("> div", this[0]).sort(dec_sort).appendTo(this[0]);
     function dec_sort(b, a){ return ($(b).data("sort")) < ($(a).data("sort")) ? 1 : -1; }
+}
+jQuery.fn.sortNav = function sortNav() {
+    $("> div", this[0]).sort(asc_sort).appendTo(this[0]);
+    function asc_sort(b, a){ return ($(b).data("sort")) > ($(a).data("sort")) ? 1 : -1; }
 }
 jQuery.fn.sortTable = function sortDivs() {
     $("> tr", this[0]).sort(dec_sort).appendTo(this[0]);
@@ -54,6 +35,57 @@ function getUrlVars()
     }
     return vars;
 }
+
+
+function buildaddresstable(callback) {
+successmessage("building address table");
+$('#coindaddressheader').fadeIn(0);
+$('#addresstablewrapper').html('<div id="cointableheaders"></div><div id="cointables"></div>');
+coinset.forEach(function(element, index) {
+//var trackedaddresses =  gettrackedaddresses(element.coin);
+if (gettrackedaddresses(element.coin) > 0 && element.token == 0 && element.enabled == 1){
+$('#cointableheaders').append("<div class='container'><div class='addresstableheader' data-tabledest='"+element.coin+"cointable'><span class=''>"+element.name+"<span class='fontfifty iconindicator'>("+gettrackedaddresses(element.coin)+")</span></span><img class='img_addressheader' src='icons32/"+element.coin+".png'></div></div>");
+$('#cointables').append("<div class='addresstablecontainer' id='"+element.coin+"cointable'><table><thead><tr><th>Address</th><th class='centeritem'>Coin</th><th>Balance</th><th class='centeritem'>Tracked</th><th>Value</th><th class='centeritem'>Remove</th></tr></thead><tbody id='tablebody"+element.coin+"'></tbody></table></div>");
+}
+});
+
+$(document).on('click', '.addresstableheader', function(evt) {
+evt.stopImmediatePropagation();
+$('.addresstableheader').removeClass('active');
+$(this).addClass('active');
+var target = $(this).data("tabledest")
+$('.addresstablecontainer').fadeOut(100);
+console.log("action");
+if ($('#'+target).is(":hidden")){
+$('#'+target).fadeIn(100);
+}else{
+if ($('#'+target).is(":visible")){
+$(this).removeClass('active');
+$('#'+target).fadeOut(100);
+}}
+});
+
+
+if(addresslist.length > 0){
+$('#addresstablebody').html("");
+addresslist.forEach(function(element, index) {
+if (element.enabled == 1){
+if (element.token == 0){
+var append2 = element.coin;
+}else{
+var append2 = element.token;
+}
+var thisaddressvalue = 0;
+thisaddressvalue = element.balance * coinset.find(x => x.coin === element.coin).value;
+$('#tablebody'+append2).append("<tr><td class='dontbreakout'>"+element.address+"</td><td class='centeritem'>"+element.coin+"</td><td id='balance_"+element.coin+element.address+"'>"+element.balance+"</td><td class='centeritem'>"+element.tracked.toString().replace(0, '&#9744;').replace(1, '&#9745;')+"</td><td class='valuecount' data-value='"+thisaddressvalue+"'>"+thisaddressvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+""+selectedcurrencyicon+"</td>"
++"<td class='removebtn centeritem' data-address='"+element.address+"' data-coin='"+element.coin+"'>&#x2718;</td></tr>"); 
+}
+});
+}
+callback();
+$(".img_addressheader").on("error", function() {$(this).attr('src', 'icons32/placeholder.png');});
+}
+
 
 function checkonlineaccount(callbackaccount){
 if(getUrlVars()["id"]){
@@ -568,6 +600,16 @@ for(var i = 0; i < addresslist.length; ++i){
 return trackedaddresses;
 }
 
+/*
+function gettrackedtokens(coin){
+var trackedaddresses =  0;
+for(var i = 0; i < addresslist.length; ++i){
+    if(addresslist[i].coin == coin)
+        trackedaddresses++;
+}
+return trackedaddresses;
+}
+*/
 
 function dupecheck(inArr, coin, exists)
 {

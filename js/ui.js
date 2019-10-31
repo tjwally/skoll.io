@@ -101,6 +101,8 @@ $('#cloudsavewrapper').append("<div id='accountupdatedmsg'>Wrong Password!</div>
 });
 });
 
+
+
 $(document).on('click', '#unbindcloudaccountBTN', function() {
 $.removeCookie('authtoken', { path: '/' }); 
 location.reload(); 
@@ -126,6 +128,8 @@ if (authtoken !== 0){token_updateaccount();}
 
 
 $(document).on('click', '.navbutton', function() {
+console.log("navigation");	
+$('#mobilemenu').prop( "checked", false );
 var target = $(this).data("dest")
 navigationmanager(target);
 });

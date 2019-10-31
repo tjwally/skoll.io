@@ -156,15 +156,18 @@
 }
 
 @media (max-width: 1800px){
-.eightbit .addresstablecontainer {font-size:70%;}
-}
+	.eightbit .addresstablecontainer {font-size:70%;}
+	.eightbit #cointable {font-size:90%;}
+	}
 
 
-@media (max-width: 1200px){
+@media (max-width: 1400px){
 .eightbit .addresstablecontainer {font-size:100%;}
-.eightbit #framewrapper {display:flex; flex-direction:column; height:100%; justify-content:center;  align-content:center; }
-.eightbit #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start;flex:0 0; min-height:0vh;}
-.eightbit #navigator {display:block;margin-top:0vh; position:relative; flex:0 0;}
+.eightbit #cointable {font-size:100%;}
+/* .eightbit #framewrapper {display:flex; flex-direction:column; justify-content:flex-start;  align-items:stretch; position: absolute; top:0; left:0; bottom:0; width:100%;} */
+.eightbit #framewrapper {flex-direction:column; justify-content:flex-start; }
+.eightbit #contentwrapper{min-width:100%;}
+.eightbit #navigator {display:block;margin-top:0vh; position:relative; flex:0 0;  min-height: min-content;}
 .eightbit #navigator #wlogo {display:block; margin-top:0;}
 .eightbit #navigator #navbuttons {height:auto;}
 .eightbit #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none;}
@@ -178,9 +181,8 @@
 .eightbit #mobilemenu:checked ~ #mobilemenulabel:before{content:'Menu'; font-weight:bold; font-size:36px; text-decoration: line-through; color:#aaa;}
 .eightbit #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'Menu'; font-weight:bold; font-size:36px; vertical-align:sub;}
 .eightbit #mobilemenu:checked ~ .navbutton  {display:block;}
-.eightbit #settings .container {padding:0px; 0px 10px 0px;}
+.eightbit #settings .container {padding:0px 0px 10px 0px;}
 .eightbit .uibutton {border:2px solid;}
-
 .eightbit table th, .eightbit table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
 .eightbit cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} 
 .eightbit #cointable thead, .eightbit #cointable tbody, .eightbit #cointable th, .eightbit #cointable td, .eightbit #cointable tr { 		display: block; 	}
@@ -218,4 +220,6 @@
 .eightbit #cloudsaveurl {font-size:100%;}
 .eightbit .wealthpositive {color:green; font-size:50%; display:block;}
 .eightbit .wealthnegative {color:red; font-size:50%; display:block;}
+/* .eightbit #contentwrapper {overflow-y: scroll;flex: 1 1 auto; padding:0; align-items:flex-start; max-height: 100%;  margin:auto; } */
+.eightbit #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start; padding-top:0vh; min-height:0vh;}
 }
