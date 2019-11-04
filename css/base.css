@@ -3,8 +3,6 @@ html, body {padding:0; margin:0;background-color:#000;}
 #framewrapper {display:flex; flex-direction:row-reverse; align-items: stretch; justify-content: center; align-content:center; height:100%;text-align:center;}
 #contentwrapper{margin:0 auto; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:1vh 0 1vh 0;}
 .uilvl1{display:none; text-align:center;}
-.errormsg{color:red; display:block;}
-.successmsg{display:block;}
 button {cursor:pointer; padding:3px 4px 2px 4px; border:2px solid;}
 .button {cursor:pointer; padding:3px 4px 2px 4px; border:2px solid; display:inline-block; user-select: none;}
 .loading{overlflow:hidden;}
@@ -46,7 +44,8 @@ select, textarea, button, input, radio {font-size: inherit; font-family: inherit
 select option {background-color:#666; color:#ddd;}
 #blacky{position:fixed; top:0px; right:0px; overflow:hidden; z-index:10; height:100vh; width:100vw;}
 /* #wlogo{position:fixed; bottom:10px; right:10px; border-bottom:3px outset; padding:2px; border-right:3px outset; padding:1px 3px 0px 0px;} */
-#pindicator{position:fixed; font-size:36px; font-weight:bold; display:none;}
+#pindicator{position:fixed; font-size:36px; font-weight:bold; display:none; animation-duration: 5s; text-align:center;}
+#pindicator div {font-size:30%; vertical-align:baseline; display:inline-block; line-height:14px;}
 #coinsettings div {display:flex;justify-content:flex-start; align-items:center; padding-top: 2px;}
 #coinsettings div .coinlabel {flex-basis: 50%; justify-content:center; align-item:center; text-align:right; margin-right:5px;}
 #addressmanager {margin:0 auto; text-align:center;}
@@ -69,7 +68,7 @@ select option {background-color:#666; color:#ddd;}
 
 
 #navigator .navbutton {cursor:pointer; padding:4px 8px 4px 8px; margin: 5px 10px;}
-#navigator {display:none;  justify-content:flex-start; flex-direction:column; padding-top:1vh;}
+#navigator {display:none;  justify-content:flex-start; flex-direction:column; padding-top:0vh;}
 
 #cards{display:flex; flex-wrap: wrap; align-items:center; justify-content:center;}
 .card {  min-width: 150px;  border: 1px solid;     border-radius: 4px;  overflow: hidden;  flex-direction: column;	margin:10px;  }
@@ -118,14 +117,16 @@ label.radio input:checked + span {border-color: inherit;}
 
 label.radio input:not(:checked) + span:hover {}
 select:hover, button:hover, .button:hover {}
-#notificationbox{position:fixed; top:0px: right:0px: border:1px solid red; background-color:#fff; display:inline; z-index:999;}
+
+/* #notificationbox{position:fixed; top:0px; margin:0 auto; border:1px solid red; background-color:#fff; display:inline; z-index:999;} */
 
 #logrecorder{text-align:left; padding:10px;}
 #cloudsaveurl:blank {display:none; max-height:0px; overlflow:hidden;}
 #cloudsaveurl:empty {display:none; max-height:0px; overlflow:hidden;}
 #cloudsaveurl:-moz-only-whitespace{display:none; max-height:0px; overlflow:hidden;}
-.uibutton {margin:0 auto;}
+.uibutton {margin:0 auto; cursor:pointer;}
 .chartcontainer {width:auto; height:auto; padding:0px;}
+.statschartcontainer {width:50vw; padding:10px; margin:0 auto; text-align:left;}
 #wealthtracker {font-size:32px; font-weight:normal;}
 #wealthtracker span { font-weight:bold;}
 .apptitle {font-weight:bold;}
@@ -150,3 +151,16 @@ select:hover, button:hover, .button:hover {}
   hyphens: auto;
 }
 #achievementnotifierwrapper{display:block; position:absolute; margin:0 auto; width:50%; background-color:#fff; bottom:0px;}
+#notificationbox {position:fixed; top:0px; margin:0 auto; width:100%; z-index:99;}
+.errormsg{ border:1px solid red; background-color:#fff;  text-align:center; width:100%;color:red;}
+#logrecorder .errormsg{text-align:left;}
+.errormsg{ display:block;}
+.successmsg{display:block;}
+#browsernotsupported{position:absolute; padding:10px; margin:0 auto; top:30%; background-color:#fff; width:20vw; left:40vw; text-align:center;}
+/* .addresslabel_edit:hover{cursor: url('../icons/pencil-2-24.png') 24 24, auto;} */
+.addresslabel_edit:hover{cursor: pointer;}
+.balance_edit:hover{cursor: pointer;} 
+.addresslabelupdate {width:80%;}
+.addresslabel {max-width:20%;}
+#tokentablewrapper, #tokenswrapper {width:100%;}
+#tokentable {width:95%;}

@@ -28,14 +28,18 @@ localStorage.setItem("settings", JSON.stringify(settings));
 function coinblockssetup () {
 if (settings.coinblocks.enabled == 1){
 if (!$("[data-dest='cardswrapper']").length) {	
-$('#navbuttons').append('<div class="navbutton" data-sort="2" data-dest="cardswrapper">Coin Blocks</div>');
-$("#navbuttons").sortNav();
+$('#navelements').append('<div class="navbutton" data-sort="2" data-dest="cardswrapper">Coin Blocks</div>');
+$("#navelements").sortNav();
 }
 buildcoinblocks();
 }
 }
 
 function buildcoinblocks() {
+if (settings.coinblocks.enabled == 1){	
+if (addresslist.length == 0){
+$('#cards').html('no coins tracked yet');
+}else{
 successmessage("building coin blocks");
 $('#cards').html("");
 coinset.forEach(function(element, index) {
@@ -55,4 +59,6 @@ $('#cards').append('<div class="card" data-sort="'+thicoinvalue+'"><div class="c
 });
 $("#cards").sortDivs();
 $(".img_card").on("error", function() {$(this).attr('src', iconfolder+'placeholder.png');});
+}
+}
 }

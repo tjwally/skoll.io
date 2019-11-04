@@ -7,7 +7,6 @@ function getaddressbalanceBTC(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-				//console.log(address+" : "+balance);
 				var thisbalance = sb.toBitcoin(balance)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);	
@@ -51,9 +50,6 @@ function getaddressbalanceBTC(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-				console.log(address+" : "+balance);
-				console.log(balance.data[address].address.balance);
-				console.log(sb.toBitcoin(balance.data[address].address.balance));
 				var thisbalance = sb.toBitcoin(balance.data[address].address.balance)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);	
@@ -93,9 +89,6 @@ function getaddressbalanceBTC(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-				console.log(address+" : "+balance);
-				//console.log(balance.data[address].address.balance);
-				//console.log(sb.toBitcoin(balance.data[address].address.balance));
 				var thisbalance = sb.toBitcoin(balance.confirmed_balance)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);	
@@ -141,9 +134,6 @@ function getaddressbalanceBTC(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-				console.log(address+" : "+balance);
-				//console.log(balance.data[address].address.balance);
-				//console.log(sb.toBitcoin(balance.data[address].address.balance));
 				var thisbalance = sb.toBitcoin(balance.confirmed)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);	
@@ -175,18 +165,72 @@ function getaddressbalanceBTC(coin, address, callback) {
 }); 
 }
 */
-
-function getaddressbalanceBCH(coin, address, callback) {
+function getaddresstokensBCH(coin, address, callbacktokens) {
+var detectAddressFormat = bchaddr.detectAddressFormat;
+var toCashAddress = bchaddr.toCashAddress;
+var toSlpAddress = bchaddr.toSlpAddress;
+var query = '{"v":3,"q":{"db":["a"],"aggregate": [{"$match": {"address": "'+toSlpAddress(address)+'"}},{"$sort": {"token_balance": -1}},{"$skip": 0},{"$limit": 10},{"$lookup": {"from": "tokens","localField": "tokenDetails.tokenIdHex","foreignField": "tokenDetails.tokenIdHex","as": "token"}}],"limit": 500}}';
+var base64query = btoa(query);
 				$.ajax({
 				type: "GET",
-				url: "https://bch-chain.api.btc.com/v3/address/"+address,
+				url: "https://slpdb.bitcoin.com/q/"+base64query,
 				tryCount : 0,
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-					if (balance.data !== null){
-				//console.log(address+" : "+balance.data.balance);
-				var thisbalance = sb.toBitcoin(balance.data.balance)
+				if(balance.a){
+				//console.log(balance.a);
+				balance.a.forEach(function(element, index) {
+				if (!dupechecktoken(tokenset, address, coin, element.token[0].tokenDetails.tokenIdHex)){
+				tokenset.push({"address":address, "coin":coin, tokenID: element.token[0].tokenDetails.tokenIdHex, "symbol": element.token[0].tokenDetails.symbol, "name": element.token[0].tokenDetails.name, "enabled" : 1, "balance": element.token_balance, "lastupdate": Date.now(), "tracked": 1})
+				}else{
+				updatetokenbalance(address, coin, element.token[0].tokenDetails.tokenIdHex, element.token_balance)	
+				}
+				
+
+			});
+				}
+				successmessage("<b>"+coin+"</b> -- retrieved tokens for address: "+address);
+				callbacktokens();
+			},
+    error : function(xhr, textStatus, errorThrown ) {
+        if (textStatus == 'timeout') {
+            this.tryCount++;
+            if (this.tryCount <= this.retryLimit) {
+                //try again
+                $.ajax(this);
+                return;
+            }else{
+				errormessage("<b>"+coin+"</b> -- timeout while fetching data for address: "+address);
+				callbacktokens();				
+			}             
+            return;
+        }
+		if (xhr.status == 500) {
+				errormessage("<b>"+coin+"</b> -- html error 500 while fetching data for address: "+address);
+				updatebalance(coin, address, 0)			
+				callbacktokens();
+        } else {
+				errormessage("<b>"+coin+"</b> -- html error "+xhr.status+" while fetching data for address: "+address);
+				callbacktokens();				
+		}
+	}							 
+}); 
+}
+
+
+function getaddressbalanceBCH(coin, address, callback) {
+var detectAddressFormat = bchaddr.detectAddressFormat;
+var toCashAddress = bchaddr.toCashAddress;	
+				$.ajax({
+				type: "GET",
+				url: "https://rest.bitcoin.com/v2/address/details/"+toCashAddress(address),
+				tryCount : 0,
+				timeout: 60000,
+				retryLimit : 3,
+				success: function(balance){
+					if (balance.balanceSat !== null){
+				var thisbalance = sb.toBitcoin(balance.balanceSat)
 					}else{
 						thisbalance = 0;
 					}
@@ -220,6 +264,51 @@ function getaddressbalanceBCH(coin, address, callback) {
 }); 
 }
 
+/*
+function getaddressbalanceBCH(coin, address, callback) {
+				$.ajax({
+				type: "GET",
+				url: "https://bch-chain.api.btc.com/v3/address/"+address,
+				tryCount : 0,
+				timeout: 60000,
+				retryLimit : 3,
+				success: function(balance){
+					if (balance.data !== null){
+				var thisbalance = sb.toBitcoin(balance.data.balance)
+					}else{
+						thisbalance = 0;
+					}
+				updatebalance(coin, address, thisbalance)	
+				successmessage("<b>"+coin+"</b> -- retrieved balance for address: "+address);				
+				$('#balance_'+coin+address).html(thisbalance);		
+				callback();
+					},
+    error : function(xhr, textStatus, errorThrown ) {
+        if (textStatus == 'timeout') {
+            this.tryCount++;
+            if (this.tryCount <= this.retryLimit) {
+                //try again
+                $.ajax(this);
+                return;
+            }else{
+				errormessage("<b>"+coin+"</b> -- timeout while fetching data for address: "+address);
+				callback();
+			}             
+            return;
+        }
+		if (xhr.status == 500) {
+				errormessage("<b>"+coin+"</b> -- html error 500 while fetching data for address: "+address);
+				updatebalance(coin, address, 0)			
+				callback();
+        } else {
+				errormessage("<b>"+coin+"</b> -- html error "+xhr.status+" while fetching data for address: "+address);
+				callback();				
+		}
+	}				 
+}); 
+}
+*/
+
 
 function getaddressbalanceLTC(coin, address, callback) {
 				$.ajax({
@@ -229,7 +318,6 @@ function getaddressbalanceLTC(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-				//console.log(address+" : "+balance);
 				var thisbalance = parseFloat(balance, 10)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);	
@@ -270,7 +358,6 @@ function getaddressbalanceBTG(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-				//console.log(address+" : "+balance.balanceSat);
 				var thisbalance = sb.toBitcoin(balance.balanceSat)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);	
@@ -303,11 +390,8 @@ function getaddressbalanceBTG(coin, address, callback) {
 }
 
 function addstaticaddress(coinsymbol, coinname, balance, address, callback){
-	//console.log(coinsymbol+" "+balance);
 if (!dupecheckaddress(addresslist, address, coinsymbol.toLowerCase())){
-	//console.log("no dupe address");
 if (!dupecheck(coinset, coinsymbol.toLowerCase())){
-		//console.log("no dupe coinset");
 coinset.push({'coin':coinsymbol.toLowerCase(), 'enabled' : 1, 'token' : 0, 'name':coinname.toLowerCase(), 'value':0, 'tracked':0});
 }
 addresslist.push({"address":address, "coin":coinsymbol.toLowerCase(), "enabled" : 1, "balance": parseFloat(balance, 10), "lastupdate": Date.now(), "token": 0, "tracked": 0})
@@ -334,19 +418,17 @@ function getaddressbalanceETH(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-					//console.log(balance.tokens);
 				if(balance.tokens){
 				balance.tokens.forEach(function(element, index) {
-								if(element.tokenInfo.price){	
-								
-								//thisbalancex.toPrecision(element.decimals)
-								//console.log(element.balance)
-								//console.log(web3.toBigNumber(element.balance))
+				//console.log(balance.tokens);
 				var thisbalancex = web3.toBigNumber(element.balance).div(10**element.tokenInfo.decimals).toFixed(3)
-				//var thisbalance = thisbalancex;
 				var thisbalance = parseFloat(thisbalancex, 10)
-				//console.log(element.tokenInfo.name);
-				//console.log(element.tokenInfo.symbol);
+				
+				if (!dupechecktoken(tokenset, address, coin, element.tokenInfo.address)){
+				tokenset.push({"address":address, "coin":coin, "tokenID": element.tokenInfo.address, "symbol": element.tokenInfo.symbol, "name": element.tokenInfo.name, "enabled" : 1, "balance": thisbalance, "lastupdate": Date.now(), "tracked": 1})
+				}	
+					
+				if(element.tokenInfo.price){	
 				if (element.tokenInfo.name == "eosDAC Community Owned EOS Block Producer ERC20 Tokens"){element.tokenInfo.name = "eosDAC"}
 				if (!dupecheckaddress(addresslist, address, element.tokenInfo.symbol.toLowerCase())){
 				if (!dupecheck(coinset, element.tokenInfo.symbol.toLowerCase())){
@@ -359,7 +441,6 @@ function getaddressbalanceETH(coin, address, callback) {
 				});					
 				}
 				if(balance.ETH){
-				//console.log(address+" : "+balance.ETH.balance);
 				var thisbalance = balance.ETH.balance
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);		
@@ -406,9 +487,7 @@ function getaddressbalanceNXT(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-					//console.log(balance.tokens);
 				if(balance){
-				//console.log(address+" : "+balance.balance);
 				var thisbalance = parseFloat(balance.balance, 10)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);		
@@ -451,9 +530,7 @@ function getaddressbalanceBSV(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-					//console.log(balance.tokens);
 				if(balance.data[address].address.balance > 0){
-				//console.log(address+" : "+balance.data[address].address.balance);
 				var thisbalance = sb.toBitcoin(balance.data[address].address.balance)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);		
@@ -504,9 +581,7 @@ function getaddressbalanceDOGE(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-					//console.log(balance.tokens);
 				if(balance){
-				//console.log(address+" : "+balance.balance);
 				var thisbalance = parseFloat(balance, 10)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);		
@@ -550,9 +625,7 @@ function getaddressbalanceNXS(coin, address, callback) {
 				timeout: 60000,
 				retryLimit : 3,
 				success: function(balance){
-					//console.log(balance.tokens);
 				if(balance[0].balance){
-				console.log(address+" : "+balance[0].balance);
 				var thisbalance = parseFloat(balance[0].balance, 10)
 				updatebalance(coin, address, thisbalance)		
 				$('#balance_'+coin+address).html(thisbalance);		

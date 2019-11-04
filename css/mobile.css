@@ -1,51 +1,5 @@
 
-@media (max-width: 1000px){
-.bitcoin {height:100%;}
-.bitcoin #framewrapper {display:flex; flex-direction:column; justify-content:flex-start;  align-content:center;  height:100%; min-height:0;}
-.bitcoin #navigator {flex-direction:column; justify-content:center; }
-.bitcoin #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start; padding-top:2vh;  height:100%; min-height:0;}
-.bitcoin #navigator {padding:10px 0px 10px 0px;}
-.bitcoin #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none; }
-.bitcoin #navigator #navbuttons {height:auto;}
-/*.bitcoin #navigator [data-dest="addressmanager"] {height:0; overflow:hidden; padding:0; margin:0;} */
-.bitcoin #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;}
-.bitcoin table th, .bitcoin table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
-.bitcoin cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} 
-.bitcoin #cointable,#cointable thead,#cointable tbody,#cointable th,#cointable td,#cointable tr { 		display: block; 	}
-.bitcoin #cointable {min-width:80vw;}
-.bitcoin #cointable thead tr { 		position: absolute;		top: -9999px;		left: -9999px;	}
-.bitcoin #cointable thead tr { border: 0px solid #ccc; }	
-.bitcoin #cointable td {		border: none;		border-bottom: 1px solid #ccc; 		position: relative;		padding-left: 50%; 	}
-.bitcoin #cointable td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
-.bitcoin #cointable tbody td:nth-of-type(1):before { content: "Coin"; }
-.bitcoin #cointable tbody td:nth-of-type(2):before { content: "Price"; }
-.bitcoin #cointable tbody td:nth-of-type(3):before { content: "Addresses"; }
-.bitcoin #cointable tbody td:nth-of-type(4):before { content: "Balance"; }
-.bitcoin #cointable tbody td:nth-of-type(5):before { content: "Value"; }
-.bitcoin #donationtable tr {background-color:#fff; text-align:center;}
-.bitcoin #donationtable td {display:inline-block; background-color:#fff; text-align:center;}
-.bitcoin #donationtable td {border: none;border-bottom: 0px solid #ccc;position: relative; font-size:60%; text-align:center;}
-.bitcoin #mobilemenulabel {font-size:120%; text-align:right; margin-right:2vw; position:absolute; top:0px; right:0px; cursor:pointer;}
-.bitcoin #mobilemenu:checked ~ .navbutton  {display:block;}
-.bitcoin #mobilemenu:checked ~ #mobilemenulabel{height:0px;}
-.bitcoin #mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717'; font-weight:bold; font-size:150%;}
-.bitcoin #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261'; font-weight:bold; font-size:200%; vertical-align:sub; }
-.bitcoin .container {margin:0px 10px 10px 10px;}
-.bitcoin #cards {justify-content:space-between; align-items:center;}
-.bitcoin #donationbox {display:none;}
-.bitcoin #staticbalancecoinsel {width:80%; min-width:80%;}
-.bitcoin #addressimportwrapper textarea {display:block; margin:0 auto; margin-bottom:10px; height:10em; width:80%; border:3px solid; border-radius:4px; padding:4px;}
-.bitcoin .addresstablecontainer thead, .bitcoin .addresstablecontainer tbody,.bitcoin .addresstablecontainer th,.bitcoin .addresstablecontainer  td,.bitcoin .addresstablecontainer  tr { 		display: block; border:0;	}
-.bitcoin .addresstablecontainer thead tr { 		position: absolute;		top: -9999px;		left: -9999px; border-bottom: 4px solid;}
-.bitcoin .addresstablecontainer td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; 	}
-.bitcoin .addresstablecontainer td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
-.bitcoin .addresstablecontainer tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-top:2vh; }
-.bitcoin .addresstablecontainer tr td:nth-child(2), .bitcoin .addresstablecontainer tr td:nth-child(4), .bitcoin .addresstablecontainer tr td:nth-child(6){display:none;}
-.bitcoin .addresstablecontainer tbody td:nth-of-type(3):before { content: "Balance"; }
-.bitcoin .addresstablecontainer tbody td:nth-of-type(5):before { content: "Value"; }
-.bitcoin table tr:nth-child(even) {background-color:#fff;}
-.bitcoin table tr:hover td {background-color:#65af6c; color:#ffffff;}
-}
+
 
 @media (max-width: 1000px){
 .night #framewrapper {display:flex; flex-direction:column; height:100%; justify-content:center;  align-content:center; }
@@ -84,7 +38,7 @@
 .night #mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717'; font-weight:bold; font-size:150%;}
 .night #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261'; font-weight:bold; font-size:200%; vertical-align:sub;}
 .night .container {margin:0px 10px 10px 10px;}
-.night #mobilemenu:checked ~ .navbutton  {display:block;}
+.night #mobilemenu:checked ~ #navbuttons .navbutton  {display:block;}
 .night #mobilemenulabel {cursor:pointer;  color:#ccc;}
 .night #cards {justify-content:space-between; align-items:center;}
 .night #donationbox {display:none;}
@@ -138,7 +92,7 @@
 .skoll #mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717'; font-weight:bold; font-size:150%;}
 .skoll #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261'; font-weight:bold; font-size:200%; vertical-align:sub;}
 .skoll .container {margin:0px 10px 10px 10px;}
-.skoll #mobilemenu:checked ~ .navbutton  {display:block;}
+.skoll #mobilemenu:checked ~ #navbuttons .navbutton  {display:block;}
 .skoll #mobilemenulabel {cursor:pointer;  color:#ccc;}
 .skoll #cards {justify-content:space-between; align-items:center;}
 .skoll #donationbox {display:none;}
@@ -155,23 +109,75 @@
 .skoll table tr:nth-child(even) {background-color:transparent;}
 }
 
-@media (max-width: 1800px){
+
+
+@media (max-width: 1000px){
+.bitcoin {height:100%;}
+.bitcoin #framewrapper {display:flex; flex-direction:column; justify-content:flex-start;  align-content:center;  height:100%; min-height:0;}
+.bitcoin #navigator {flex-direction:column; justify-content:center; }
+.bitcoin #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start; padding-top:2vh;  height:100%; min-height:0;}
+.bitcoin #navigator {padding:10px 0px 10px 0px;}
+.bitcoin #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none; }
+.bitcoin #navigator #navbuttons {height:auto;}
+/*.bitcoin #navigator [data-dest="addressmanager"] {height:0; overflow:hidden; padding:0; margin:0;} */
+.bitcoin #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;}
+.bitcoin table th, .bitcoin table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
+.bitcoin cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} 
+.bitcoin #cointable,#cointable thead,#cointable tbody,#cointable th,#cointable td,#cointable tr { 		display: block; 	}
+.bitcoin #cointable {min-width:80vw;}
+.bitcoin #cointable thead tr { 		position: absolute;		top: -9999px;		left: -9999px;	}
+.bitcoin #cointable thead tr { border: 0px solid #ccc; }	
+.bitcoin #cointable td {		border: none;		border-bottom: 1px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.bitcoin #cointable td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.bitcoin #cointable tbody td:nth-of-type(1):before { content: "Coin"; }
+.bitcoin #cointable tbody td:nth-of-type(2):before { content: "Price"; }
+.bitcoin #cointable tbody td:nth-of-type(3):before { content: "Addresses"; }
+.bitcoin #cointable tbody td:nth-of-type(4):before { content: "Balance"; }
+.bitcoin #cointable tbody td:nth-of-type(5):before { content: "Value"; }
+.bitcoin #donationtable tr {background-color:#fff; text-align:center;}
+.bitcoin #donationtable td {display:inline-block; background-color:#fff; text-align:center;}
+.bitcoin #donationtable td {border: none;border-bottom: 0px solid #ccc;position: relative; font-size:60%; text-align:center;}
+.bitcoin #mobilemenulabel {font-size:120%; text-align:right; margin-right:2vw; position:absolute; top:0px; right:0px; cursor:pointer;}
+.bitcoin #mobilemenu:checked ~ #navbuttons .navbutton  {display:block;}
+.bitcoin #mobilemenu:checked ~ #mobilemenulabel{height:0px;}
+.bitcoin #mobilemenu:checked ~ #mobilemenulabel:before{content:'\2717'; font-weight:bold; font-size:150%;}
+.bitcoin #mobilemenu:not(:checked) ~ #mobilemenulabel:before{content:'\2261'; font-weight:bold; font-size:200%; vertical-align:sub; }
+.bitcoin .container {margin:0px 10px 10px 10px;}
+.bitcoin #cards {justify-content:space-between; align-items:center;}
+.bitcoin #donationbox {display:none;}
+.bitcoin #staticbalancecoinsel {width:80%; min-width:80%;}
+.bitcoin #addressimportwrapper textarea {display:block; margin:0 auto; margin-bottom:10px; height:10em; width:80%; border:3px solid; border-radius:4px; padding:4px;}
+.bitcoin .addresstablecontainer thead, .bitcoin .addresstablecontainer tbody,.bitcoin .addresstablecontainer th,.bitcoin .addresstablecontainer  td,.bitcoin .addresstablecontainer  tr { 		display: block; border:0;	}
+.bitcoin .addresstablecontainer thead tr { 		position: absolute;		top: -9999px;		left: -9999px; border-bottom: 4px solid;}
+.bitcoin .addresstablecontainer td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; 	}
+.bitcoin .addresstablecontainer td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.bitcoin .addresstablecontainer tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-top:2vh; }
+.bitcoin .addresstablecontainer tr td:nth-child(2), .bitcoin .addresstablecontainer tr td:nth-child(4), .bitcoin .addresstablecontainer tr td:nth-child(6){display:none;}
+.bitcoin .addresstablecontainer tbody td:nth-of-type(3):before { content: "Balance"; }
+.bitcoin .addresstablecontainer tbody td:nth-of-type(5):before { content: "Value"; }
+.bitcoin table tr:nth-child(even) {background-color:#fff;}
+.bitcoin table tr:hover td {background-color:#65af6c; color:#ffffff;}
+.bitcoin .statschartcontainer {width:100vw; max-width:95vw; margin:0 auto; padding:10px; margin:0 auto; text-align:left;}
+}
+
+@media (max-width: 1600px){
 	.eightbit .addresstablecontainer {font-size:70%;}
 	.eightbit #cointable {font-size:90%;}
+	.eightbit #logrecorder {font-size:75%;}
 	}
 
-
-@media (max-width: 1400px){
+@media (max-width: 1200px){
 .eightbit .addresstablecontainer {font-size:100%;}
-.eightbit #cointable {font-size:100%;}
+.eightbit #cointable {font-size:90%;}
+.eightbit #logrecorder {font-size:50%;}
 /* .eightbit #framewrapper {display:flex; flex-direction:column; justify-content:flex-start;  align-items:stretch; position: absolute; top:0; left:0; bottom:0; width:100%;} */
 .eightbit #framewrapper {flex-direction:column; justify-content:flex-start; }
 .eightbit #contentwrapper{min-width:100%;}
 .eightbit #navigator {display:block;margin-top:0vh; position:relative; flex:0 0;  min-height: min-content;}
 .eightbit #navigator #wlogo {display:block; margin-top:0;}
 .eightbit #navigator #navbuttons {height:auto;}
-.eightbit #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:50%; text-align:center;    display:none;}
-.eightbit #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;}
+.eightbit #navigator .navbutton {cursor:pointer; padding:4px 0px 4px 0px; margin: 4px auto; width:90%; text-align:center;    display:none;}
+/* .eightbit #navigator [data-dest="logwrapper"] {height:0; overflow:hidden; padding:0; margin:0;} */
 .eightbit #navigator .navbutton {margin:0 auto; text-align:center;}
 .eightbit #navigator #wlogo {text-align:center; border-bottom:4px solid; margin-top:1vh; padding-bottom:1vh; margin-bottom:1vh;}
 .eightbit #navigator #wlogo span:before { content: " - "; }
@@ -184,22 +190,22 @@
 .eightbit #settings .container {padding:0px 0px 10px 0px;}
 .eightbit .uibutton {border:2px solid;}
 .eightbit table th, .eightbit table td {text-align:left; padding:2px 4px 2px 4px; margin:0;}
-.eightbit cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} 
+.eightbit #cointable tr td:nth-child(3n), #cointable tr th:nth-child(3n){display:none;} 
 .eightbit #cointable thead, .eightbit #cointable tbody, .eightbit #cointable th, .eightbit #cointable td, .eightbit #cointable tr { 		display: block; 	}
 .eightbit #cointable thead tr { 		position: absolute;		top: -9999px;		left: -9999px; border-bottom: 0px solid;}
 .eightbit #cointable thead {border-bottom: 0px solid; margin-bottom:4vh;}
-.eightbit #cointable td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; 	}
-.eightbit #cointable td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
+.eightbit #cointable td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 40%; 	}
+.eightbit #cointable td:before { position: absolute; top: 2px;left: 6px; width: 40%; padding-right: 10px;		white-space: nowrap; 	text-align:left;}
 .eightbit #cointable tbody td:nth-of-type(2):before { content: "Price"; }
 .eightbit #cointable tbody td:nth-of-type(3):before { content: "Addresses"; }
 .eightbit #cointable tbody td:nth-of-type(4):before { content: "Balance"; }
 .eightbit #cointable tbody td:nth-of-type(5):before { content: "Value"; }
-.eightbit #cointable td {		border: none;		border-bottom: 0px dashed #888; 		position: relative;		padding-left: 50%; 	text-align:left;}
+.eightbit #cointable td {		border: none;		border-bottom: 0px dashed #888; 		position: relative;		padding-left: 40%; 	text-align:right;}
 .eightbit #cointable tr {margin-bottom:20px;}
 .eightbit #cointable tbody td:nth-of-type(1){ font-size:140%; margin-top:10px;}
 .eightbit #cointable tbody td:nth-of-type(3){ display:none;}
 .eightbit #cointable tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-bottom:1vh; }
-.eightbit #cointable tr td:nth-child(5n), .eightbit #cointable tr th:nth-child(5n){ text-align:left; margin-bottom:5vh; } 
+.eightbit #cointable tr td:nth-child(5n), .eightbit #cointable tr th:nth-child(5n){ margin-bottom:5vh; } 
 .eightbit .container {margin:0px 0px 10px 0px;}
 .eightbit #cards {justify-content:center; align-items:center;}
 .eightbit #cards .card {font-size:50%}
@@ -212,7 +218,7 @@
 .eightbit .addresstablecontainer td {		border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; 	}
 .eightbit .addresstablecontainer td:before { position: absolute; top: 2px;left: 6px; width: 45%; padding-right: 10px;		white-space: nowrap; 	text-align:right;}
 .eightbit .addresstablecontainer tr td:nth-child(1){padding:0; text-align:center; border-bottom: 4px solid; margin-top:2vh; }
-.eightbit .addresstablecontainer tr td:nth-child(2), .eightbit .addresstablecontainer tr td:nth-child(4), .eightbit .addresstablecontainer tr td:nth-child(6){display:none;}
+.eightbit .addresstablecontainer tr td:nth-child(2), .eightbit .addresstablecontainer tr td:nth-child(4), .eightbit .addresstablecontainer tr td:nth-child(6), .eightbit .addresstablecontainer tr td:nth-child(7){display:none;}
 .eightbit .addresstablecontainer tbody td:nth-of-type(3):before { content: "Balance"; }
 .eightbit .addresstablecontainer tbody td:nth-of-type(5):before { content: "Value"; }
 .eightbit #totalbalance { font-size:30px; }
@@ -222,4 +228,22 @@
 .eightbit .wealthnegative {color:red; font-size:50%; display:block;}
 /* .eightbit #contentwrapper {overflow-y: scroll;flex: 1 1 auto; padding:0; align-items:flex-start; max-height: 100%;  margin:auto; } */
 .eightbit #contentwrapper{width:100%; display:flex; justify-content:center; align-items:flex-start; padding-top:0vh; min-height:0vh;}
+.eightbit .statschartcontainer {width:100vw; padding:0px; margin:0 auto; text-align:left;}
+.eightbit #wealthtracker {font-size:140%;}
+.eightbit #wealthtracker span {font-size:110%;}
+.eightbit #wealthtracker span span {font-size:80%;}
+.eightbit #tokentable {width:100%;}
+.eightbit #tokentable thead, .eightbit #tokentable tbody,.eightbit #tokentable th,.eightbit #tokentable  td,.eightbit #tokentable  tr {display: block; border:0;}
+.eightbit #tokentable thead tr { 		position: absolute;		top: -9999px;		left: -9999px; border-bottom: 4px solid;}
+.eightbit #tokentable td {border: none;		border-bottom: 0px solid #ccc; 		position: relative;		padding-left: 50%; max-width:auto;	min-height:18px; }
+.eightbit #tokentable td:before { position: absolute; top: 2px; left: 6px; width: 45%; white-space: nowrap; 	text-align:right;}
+/* .eightbit #tokentable tr td:nth-child(1){padding:0; text-align:left; border-bottom: 4px solid; margin-top:2vh; } */
+/*.eightbit #tokentable tr td:nth-of-type(1), .eightbit #tokentable tr th:nth-of-type(1){ display:none;}{} */
+.eightbit #tokentable tr td:nth-child(1){margin-top:2vh; }
+.eightbit #tokentable tbody td:nth-of-type(1):before { content: "Coin:"; }
+.eightbit #tokentable tr td:nth-of-type(2), .eightbit #tokentable tr th:nth-of-type(2){ display:none;}{}
+.eightbit #tokentable tbody td:nth-of-type(3):before { content: "Token:"; }
+.eightbit #tokentable tr td:nth-of-type(4), .eightbit #tokentable tr th:nth-of-type(4){ display:none;}{}
+.eightbit #tokentable tbody td:nth-of-type(5):before { content: "Balance:"; }
 }
+

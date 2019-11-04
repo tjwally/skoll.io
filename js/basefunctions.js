@@ -1,3 +1,24 @@
+function browserdetect(){
+  var ua = navigator.userAgent.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i),
+      browser;
+  if (navigator.userAgent.match(/Edge/i) || navigator.userAgent.match(/Trident.*rv[ :]*11\./i)) {
+    browser = "msie";
+  }
+  else {
+    browser = ua[1].toLowerCase();
+  }
+  successmessage("browser: "+browser);
+  if (browser == "msie"){
+	  errormessage("Browser not supported!");
+	  $('body').append("<div id='browsernotsupported'>⚠ Unsupported Browser ⚠<br><br>skoll.io probably won't work great in "+browser+". We generally only support the recent versions of major browsers like Chrome, Firefox, Safari. Use this one at your own risk!<br><br><div id='notsupportedok' class='uibutton'>OK</div></div>");
+	  $(document).on('click', '#notsupportedok', function() {
+$('#browsernotsupported').fadeOut(100);
+});
+	  
+  }
+}
+
+
 function SortByDay(a, b){
   var aday = a.day.toLowerCase();
   var bday = b.day.toLowerCase(); 
@@ -36,55 +57,40 @@ function getUrlVars()
     return vars;
 }
 
+function rand(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-function buildaddresstable(callback) {
-successmessage("building address table");
-$('#coindaddressheader').fadeIn(0);
-$('#addresstablewrapper').html('<div id="cointableheaders"></div><div id="cointables"></div>');
-coinset.forEach(function(element, index) {
-//var trackedaddresses =  gettrackedaddresses(element.coin);
-if (gettrackedaddresses(element.coin) > 0 && element.token == 0 && element.enabled == 1){
-$('#cointableheaders').append("<div class='container'><div class='addresstableheader' data-tabledest='"+element.coin+"cointable'><span class=''>"+element.name+"<span class='fontfifty iconindicator'>("+gettrackedaddresses(element.coin)+")</span></span><img class='img_addressheader' src='icons32/"+element.coin+".png'></div></div>");
-$('#cointables').append("<div class='addresstablecontainer' id='"+element.coin+"cointable'><table><thead><tr><th>Address</th><th class='centeritem'>Coin</th><th>Balance</th><th class='centeritem'>Tracked</th><th>Value</th><th class='centeritem'>Remove</th></tr></thead><tbody id='tablebody"+element.coin+"'></tbody></table></div>");
+function hslToHex(h, s, l) {
+  h /= 360;
+  s /= 100;
+  l /= 100;
+  let r, g, b;
+  if (s === 0) {
+    r = g = b = l; // achromatic
+  } else {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+      return p;
+    };
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1 / 3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1 / 3);
+  }
+  const toHex = x => {
+    const hex = Math.round(x * 255).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  };
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
-});
 
-$(document).on('click', '.addresstableheader', function(evt) {
-evt.stopImmediatePropagation();
-$('.addresstableheader').removeClass('active');
-$(this).addClass('active');
-var target = $(this).data("tabledest")
-$('.addresstablecontainer').fadeOut(100);
-console.log("action");
-if ($('#'+target).is(":hidden")){
-$('#'+target).fadeIn(100);
-}else{
-if ($('#'+target).is(":visible")){
-$(this).removeClass('active');
-$('#'+target).fadeOut(100);
-}}
-});
 
-
-if(addresslist.length > 0){
-$('#addresstablebody').html("");
-addresslist.forEach(function(element, index) {
-if (element.enabled == 1){
-if (element.token == 0){
-var append2 = element.coin;
-}else{
-var append2 = element.token;
-}
-var thisaddressvalue = 0;
-thisaddressvalue = element.balance * coinset.find(x => x.coin === element.coin).value;
-$('#tablebody'+append2).append("<tr><td class='dontbreakout'>"+element.address+"</td><td class='centeritem'>"+element.coin+"</td><td id='balance_"+element.coin+element.address+"'>"+element.balance+"</td><td class='centeritem'>"+element.tracked.toString().replace(0, '&#9744;').replace(1, '&#9745;')+"</td><td class='valuecount' data-value='"+thisaddressvalue+"'>"+thisaddressvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+""+selectedcurrencyicon+"</td>"
-+"<td class='removebtn centeritem' data-address='"+element.address+"' data-coin='"+element.coin+"'>&#x2718;</td></tr>"); 
-}
-});
-}
-callback();
-$(".img_addressheader").on("error", function() {$(this).attr('src', 'icons32/placeholder.png');});
-}
 
 
 function checkonlineaccount(callbackaccount){
@@ -238,11 +244,9 @@ function accountwealthhistorylog(totalbalance) {
 var today = moment().format("YYYY-MM-DD");
 
 /*
-console.log(settings.accountid);
 if (settings.accountid == "demo"){
 	var today = "2019-10-24";
 	var totalbalance = 16252.20781667821
-	console.log(totalbalance);
 	}
 	*/
 
@@ -254,7 +258,6 @@ var wealth = {day:today, balance:totalbalance, curreny: selectedcurrencyicon};
 var wealthcheckpoints = accountwealthhistory.length;
 if (wealthcheckpoints > 0){
 var thispercentage = getPercentageChange(accountwealthhistory[wealthcheckpoints - 1].balance, totalbalance);
-console.log("percentage change: "+thispercentage);
 if (thispercentage > 1){accountwealthhistory.push(wealth);}
 if (thispercentage < -1){accountwealthhistory.push(wealth);}
 }else{
@@ -276,16 +279,17 @@ accountwealthhistory.sort(SortByDay);
 			accountwealthhistory[i].balance = totalbalance;
 			accountwealthhistory[i].curreny = selectedcurrencyicon;
 			coinbalancechart();
+			//buildstats();
 			}
         }
     }
-//console.log(accountwealthhistory);
 if (todaylogged == 0){
 debugmessage("today not found");
 accountwealthhistory.push(wealth);
 debugmessage(accountwealthhistory);
 }
 
+var tokensetinit = 0;
 var accountwealthinit = 0;
     for (i = 0; i < accountdata.length; i++ )
     {
@@ -295,10 +299,14 @@ var accountwealthinit = 0;
 			accountdata[i].accountwealthhistory = accountwealthhistory;
 			accountwealthinit = 1;
         }
+		if (accountdata[i].tokenset)
+        {
+		accountdata[i].tokenset = tokenset;	
+		tokensetinit = 1;
+		}
     }
-if (accountwealthinit == 0){
-accountdata.push({accountwealthhistory:accountwealthhistory});
-}
+if (accountwealthinit == 0){accountdata.push({accountwealthhistory:accountwealthhistory});}
+if (tokensetinit == 0){accountdata.push({tokenset:tokenset});}
 localStorage.setItem("accountdata", JSON.stringify(accountdata));
 debugmessage(accountdata);
 }
@@ -377,8 +385,42 @@ $.ajax({
 }); 
 }
 
+function token_check(callback) {
+if(getUrlVars()["id"]){
+var account = getUrlVars()["id"]
+$.ajax({
+				type: "POST",
+				datatype : "script", 
+				url: cloudserver+cloudserveraccountAPI,
+				tryCount : 0,
+				timeout: 60000,
+				retryLimit : 3,
+				data:{action : "token_check", account: account, authtoken : authtoken},
+				success: function(account){
+				callback(account);
+					},
+    error : function(xhr, textStatus, errorThrown ) {
+        if (textStatus == 'timeout') {
+            this.tryCount++;
+            if (this.tryCount <= this.retryLimit) {
+                //try again
+                $.ajax(this);
+                return;
+            }else{
+				errormessage("Account <b>"+account+"</b> -- timeout while checking token");
+				callback();
+			}             
+            return;
+        } else {
+				errormessage("Account <b>"+account+"</b> -- html error while checking token "+xhr.status);
+				callback();				
+		}
+	}			 
+}); 
+}	
+}
+
 function token_updateaccount(callback) {
-debugmessage("updating with token: "+authtoken);
 if(getUrlVars()["id"]){
 var account = getUrlVars()["id"]
 $.ajax({
@@ -391,6 +433,7 @@ $.ajax({
 				data:{action : "token_update", account: account, authtoken : authtoken, addresslist: JSON.stringify(addresslist), coinset: JSON.stringify(coinset), accountdata: JSON.stringify(accountdata), settings: JSON.stringify(settings) },
 				success: function(account){
 				debugmessage(account);
+				successmessage("updated online account with token");
 					},
     error : function(xhr, textStatus, errorThrown ) {
         if (textStatus == 'timeout') {
@@ -529,6 +572,125 @@ $('#coinsettings').append("<div><label class='coinlabel'>"+element.name+"</label
 });
 }
 
+
+function buildaddresstable(callback) {
+successmessage("building address table");
+$('#coindaddressheader').fadeIn(0);
+$('#addresstablewrapper').html('<div id="cointableheaders"></div><div id="cointables"></div>');
+coinset.forEach(function(element, index) {
+//var trackedaddresses =  gettrackedaddresses(element.coin);
+if (gettrackedaddresses(element.coin) > 0 && element.token == 0 && element.enabled == 1){
+$('#cointableheaders').append("<div class='container'><div class='addresstableheader' data-tabledest='"+element.coin+"cointable'><span class=''>"+element.name+"<span class='fontfifty iconindicator'>("+gettrackedaddresses(element.coin)+")</span></span><img class='img_addressheader' src='icons32/"+element.coin+".png'></div></div>");
+$('#cointables').append("<div class='addresstablecontainer' id='"+element.coin+"cointable'><table><thead><tr><th>Address</th><th class='centeritem'>Coin</th><th>Balance</th><th class='centeritem'>Tracked</th><th>Value</th><th>Label</th><th class='centeritem'>Remove</th></tr></thead><tbody id='tablebody"+element.coin+"'></tbody></table></div>");
+}
+});
+
+$(document).on('click', '.addresstableheader', function(evt) {
+evt.stopImmediatePropagation();
+$('.addresstableheader').removeClass('active');
+$(this).addClass('active');
+var target = $(this).data("tabledest")
+$('.addresstablecontainer').fadeOut(animationspeed);
+if ($('#'+target).is(":hidden")){
+$('#'+target).fadeIn(animationspeed);
+
+setTimeout(function(){
+$('#'+target).get(0).scrollIntoView()
+},animationspeed+animationspeed);
+
+
+}else{
+if ($('#'+target).is(":visible")){
+$(this).removeClass('active');
+$('#'+target).fadeOut(animationspeed);
+}}
+});
+
+
+if(addresslist.length > 0){
+$('#addresstablebody').html("");
+addresslist.forEach(function(element, index) {
+if (element.enabled == 1){
+if (element.token == 0){
+var append2 = element.coin;
+}else{
+var append2 = element.token;
+}
+var thisaddressvalue = 0;
+thisaddressvalue = element.balance * coinset.find(x => x.coin === element.coin).value;
+
+var thisaddress = element.address;
+if(element.coin == "bch" && settings.bchformat !== "legacy"){
+if (settings.bchformat == "cash"){
+var toCashAddress = bchaddr.toCashAddress;
+thisaddress = toCashAddress(element.address);	
+}	
+if (settings.bchformat == "slp"){
+var toSlpAddress = bchaddr.toSlpAddress;
+thisaddress = toSlpAddress(element.address);	
+}	
+if (settings.bchformat == "bitpay"){
+var toBitpayAddress = bchaddr.toBitpayAddress;
+thisaddress = toBitpayAddress(element.address);	
+}	
+}
+var balanceupdater = "";
+if (element.tracked == 0){balanceupdater = "balance_edit"}
+$('#tablebody'+append2).append("<tr data-address='"+element.address+"' data-coin='"+element.coin+"'><td class='dontbreakout'>"+thisaddress+"</td><td class='centeritem'>"+element.coin+"</td><td class='"+balanceupdater+"' id='balance_"+element.coin+element.address+"'>"+element.balance+"</td><td class='centeritem'>"+element.tracked.toString().replace(0, '&#9744;').replace(1, '&#9745;')+"</td>"
++"<td class='valuecount' data-value='"+thisaddressvalue+"'>"+thisaddressvalue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')+""+selectedcurrencyicon+"</td><td class='addresslabel addresslabel_edit dontbreakout'>"+getaddresslabel(element.coin, element.address)+"</td><td class='removebtn centeritem'>&#x2718;</td></tr>"); 
+}
+});
+}
+callback();
+$(".img_addressheader").on("error", function() {$(this).attr('src', 'icons32/placeholder.png');});
+}
+
+$(document).on('click', '.balance_edit', function() {
+	console.log("clicked");
+$('.balanceupdate').click();
+var thisupdate = $(this).removeClass('balance_edit');
+var thiscoin = $(thisupdate).parent().data("coin");
+var thisaddress = $(thisupdate).parent().data("address");
+var thisbalance = $(thisupdate).text();
+$(thisupdate).html("<input class='balanceupdate"+thisaddress+"' value='"+thisbalance+"' type='number' placeholder='0.00' step='any'><button class='uibutton balanceupdate'>OK</button>");
+$('.balanceupdate'+thisaddress).focus();
+$('.balanceupdate').click(function () {
+thisbalance = $('.balanceupdate'+thisaddress).val().replace(/</g, "&lt;").replace(/>/g, "&gt;");	
+updatebalance(thiscoin, thisaddress, thisbalance);
+$(thisupdate).html(thisbalance).addClass('balance_edit');
+updateaddressbalances();
+});
+$('.balanceupdate'+thisaddress).keyup(function(e){
+    if(e.keyCode == 13)
+    {
+        $('.balanceupdate').click();
+    }
+});
+});
+
+$(document).on('click', '.addresslabel_edit', function() {
+	$('.labelupdate').click();
+var thisupdate = $(this).removeClass('addresslabel_edit');
+var thiscoin = $(thisupdate).parent().data("coin");
+var thisaddress = $(thisupdate).parent().data("address");
+var thislabel = $(thisupdate).text();
+$(thisupdate).html("<input class='addresslabelupdate addresslabelupdate"+thisaddress+"' value='"+thislabel+"' maxlength='256'><button class='uibutton labelupdate'>OK</button>");
+$('.addresslabelupdate'+thisaddress).focus();
+$('.labelupdate').click(function () {
+thislabel = $('.addresslabelupdate'+thisaddress).val().replace(/</g, "&lt;").replace(/>/g, "&gt;");	
+updatelabel(thiscoin, thisaddress, thislabel);
+$(thisupdate).html(thislabel).addClass('addresslabel_edit');
+updateaddressbalances();
+});
+$('.addresslabelupdate'+thisaddress).keyup(function(e){
+    if(e.keyCode == 13)
+    {
+        $('.labelupdate').click();
+    }
+});
+});
+
+
 function gettotalcoinbalance(coin){
 var totalcoinbalance =  0;
 for(var i = 0; i < addresslist.length; ++i){
@@ -569,11 +731,11 @@ function updateprice( coin, value, percentage_change_24h ) {
 
 
 function removeaddress( coin, address ) {
-debugmessage(coin+address);
    for (var i in addresslist) {
      if (addresslist[i].coin == coin && addresslist[i].address == address) {
         addresslist.splice(i, 1)
-		buildaddresstable(function(){});
+		successmessage("Address:"+address+" ("+coin+") removed");
+		//buildaddresstable(function(){});
 		localStorage.setItem("addresslist", JSON.stringify(addresslist));
         break; 
      }
@@ -581,13 +743,39 @@ debugmessage(coin+address);
 }
 
 function updatebalance( coin, address, balance ) {
+	var newbalance = parseFloat(balance, 10)
    for (var i in addresslist) {
      if (addresslist[i].coin == coin && addresslist[i].address == address) {
-        addresslist[i].balance = balance;
+        addresslist[i].balance = newbalance;
 		addresslist[i].lastupdate = Date.now();
         break; 
      }
    }
+}
+
+function updatelabel( coin, address, label ) {
+   for (var i in addresslist) {
+     if (addresslist[i].coin == coin && addresslist[i].address == address) {
+        addresslist[i].label = label;
+		successmessage("label:"+label+" for address "+address+" ("+coin+") updated");
+		token_updateaccount();
+        break; 
+     }
+   }
+}
+
+function getaddresslabel(coin, address){
+var thislabel =  "";
+for(var i = 0; i < addresslist.length; ++i){
+	if (addresslist[i].coin == coin && addresslist[i].address == address) {
+	if (addresslist[i].hasOwnProperty("label")){
+		thislabel = addresslist[i].label;
+	}else{
+		addresslist[i].label = "";
+	}
+}
+}
+return thislabel;
 }
 
 
@@ -622,6 +810,26 @@ function dupecheck(inArr, coin, exists)
     }
 }
 
+function dupechecktoken(inArr, address, coin, tokenID, exists){
+    for (i = 0; i < inArr.length; i++ )
+    {
+        if (inArr[i].address == address && inArr[i].coin == coin && inArr[i].tokenID == tokenID)
+        {
+            return (exists === true) ? true : inArr[i];
+        }
+    }
+}
+
+function updatetokenbalance( address, coin, tokenID, balance ) {
+   for (var i in addresslist) {
+     if (tokenset[i].address == address && tokenset[i].coin == coin && tokenset[i].tokenID == tokenID) {
+        tokenset[i].balance = balance;
+		tokenset[i].lastupdate = Date.now();
+        break; 
+     }
+   }
+}
+
 
 function dupecheckaddress(inArr, address, coin, exists){
     for (i = 0; i < inArr.length; i++ )
@@ -641,6 +849,11 @@ coinenabler(selectedcoin, setting);
 });
 
 function navigationmanager(target){
+if (target == "addressmanager"){
+localsettings.addressupdatebock = 1
+}else{
+localsettings.addressupdatebock = 0
+}
 $('.navbutton').removeClass("activenav");
 $('*[data-dest="'+target+'"]').addClass("activenav");
 $( ".uilvl1" ).fadeOut(animationspeed);
@@ -709,7 +922,7 @@ debugmessage(coinsymbol);
 function genpriceupdater (){
 		successmessage("price update");
 		getcoinrates(function(){
-		buildaddresstable(function(){});
+		if (localsettings.addressupdatebock == 0){buildaddresstable(function(){});}
 		updategrandbalance();
 		buildcointable();
 		coinsettingsgen();
@@ -725,6 +938,7 @@ $( "html" ).addClass( theme );
 if (theme == "eightbit"){iconfolder = "icons32/";}
 //coinbalancechart();
 debugmessage("adding: "+theme);
+//buildstats();
 }
 
 function fontmanager(font, size){
@@ -753,13 +967,13 @@ $( "#addressimport" ).prop( "disabled", true );
 $( "#cointablewrapper" ).css('opacity', '0.1');
 $( "#pindicator" ).fadeIn(500);
 //$( "#pindicator" ).removeClass( "animated tada" );	
-$( "#pindicator" ).addClass( "animated flash slower infinite" );	
+$( "#pindicator" ).addClass( "animated flash infinite" );	
 //animateCSS('#wlogo', 'bounce')
 	}
 if (status == 0){
 $( "#addressimport" ).prop( "disabled", false );		
 $( "#cointablewrapper" ).css('opacity', '1');	
-$( "#pindicator" ).removeClass( "animated flash slower infinite" );	
+$( "#pindicator" ).removeClass( "animated flash infinite" );	
 $( "#pindicator" ).fadeOut(500);
 //animateCSS('#wlogo', 'tada')
 	}

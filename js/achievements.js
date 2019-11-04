@@ -32,8 +32,8 @@ localStorage.setItem("settings", JSON.stringify(settings));
 function achievementscheck () {
 if (settings.achievements.enabled == 1){
 if (!$("[data-dest='achievements']").length) {	
-$('#navbuttons').append('<div class="navbutton" data-dest="achievements">Achievements</div>');
-$("#navbuttons").sortDivs();
+$('#navelements').append('<div class="navbutton" data-dest="achievements">Achievements</div>');
+$("#navelements").sortDivs();
 }
 //if (!settings.achievements){settings.achievements = [];}	
 

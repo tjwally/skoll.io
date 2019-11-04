@@ -25,12 +25,17 @@ if (authtoken !== 0){token_updateaccount();}
 $(document).on('change', '#balanceupdateinterval', function() {
 balanceupdateinterval = $('#balanceupdateinterval').val();
 settings.balanceupdateinterval = balanceupdateinterval;
-//console.log(settings);
 localStorage.setItem("settings", JSON.stringify(settings));
 if (authtoken !== 0){token_updateaccount();}
 });
 
-
+$(document).on('change', '#bchformat', function() {
+bchformat = $('#bchformat').val();
+settings.bchformat = bchformat;
+localStorage.setItem("settings", JSON.stringify(settings));
+if (authtoken !== 0){token_updateaccount();}
+buildaddresstable(function(){});
+});
 
 $(document).on('change', '#currencyselect', function() {
 selectedcurrency = $('#currencyselect').val();
@@ -128,7 +133,7 @@ if (authtoken !== 0){token_updateaccount();}
 
 
 $(document).on('click', '.navbutton', function() {
-console.log("navigation");	
+//console.log("navigation");	
 $('#mobilemenu').prop( "checked", false );
 var target = $(this).data("dest")
 navigationmanager(target);
@@ -159,8 +164,9 @@ $("#blacky").fadeOut(200);
 
 
 $(document).on('click', '.removebtn', function() {
-removeaddress($(this).data("coin"), $(this).data("address"));
+removeaddress($(this).parent().data("coin"), $(this).parent().data("address"));
 token_updateaccount();
+$(this).parent().remove();
 });
 
 
@@ -178,13 +184,27 @@ var addresses2import = $('#addressimport').val().split('\n');
 addresses2import = addresses2import.filter(function(el) { return el; });
 //console.log(addresses2import);
 addresses2import.forEach(function(element, index) {
-if (!dupecheckaddress(addresslist, element, selectedcoin)){
-//console.log (coinsetdefault[i].coin);
-addresslist.push({"address":element, "coin":selectedcoin, "enabled" : 1, "balance": 0, "lastupdate": 0, "token": 0, "tracked": 1})
-localStorage.setItem("addresslist", JSON.stringify(addresslist));
+var thisadddress = $.trim(element);
+//console.log("ADDRESS:"+thisadddress+":ADDRESS");
+var validaddress = 1;
+if (selectedcoin == "bch"){
+validaddress = 0;
+var toLegacyAddress = bchaddr.toLegacyAddress;
+var isValidAddress  = bchaddr.isValidAddress ;
+console.log(isValidAddress (thisadddress));
+if (isValidAddress(thisadddress)){validaddress = 1;thisadddress = toLegacyAddress(thisadddress)}else{errormessage(thisadddress+" is not a valid BCH address");}
 }
-$('#addressimport').val("");
+
+if (validaddress == 1){
+if (!dupecheckaddress(addresslist, thisadddress, selectedcoin)){
+//console.log (coinsetdefault[i].coin);
+addresslist.push({"address":thisadddress, "coin":selectedcoin, "enabled" : 1, "balance": 0, "lastupdate": 0, "token": 0, "tracked": 1})
+localStorage.setItem("addresslist", JSON.stringify(addresslist));
+successmessage("Imported Address "+thisadddress+" ("+selectedcoin+")");
+}
+}
 })
+$('#addressimport').val("");
 //console.log(addresslist);
 //buildcointable();
 buildaddresstable(function(){
